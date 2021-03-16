@@ -10,10 +10,10 @@ import java.util.List;
 public interface UserCategoryRepository extends JpaRepository<UserCategory, Integer> {
 
     List<UserCategory> findByUser(User user);
+
     List<UserCategory> findByUser(User user, Sort sort);
 
     List<UserCategory> findByUserId(int userId);
 
     List<UserCategory> findByIdGreaterThanEqual(int id, Sort sort);
-
 }
