@@ -22,22 +22,17 @@ import javax.validation.Valid;
 
 @RestController
 public class CostController {
-
-    protected CostService costService;
+    @Autowired
+    private CostService costService;
 
     @Autowired
-    protected UserService userService;
+    private UserService userService;
 
     @Autowired
-    protected AccountService accountService;
-
-    @Autowired
-    public void setCostService(CostService costService) {
-        this.costService = costService;
-    }
+    private AccountService accountService;
 
     @GetMapping("/users/{userId}/costs")
-    public List<Cost> all(@PathVariable int userId) {
+    public List<Cost> allCosts(@PathVariable int userId) {
         return costService.getAll(userId);
     }
 

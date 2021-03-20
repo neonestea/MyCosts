@@ -22,33 +22,20 @@ import javax.validation.Valid;
 public class AccountController {
 
     @Autowired
-    protected AccountService accountService;
+    private AccountService accountService;
 
     @Autowired
-    protected UserService userService;
+    private UserService userService;
 
     @GetMapping("/users/{userId}/accounts")
-    public List<Account> all(@PathVariable int userId) {
+    public List<Account> allAccounts(@PathVariable int userId) {
         return accountService.getAll(userId);
     }
 
     @PostMapping("/users/{userId}/accounts")
-    public Account add(@PathVariable int userId, @Valid @RequestBody Account account) {
+    public Account addAccount(@PathVariable int userId, @Valid @RequestBody Account account) {
         User user = userService.getUserById(userId);
         account.setUser(user);
         return accountService.create(account);
     }
-
-    /*@GetMapping("/accounts/{id}")
-    Account one(@PathVariable int id) {
-        return accountService.getById(id);
-    }
-
-
-    @DeleteMapping("/users/{userId}/accounts/{accountId}")
-    void deleteAccount(@PathVariable int iserId, int accountId) {
-        Account account = accountService.
-        accountService.deleteById(userId);
-    }
-*/
 }

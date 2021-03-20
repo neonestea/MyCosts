@@ -21,24 +21,19 @@ import javax.validation.Valid;
 
 @Controller
 public class UserCategoryController {
-
-    protected UserCategoryService userCategoryService;
+    @Autowired
+    private UserCategoryService userCategoryService;
 
     @Autowired
-    protected UserService userService;
-
-    @Autowired
-    public void setUserCategoryService(UserCategoryService userCategoryService) {
-        this.userCategoryService = userCategoryService;
-    }
+    private UserService userService;
 
     @GetMapping("/users/{userId}/categories")
-    public List<UserCategory> allCategories(@PathVariable int userId) {
+    public List<UserCategory> allUserCategories(@PathVariable int userId) {
         return userCategoryService.getAll(userId);
     }
 
     @PostMapping("/users/{userId}/categories")
-    public UserCategory add(@PathVariable int userId, @Valid @RequestBody UserCategory userCategory) {
+    public UserCategory addUserCategory(@PathVariable int userId, @Valid @RequestBody UserCategory userCategory) {
         User user = userService.getUserById(userId);
         userCategory.setUser(user);
         return userCategoryService.create(userCategory);

@@ -23,9 +23,6 @@ public class User {
 
     private String passwordHash;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    Set<Account> userAccounts;
 
     public int getId() {
         return id;
@@ -51,14 +48,4 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public Set<Account> getUserAccounts() {
-        return userAccounts;
-    }
-
-    public void setUserAccounts(Set<Account> userAccounts) {
-        this.userAccounts = userAccounts;
-    }
-    public void setUserAccount(Account userAccount) {
-        this.userAccounts.add(userAccount);
-    }
 }
