@@ -19,7 +19,7 @@ import org.springframework.stereotype.Controller;
 @RestController
 public class CostController {
 
-    protected CostService costService;
+    private CostService costService;
 
     @Autowired
     public void setCostService(CostService costService) {

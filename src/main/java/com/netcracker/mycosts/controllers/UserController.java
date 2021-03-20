@@ -18,29 +18,28 @@ import java.util.List;
 
 @RestController
 public class UserController {
-    @Autowired
-    protected UserService userService;
 
-    //получить всех пользователей
+    @Autowired
+    private UserService userService;
+
+    //TODO O.Grabar endpoint for test reasons. Remove until final deployment
     @GetMapping("/users")
     public List<User> all() {
         return userService.findAll();
     }
 
-    //получить пользователя по id
     @GetMapping("/users/{id}")
-    public User getOne(@PathVariable int id) {
+    public User getUser(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
-    //добавление пользователя
-    @PostMapping("/users/add")
-    public User add(@RequestBody User user) {
+    @PostMapping("/users")
+    public User addUser(@RequestBody User user) {
         return userService.create(user);
     }
 
     //удаление пользователя
     @DeleteMapping("users/{id}/delete")
-    public void delete(@PathVariable int id) { userService.deleteById(id); }
+    public void deleteUser(@PathVariable int id) { userService.deleteById(id); }
 
 }

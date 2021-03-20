@@ -3,6 +3,7 @@ package com.netcracker.mycosts.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import com.netcracker.mycosts.repositories.AccountRepository;
 import com.netcracker.mycosts.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.netcracker.mycosts.services.AccountService;
@@ -16,29 +17,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.stereotype.Controller;
 
+import javax.validation.Valid;
+
 @RestController
 public class AccountController {
 
     @Autowired
-    protected AccountService accountService;
+    private AccountService accountService;
 
     @Autowired
-    protected UserService userService;
+    private UserService userService;
 
-    //получить счета пользователя
     @GetMapping("/users/{userId}/accounts")
     public List<Account> all(@PathVariable int userId) {
         return accountService.getAll(userId);
     }
 
-    //добавить пользователю счёт
-    @PostMapping("/users/{userId}/accounts/add")
-    public Account add(@PathVariable int userId, @RequestBody Account account) {
+    @PostMapping("/users/{userId}/accounts")
+    public Account add(@PathVariable int userId, @Valid @RequestBody Account account) {
         User user = userService.getUserById(userId);
         account.setUser(user);
-        //user.setUserAccount(account);
-        return account;
-        //return accountService.create(account);
+        return accountService.create(account);
     }
 
 

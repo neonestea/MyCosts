@@ -9,10 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-
 public class AccountService {
 
-    protected AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     //все счета пользователя
     public List<Account> getAll(int userId) {
@@ -37,5 +36,8 @@ public class AccountService {
         accountRepository.deleteById(account.getId());
     }
 
-
+    @Autowired
+    public void setAccountRepository(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 }

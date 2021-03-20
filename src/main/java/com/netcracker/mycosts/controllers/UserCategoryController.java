@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class UserCategoryController {
 
-    protected UserCategoryService userCategoryService;
+    private UserCategoryService userCategoryService;
 
     @Autowired
     public void setUserCategoryService(UserCategoryService userCategoryService) {
@@ -25,7 +25,7 @@ public class UserCategoryController {
 
     /*@GetMapping("/user/categories")
     List<UserCategory> all() {
-        return userCategoryService.getAll();
+        return userCategoryService.findAll();
     }
 
     @PostMapping("/user/categories")

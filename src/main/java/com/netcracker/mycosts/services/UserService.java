@@ -25,6 +25,7 @@ public class UserService {
     public void deleteById(int id){
         userRepository.deleteById(id);
     }
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
