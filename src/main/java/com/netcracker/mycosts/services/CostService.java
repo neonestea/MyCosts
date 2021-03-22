@@ -37,15 +37,10 @@ public class CostService {
     }
 
     //добавление траты
-    public Cost add(Cost cost) {
+    public Cost create(Cost cost) {
         return costRepository.save(cost);
     }
 
-
-    //удаление одной траты
-    public void deleteOne(Cost cost){
-        costRepository.deleteById(cost.getId());
-    }
 
 
 }

@@ -90,8 +90,8 @@ class MyCostsApplicationTests {
                 .account(acc1)
                 .build();
 
-        costService.add(cost1);
-        costService.add(cost2);
+        costService.create(cost1);
+        costService.create(cost2);
 
         List<Account> accountsByUserId = accService.getAll(user.getId());
         User foundUser = userService.getUserById(user.getId());
@@ -111,7 +111,7 @@ class MyCostsApplicationTests {
         List<Cost> costsByUserIdAndAccount = costService.getAll(user.getId(), acc1);
         System.out.println("ALL COSTS: " + costsByUserId);
         System.out.println("ACCOUNT COSTS: " + costsByUserIdAndAccount);
-        costService.deleteOne(cost1);
+        //costService.deleteOne(cost1);
         List<Cost> costsByUserIdAndAccount1 = costService.getAll(user.getId(), acc1);
         System.out.println("ACCOUNT COSTS: " + costsByUserIdAndAccount1);
         List<Account> accountsByUserId2 = accService.getAll(user2.getId());

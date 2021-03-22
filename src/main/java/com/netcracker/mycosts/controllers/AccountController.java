@@ -3,7 +3,6 @@ package com.netcracker.mycosts.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import com.netcracker.mycosts.repositories.AccountRepository;
 import com.netcracker.mycosts.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.netcracker.mycosts.services.AccountService;
@@ -29,27 +28,14 @@ public class AccountController {
     private UserService userService;
 
     @GetMapping("/users/{userId}/accounts")
-    public List<Account> all(@PathVariable int userId) {
+    public List<Account> allAccounts(@PathVariable int userId) {
         return accountService.getAll(userId);
     }
 
     @PostMapping("/users/{userId}/accounts")
-    public Account add(@PathVariable int userId, @Valid @RequestBody Account account) {
+    public Account addAccount(@PathVariable int userId, @Valid @RequestBody Account account) {
         User user = userService.getUserById(userId);
         account.setUser(user);
         return accountService.create(account);
     }
-
-
-
-    /*@GetMapping("/accounts/{id}")
-    Account one(@PathVariable int id) {
-        return accountService.getById(id);
-    }
-
-    @DeleteMapping("/accounts/{id}")
-    void deleteAccount(@PathVariable int id) {
-        accountService.deleteById(id);
-    }*/
-
 }

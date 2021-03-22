@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,13 +20,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String passwordHash;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    Set<Account> userAccounts;
 
     public int getId() {
         return id;
@@ -51,14 +51,4 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    public Set<Account> getUserAccounts() {
-        return userAccounts;
-    }
-
-    public void setUserAccounts(Set<Account> userAccounts) {
-        this.userAccounts = userAccounts;
-    }
-    public void setUserAccount(Account userAccount) {
-        this.userAccounts.add(userAccount);
-    }
 }

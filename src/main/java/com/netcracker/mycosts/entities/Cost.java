@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Entity
@@ -22,6 +23,7 @@ public class Cost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank
     private LocalDate date;
 
     private double amount;
@@ -36,6 +38,14 @@ public class Cost {
     private UserCategory category;
 
     @ManyToOne
+    @JoinColumn(name = "default_category_id")
+    private DefaultCategory defaultCategory;
+
+    @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

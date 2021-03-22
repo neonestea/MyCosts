@@ -7,6 +7,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.validation.*;
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -26,16 +28,16 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "name")
     @NotBlank
+    @Column(name = "name")
     private String name;
 
     @Column(name = "amount")
     private double amount;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "currency")
-    @NotBlank
-    private String currency;
+    private Currency currency;
 
     public int getId() {
         return id;
@@ -69,11 +71,11 @@ public class Account {
         this.amount = amount;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 }

@@ -3,6 +3,8 @@ package com.netcracker.mycosts.controllers;
 import java.util.List;
 
 import com.netcracker.mycosts.entities.Account;
+import com.netcracker.mycosts.services.AccountService;
+import com.netcracker.mycosts.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.netcracker.mycosts.services.CostService;
 import com.netcracker.mycosts.entities.Cost;
@@ -16,14 +18,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.stereotype.Controller;
 
+import javax.validation.Valid;
+
 @RestController
 public class CostController {
-
+    @Autowired
     private CostService costService;
 
     @Autowired
-    public void setCostService(CostService costService) {
-        this.costService = costService;
+    private UserService userService;
+
+    @Autowired
+    private AccountService accountService;
+
+    @GetMapping("/users/{userId}/costs")
+    public List<Cost> allCosts(@PathVariable int userId) {
+        return costService.getAll(userId);
+    }
+
+    @PostMapping("/users/{userId}/accounts/{accountId}/costs")
+    public Cost addCost(@PathVariable int userId, @PathVariable int accountId, @Valid @RequestBody Cost cost) {
+        User user = userService.getUserById(userId);
+        Account account = accountService.getAccountById(accountId);
+        cost.setUser(user);
+        cost.setAccount(account);
+        System.out.println("COST " + cost.toString());
+        return costService.create(cost);
     }
 
 

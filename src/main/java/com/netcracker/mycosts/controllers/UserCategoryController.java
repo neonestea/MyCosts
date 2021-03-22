@@ -1,6 +1,10 @@
 package com.netcracker.mycosts.controllers;
 
 import java.util.List;
+
+import com.netcracker.mycosts.entities.Account;
+import com.netcracker.mycosts.entities.User;
+import com.netcracker.mycosts.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.netcracker.mycosts.services.UserCategoryService;
 import com.netcracker.mycosts.entities.UserCategory;
@@ -13,28 +17,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.stereotype.Controller;
 
+import javax.validation.Valid;
+
 @Controller
 public class UserCategoryController {
-
+    @Autowired
     private UserCategoryService userCategoryService;
 
     @Autowired
-    public void setUserCategoryService(UserCategoryService userCategoryService) {
-        this.userCategoryService = userCategoryService;
+    private UserService userService;
+
+    @GetMapping("/users/{userId}/categories")
+    public List<UserCategory> allUserCategories(@PathVariable int userId) {
+        return userCategoryService.getAll(userId);
     }
 
-    /*@GetMapping("/user/categories")
-    List<UserCategory> all() {
-        return userCategoryService.findAll();
+    @PostMapping("/users/{userId}/categories")
+    public UserCategory addUserCategory(@PathVariable int userId, @Valid @RequestBody UserCategory userCategory) {
+        User user = userService.getUserById(userId);
+        userCategory.setUser(user);
+        return userCategoryService.create(userCategory);
     }
-
-    @PostMapping("/user/categories")
-    UserCategory newUserCategory(@RequestBody UserCategory newUserCategory) {
-        return userCategoryService.addUserCategory(newUserCategory);
-    }
-
-    @DeleteMapping("/user/categories/{id}")
-    void deleteUserCategory(@PathVariable int id) {
-        userCategoryService.deleteById(id);
-    }*/
 }

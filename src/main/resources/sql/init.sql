@@ -23,5 +23,6 @@ CREATE TABLE IF NOT EXISTS costs (
     date DATE,
     amount NUMERIC(10, 2),
     category_id INTEGER REFERENCES user_categories(id),
+    default_category_id INTEGER REFERENCES default_categories(id),
     user_id INTEGER REFERENCES users(id)
 );
