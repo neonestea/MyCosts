@@ -1,8 +1,7 @@
 package com.netcracker.mycosts.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,9 +22,13 @@ public class User {
     @NotBlank
     private String name;
 
-    @NotBlank
-    private String passwordHash;
-
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "user_category",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "categoty_id", referencedColumnName = "id")
+    )
+    private Set<Category> categories = new HashSet<>();
 
     public int getId() {
         return id;
@@ -43,12 +46,16 @@ public class User {
         this.name = name;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public Set<Category> getCategories() {
+        return categories;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void addCategory(Category category) {
+        categories.add(category);
+        category.getUsers().add(this);
     }
 
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
 }

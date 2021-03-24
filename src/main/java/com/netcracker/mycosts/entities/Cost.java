@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -35,11 +34,7 @@ public class Cost {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private UserCategory category;
-
-    @ManyToOne
-    @JoinColumn(name = "default_category_id")
-    private DefaultCategory defaultCategory;
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "account_id")

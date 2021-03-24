@@ -1,11 +1,11 @@
+/*
 package com.netcracker.mycosts;
 
 import com.netcracker.mycosts.entities.Account;
 import com.netcracker.mycosts.entities.Cost;
 import com.netcracker.mycosts.entities.User;
-import com.netcracker.mycosts.entities.UserCategory;
 import com.netcracker.mycosts.repositories.AccountRepository;
-import com.netcracker.mycosts.repositories.UserCategoryRepository;
+import com.netcracker.mycosts.repositories.CategoryRepository;
 import com.netcracker.mycosts.repositories.UserRepository;
 import com.netcracker.mycosts.services.AccountService;
 import com.netcracker.mycosts.services.CostService;
@@ -23,7 +23,7 @@ class MyCostsApplicationTests {
     private UserRepository userRepo;
 
     @Autowired
-    private UserCategoryRepository categoryRepo;
+    private CategoryRepository categoryRepo;
 
     @Autowired
     private AccountRepository accRepo;
@@ -52,7 +52,8 @@ class MyCostsApplicationTests {
                 .build();
 
         userService.create(user2);
-        /*UserCategory category1 = UserCategory.builder()
+        */
+/*UserCategory category1 = UserCategory.builder()
                 .name("pivo")
                 .user(user)
                 .build();
@@ -65,7 +66,8 @@ class MyCostsApplicationTests {
 
         categoryRepo.save(category1);
         categoryRepo.save(category2);
-*/
+*//*
+
 
         Account acc2 = Account.builder()
                 .user(user)
@@ -119,3 +121,4 @@ class MyCostsApplicationTests {
     }
 
 }
+*/
