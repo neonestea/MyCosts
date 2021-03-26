@@ -13,8 +13,7 @@ import java.util.List;
 
 public class AccountService {
 
-    protected AccountRepository accountRepository;
-
+    private AccountRepository accountRepository;
 
     @Autowired
     public void setAccountRepository(AccountRepository accountRepository) {
@@ -25,7 +24,7 @@ public class AccountService {
         return accountRepository.findAccountByUserId(userId);
     }
 
-    public Account create(Account account) {
+    public Account save(Account account) {
         return accountRepository.save(account);
     }
 

@@ -11,6 +11,8 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 @Table(name = "users")
 public class User {
@@ -31,42 +33,11 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "categoty_id", referencedColumnName = "id")
     )
-    private Set<Category> categories = new HashSet<>();
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Set<Category> getCategories() {
-        return categories;
-    }
+    private final Set<Category> categories = new HashSet<>();
 
     public void addCategory(Category category) {
         categories.add(category);
         category.getUsers().add(this);
     }
 
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
 }

@@ -1,8 +1,7 @@
-/*
+
 package com.netcracker.mycosts;
 
-import com.netcracker.mycosts.entities.Account;
-import com.netcracker.mycosts.entities.Cost;
+import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.repositories.AccountRepository;
 import com.netcracker.mycosts.repositories.CategoryRepository;
@@ -13,8 +12,6 @@ import com.netcracker.mycosts.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 class MyCostsApplicationTests {
@@ -41,34 +38,37 @@ class MyCostsApplicationTests {
     void contextLoads() {
         User user = User.builder()
                 .name("oleg")
-                .passwordHash("asd")
+                .email("sad")
                 .build();
 
-        userService.create(user);
+        userService.save(user);
 
         User user2 = User.builder()
                 .name("nastya")
-                .passwordHash("asd")
+                .email("SAd")
                 .build();
 
-        userService.create(user2);
-        */
-/*UserCategory category1 = UserCategory.builder()
+        userService.save(user2);
+
+
+        Category category1 = Category.builder()
                 .name("pivo")
-                .user(user)
                 .build();
 
-        UserCategory category2 = UserCategory.builder()
+        category1.addUser(user);
+
+        Category category2 = Category.builder()
                 .name("chips")
-                .user(user)
                 .build();
+
+        category2.addUser(user2);
+        category2.addUser(user);
 
 
         categoryRepo.save(category1);
         categoryRepo.save(category2);
-*//*
 
-
+/*
         Account acc2 = Account.builder()
                 .user(user)
                 .name("asasdasd")
@@ -93,32 +93,8 @@ class MyCostsApplicationTests {
                 .build();
 
         costService.create(cost1);
-        costService.create(cost2);
-
-        List<Account> accountsByUserId = accService.getAll(user.getId());
-        User foundUser = userService.getUserById(user.getId());
-        System.out.println( "ACCOUNTS: " + accountsByUserId);
-        System.out.println("FOUND USER: " + foundUser);
-        //accRepo.delete(acc1);
-        //accRepo.delete(acc2);
-        //userService.deleteById(user.getId());
-        accountsByUserId = accService.getAll(user.getId());
-        System.out.println("ACCOUNTS: " + accountsByUserId);
-        //accService.deleteOne(acc1);
-        //accService.deleteAll(user.getId());
-        //accountsByUserId = accService.getAll(user.getId());
-        //System.out.println("ACCOUNTS: " + accountsByUserId);
-
-        List<Cost> costsByUserId = costService.getAll(user.getId());
-        List<Cost> costsByUserIdAndAccount = costService.getAll(user.getId(), acc1);
-        System.out.println("ALL COSTS: " + costsByUserId);
-        System.out.println("ACCOUNT COSTS: " + costsByUserIdAndAccount);
-        //costService.deleteOne(cost1);
-        List<Cost> costsByUserIdAndAccount1 = costService.getAll(user.getId(), acc1);
-        System.out.println("ACCOUNT COSTS: " + costsByUserIdAndAccount1);
-        List<Account> accountsByUserId2 = accService.getAll(user2.getId());
-        System.out.println("ACCOUNTS2: " + accountsByUserId2);
+        costService.create(cost2);*/
     }
 
 }
-*/
+

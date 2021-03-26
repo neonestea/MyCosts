@@ -13,9 +13,8 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class CategoryController {
-    @Autowired
+
     private CategoryService categoryService;
-    @Autowired
     private UserService userService;
 
     @GetMapping("/users/{userId}/categories")
@@ -27,21 +26,28 @@ public class CategoryController {
     @PostMapping("/users/{userId}/categories")
     public Category addUserCategory(@PathVariable int userId, @RequestParam String categoryName) {
         User user = userService.getUserById(userId);
-        int nameHash = categoryName.toUpperCase().hashCode();
-        Category category = categoryService.findCategoryByNameHash(nameHash);
+        Category category = categoryService.findCategoryByName(categoryName);
 
-        Set<User> categoryUsers;
-        if (category == null) {
+        if (category == null || !categoryName.toLowerCase().equals(category.getName())) {
             category = Category.builder()
                     .name(categoryName)
-                    .nameHash(nameHash)
-                    .users(new HashSet<>())
                     .build();
         }
 
         category.addUser(user);
+        categoryService.save(category);
 
-        return categoryService.findCategoryByNameHash(nameHash);
+        return category;
+    }
+
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }
 

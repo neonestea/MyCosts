@@ -1,7 +1,5 @@
 package com.netcracker.mycosts.controllers;
 
-import com.netcracker.mycosts.entities.Account;
-import com.netcracker.mycosts.repositories.UserRepository;
 import com.netcracker.mycosts.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.netcracker.mycosts.entities.User;
@@ -20,7 +18,6 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    @Autowired
     private UserService userService;
 
     //TODO O.Grabar endpoint for test reasons. Remove until final deployment
@@ -36,11 +33,14 @@ public class UserController {
 
     @PostMapping("/users")
     public User addUser(@Valid @RequestBody User user) {
-        return userService.create(user);
+        return userService.save(user);
     }
 
-    //удаление пользователя
     @DeleteMapping("users/{id}/delete")
     public void deleteUser(@PathVariable int id) { userService.deleteById(id); }
 
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 }

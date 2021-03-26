@@ -9,9 +9,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 @Table(name = "user_categories")
 public class Category {
@@ -29,14 +30,10 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     @JsonIgnore
-    private Set<User> users = new HashSet<>();
+    private final Set<User> users = new HashSet<>();
 
     public void addUser(User user) {
-        if (users != null) {
-            users.add(user);
-        } else {
-            System.out.println("pizdec 2");
-        }
+        users.add(user);
         user.getCategories().add(this);
     }
 }

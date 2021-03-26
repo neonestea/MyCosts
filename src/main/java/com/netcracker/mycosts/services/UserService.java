@@ -15,20 +15,24 @@ public class UserService {
     public User getUserById(int id) {
         return userRepository.findById(id).get();
     }
+
     public User getUserByName(String name) {
         return userRepository.findUserByName(name);
     }
+
     public User getUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
-    public User create(User user) {
+
+    public User save(User user) {
         return userRepository.save(user);
     }
-    public List<User> findAll(){
+
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public void deleteById(int id){
+    public void deleteById(int id) {
         userRepository.deleteById(id);
     }
 
@@ -36,6 +40,4 @@ public class UserService {
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    //при удалениии пользователя удаляем связанные с ним счета,
-    //категории и траты
 }
