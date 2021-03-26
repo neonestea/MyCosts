@@ -1,9 +1,12 @@
 package com.netcracker.mycosts.services;
 
+import java.util.List;
+
 import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CategoryService {
@@ -25,6 +28,11 @@ public class CategoryService {
             return candidateCategory;
         }
         return categoryRepository.findCategoryByName(categoryName);
+    }
+
+    @Transactional
+    public List<Category> findDefaultCategories() {
+        return categoryRepository.findCategoriesByDefault(true);
     }
 
     public void save(Category userCategory) {

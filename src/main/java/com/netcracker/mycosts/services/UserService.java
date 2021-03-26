@@ -1,16 +1,19 @@
 package com.netcracker.mycosts.services;
 
+import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class UserService {
 
-    protected UserRepository userRepository;
+    private UserRepository userRepository;
+    private CategoryService categoryService;
 
     public User getUserById(int id) {
         return userRepository.findById(id).get();
@@ -24,8 +27,15 @@ public class UserService {
         return userRepository.findUserByEmail(email);
     }
 
-    public User save(User user) {
-        return userRepository.save(user);
+    @Transactional
+    public void create(User user) {
+        List<Category> defaultCategories = categoryService.findDefaultCategories();
+        user.addCategories(defaultCategories);
+        save(user);
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
     }
 
     public List<User> findAll() {
@@ -39,5 +49,10 @@ public class UserService {
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 }

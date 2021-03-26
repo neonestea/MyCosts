@@ -24,7 +24,7 @@ public class CategoryController {
     }
 
     @PostMapping("/users/{userId}/categories")
-    public Category addUserCategory(@PathVariable int userId, @RequestParam String categoryName) {
+    public void addUserCategory(@PathVariable int userId, @RequestParam String categoryName) {
         User user = userService.getUserById(userId);
         Category category = categoryService.findCategoryByName(categoryName);
 
@@ -36,8 +36,6 @@ public class CategoryController {
 
         category.addUser(user);
         categoryService.save(category);
-
-        return category;
     }
 
     @Autowired

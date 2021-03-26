@@ -28,7 +28,7 @@ public class CostService {
 
     }
 
-    public Cost save(Cost cost) {
-        return costRepository.save(cost);
+    public void save(Cost cost) {
+         costRepository.save(cost);
     }
 }

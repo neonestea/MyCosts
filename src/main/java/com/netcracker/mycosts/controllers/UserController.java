@@ -32,8 +32,8 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User addUser(@Valid @RequestBody User user) {
-        return userService.save(user);
+    public void addUser(@Valid @RequestBody User user) {
+         userService.save(user);
     }
 
     @DeleteMapping("users/{id}/delete")

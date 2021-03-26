@@ -1,12 +1,12 @@
 package com.netcracker.mycosts.entities;
 
-import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -38,6 +38,10 @@ public class User {
     public void addCategory(Category category) {
         categories.add(category);
         category.getUsers().add(this);
+    }
+
+    public void addCategories(List<Category> categories) {
+        categories.forEach(this::addCategory);
     }
 
 }
