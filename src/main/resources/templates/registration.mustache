@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="ru">
 <head>
-    <title>Spring Security Example </title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/css/site.css"/>
+    <title>MyCosts</title>
+    <link rel="icon" type="image/png" href="/favicon.ico"/>
+    <meta name="keywords" content="Finances" />
+    <meta name="description" content="Finances" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-Add new user
+
+<h2>Registration</h2>
 <form action="/registration" method="post">
     <div><label> User Name : <input type="text" name="username"/> </label></div>
     <div><label> User Email : <input type="text" name="useremail"/> </label></div>
@@ -12,6 +19,6 @@ Add new user
     <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
     <div><input type="submit" value="Sign In"/></div>
 </form>
-<button><a href="/home">Home</a></button>
+<button><a href="/">Return</a></button>
 </body>
 </html>

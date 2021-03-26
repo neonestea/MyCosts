@@ -22,4 +22,9 @@ public class HomeController {
         return "categories";
     }
 
+    @GetMapping("/userdetails")
+    public String userDetails() {
+        return "userdetails";
+    }
+
 }
