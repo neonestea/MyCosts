@@ -24,7 +24,8 @@ public class Category {
     @NotBlank
     private String name;
 
-    private boolean isDefault;
+    //TODO чекнуть
+    //private boolean isDefault;
 
     private int nameHash;
 

@@ -33,12 +33,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll();
     }
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
-                //.usersByUsernameQuery("select username, password, active from usr where username=?");
+                .passwordEncoder(NoOpPasswordEncoder.getInstance())
+                //TODO прописать, чтоб пароль искался
+                .usersByUsernameQuery("select name, email from users where email=?");
     }
 }
 

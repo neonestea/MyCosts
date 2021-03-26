@@ -13,12 +13,13 @@
 
 <h2>Registration</h2>
 <form action="/registration" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> User Email : <input type="text" name="useremail"/> </label></div>
+    <div><label> User Name : <input type="text" name="name"/> </label></div>
+    <div><label> User Email : <input type="text" name="email"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>
     <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-    <div><input type="submit" value="Sign In"/></div>
+    <div><input type="submit" value="Sign Up"/></div>
 </form>
 <button><a href="/">Return</a></button>
+<script src="/js/registration.js"></script>
 </body>
 </html>

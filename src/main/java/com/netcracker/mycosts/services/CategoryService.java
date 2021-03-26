@@ -30,10 +30,11 @@ public class CategoryService {
         return categoryRepository.findCategoryByName(categoryName);
     }
 
-    @Transactional
+    //TODO чекнуть
+    /*@Transactional
     public List<Category> findDefaultCategories() {
         return categoryRepository.findCategoriesByDefault(true);
-    }
+    }*/
 
     public void save(Category userCategory) {
         userCategory.setNameHash(userCategory.getName().hashCode());
