@@ -15,6 +15,12 @@ public class UserService {
     public User getUserById(int id) {
         return userRepository.findById(id).get();
     }
+    public User getUserByName(String name) {
+        return userRepository.findUserByName(name);
+    }
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
     public User create(User user) {
         return userRepository.save(user);
     }

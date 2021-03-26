@@ -22,6 +22,9 @@ public class User {
     @NotBlank
     private String name;
 
+    @NotBlank
+    private String email;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_category",
@@ -44,6 +47,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Category> getCategories() {

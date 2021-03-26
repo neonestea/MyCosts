@@ -8,7 +8,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class HomeController {
     @GetMapping("/")
-    public String home() {
-        return "home";
+    public String index() {
+        return "index";
     }
+
+    @GetMapping("/accounts")
+    public String accounts() {
+        return "accounts";
+    }
+
+    @GetMapping("/categories")
+    public String categories() {
+        return "categories";
+    }
+
 }

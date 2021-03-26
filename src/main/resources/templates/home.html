@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <!-- <link rel="stylesheet" href="/resources/css/site.css"> -->
+    <title>MyCosts</title>
+    <link rel="icon" type="image/png" href="/favicon.ico"/>
+    <meta name="keywords" content="Finances" />
+    <meta name="description" content="Finances" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<header>
+    <div>
+        <form action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+            <input type="submit" value="Sign Out"/>
+        </form>
+    </div>
+    <h1>MyCosts</h1>
+    <p>Navigation bar</p>
+    <a href="/accounts">Accounts</a>
+    <a href="/categories">Categories</a>
+</header>
+<main>
+    <table border="1" width="100%" cellpadding="5">
+        <tr>
+            <th>Date</th>
+            <th>Account</th>
+            <th>Category</th>
+            <th>Amount</th>
+        </tr>
+        <tr>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+        </tr>
+    </table>
+    <div>
+        <form action="/costs/add" method="post">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+            <input type="submit" value="Add cost"/>
+        </form>
+    </div>
+</main>
+<footer>Oleg, Nastya</footer>
+<!-- <script src="/js/weather.js"></script> -->
+</body>
+</html>
