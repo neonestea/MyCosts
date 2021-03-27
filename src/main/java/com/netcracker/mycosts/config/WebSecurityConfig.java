@@ -39,10 +39,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance())
-                //TODO прописать, чтоб пароль искался
-                .usersByUsernameQuery("select name, email from users where email=?");
+                .usersByUsernameQuery("select email,password,active "
+                        + "from users "
+                        + "where email = ?")
+                .authoritiesByUsernameQuery("select email,password "
+                        + "from users "
+                        + "where email = ?");
     }
 }
+
+
 
 
 

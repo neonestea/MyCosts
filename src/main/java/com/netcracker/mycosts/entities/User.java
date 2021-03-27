@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
+import com.netcracker.mycosts.entities.Role;
 
 @Entity
 @AllArgsConstructor
@@ -27,6 +28,16 @@ public class User {
     @NotBlank
     private String email;
 
+    @NotBlank
+    private String password;
+
+    private boolean active;
+
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "user_category",
@@ -34,6 +45,22 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "categoty_id", referencedColumnName = "id")
     )
     private final Set<Category> categories = new HashSet<>();
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public void addCategory(Category category) {
         categories.add(category);

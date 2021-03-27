@@ -10,7 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-
+{{#message}}
+    {{message}}
+{{/message}}
 <h2>Registration</h2>
 <form action="/registration" method="post">
     <div><label> User Name : <input type="text" name="name"/> </label></div>
