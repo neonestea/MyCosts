@@ -27,11 +27,15 @@ public class UserService {
         return userRepository.findUserByEmail(email);
     }
 
-    //TODO чекнуть
     @Transactional
     public void create(User user) {
-        //List<Category> defaultCategories = categoryService.findDefaultCategories();
-        //user.addCategories(defaultCategories);
+        categoryService.save(Category.builder()
+                .name("Other")
+                .isDefault(true)
+                .build());
+        List<Category> defaultCategories = categoryService.findDefaultCategories();
+
+        user.addCategories(defaultCategories);
         save(user);
     }
 

@@ -26,3 +26,4 @@ CREATE TABLE IF NOT EXISTS costs (
     default_category_id INTEGER REFERENCES default_categories(id),
     user_id INTEGER REFERENCES users(id)
 );
+

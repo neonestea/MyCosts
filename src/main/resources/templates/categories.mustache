@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="/css/site.css"/>
     <title>MyCosts</title>
-    <link rel="icon" type="image/png" href="/favicon.ico"/>
+    <link rel="icon" type="image/png" href="/images/favicon.ico"/>
     <meta name="keywords" content="Finances" />
     <meta name="description" content="Finances" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,18 +17,35 @@
             <input type="submit" value="Sign Out"/>
         </form>
     </div>
-    <h1>MyCosts</h1>
     <nav>
-        <a href="/home">Home</a>
-        <a href="/accounts">Accounts</a>
-        <a href="/categories">Categories</a>
-        <a href="/userdetails">My info</a>
+        <a href="/home" class="navEl">Home</a>
+        <a href="/accounts" class="navEl">Accounts</a>
+        <a href="/categories" class="navEl navActive">Categories</a>
+        <a href="/userdetails" class="navEl">My info</a>
     </nav>
 </header>
 <main>
-    Here you can manage your categories
+    <h2>Here you can manage your categories</h2>
+    <button onclick="addCategory();" id="addCat">Add category</button>
+    <div class="addElement" id="newCategory">
+        <input placeholder="category name" id="textCat" oninput='enterCategory();' >
+        <button id="addCatBtn" autocomplete='off' disabled="true">Add</button>
+        <button onclick="cancelAddingCategory();">Cancel</button>
+    </div>
+    <ul class="categories">
+        <li class="category">
+            <h3>Food</h3>
+            <button>Edit</button>
+            <button>Delete</button>
+        </li>
+        <li class="category">
+            <h3>Food</h3>
+            <button>Edit</button>
+            <button>Delete</button>
+        </li>
+    </ul>
 </main>
-<footer>Oleg, Nastya</footer>
-<!-- <script src="/js/weather.js"></script> -->
+<footer>2021, MyCosts</footer>
+<script src="/js/elements.js"></script>
 </body>
 </html>

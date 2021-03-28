@@ -5,7 +5,7 @@ html {
 }
 
 body {
-    margin: 0;
+    margin: 20px 0;
     background: #EBF0F3;
 }
 
@@ -34,11 +34,68 @@ nav {
     text-transform: uppercase;
     color: black;
     font-size: 20px;
+    opacity: 0.7;
 }
 .navEl:hover {
     font-size: 24px;
+    opacity:1;
+}
+
+.navActive {
+    opacity: 1;
 }
 
 .sectionName {
     margin-top: 60px;
+}
+
+.form {
+    background: rgba(245, 251, 255, 0.7);
+    margin: 30px auto;
+    flex-direction: column;
+    padding: 50px;
+    display: flex;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+    border: #AFBAC1 solid 4px;
+    border-radius: 3px;
+}
+
+.accounts, .categories {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: auto;
+    max-width: 80%;
+    align-items: center;
+
+}
+.account {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: rgba(245, 251, 255, 0.7);
+    max-width: 35%;
+    border: #AFBAC1 solid 4px;
+    border-radius: 3px;
+    margin: 20px;
+}
+
+.category {
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    background: rgba(245, 251, 255, 0.7);
+    border: #AFBAC1 solid 4px;
+    border-radius: 3px;
+    margin: 20px;
+}
+
+.addElement {
+    visibility: hidden;
+    padding: 20px;
+    margin: 20px;
+
 }
