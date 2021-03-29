@@ -2,12 +2,15 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8" />
+
     <link rel="stylesheet" href="/css/site.css"/>
     <title>MyCosts</title>
     <link rel="icon" type="image/png" href="/images/favicon.ico"/>
     <meta name="keywords" content="Finances" />
     <meta name="description" content="Finances" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.2"></script>
+
 </head>
 <body>
 <header>
@@ -34,7 +37,7 @@
         <button id="addAccBtn" disabled="true">Add</button>
         <button onclick="cancelAddingAccount();">Cancel</button>
     </div>
-    <ul class="accounts">
+    <ul class="accounts" id="accounts-list">
         <li class="account">
             <h3>Tinkoff</h3>
             <p>Currency: RUB</p>
@@ -52,6 +55,7 @@
     </ul>
 </main>
 <footer>2021, MyCosts</footer>
+<script src="/js/accounts.js"></script>
 <script src="/js/elements.js"></script>
 </body>
 </html>

@@ -32,4 +32,8 @@ public class HomeController {
         return "userdetails";
     }
 
+    @GetMapping("/hello")
+    public String hello(){
+        return "hello";
+    }
 }
