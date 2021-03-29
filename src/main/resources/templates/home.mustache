@@ -26,28 +26,22 @@
     </nav>
 </header>
 <main>
-    {{#message}}
-        {{message}}
-    {{/message}}
-    <table border="1" width="100%" cellpadding="5">
-        <tr>
-            <th>Date</th>
-            <th>Account</th>
-            <th>Category</th>
-            <th>Amount</th>
-        </tr>
-        <tr>
-            <td>data</td>
-            <td>data</td>
-            <td>data</td>
-            <td>data</td>
-        </tr>
-    </table>
+    <p><input name="costs" type="radio" value="account">By accounts</p>
+    <p><input name="costs" type="radio" value="category">By categories</p>
+    <button onclick="addCost();" id="addCat">Add cost</button>
     <div>
-        <form action="/costs/add" method="post">
-            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-            <input type="submit" value="Add cost"/>
-        </form>
+        <input type="date">
+        <select>
+            <option>Tinkoff</option>
+            <option>Sber</option>
+        </select>
+        <select>
+            <option>Food</option>
+            <option>Health</option>
+        </select>
+        <input placeholder="amount">
+        <button id="addCatBtn" autocomplete='off' disabled="true">Add</button>
+        <button onclick="cancelAddingCategory();">Cancel</button>
     </div>
 </main>
 <footer>2021, MyCosts</footer>
