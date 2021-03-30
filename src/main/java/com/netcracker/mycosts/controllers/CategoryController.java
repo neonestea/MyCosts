@@ -17,13 +17,13 @@ public class CategoryController {
     private CategoryService categoryService;
     private UserService userService;
 
-    @GetMapping("/users/{userId}/categories")
+    @GetMapping("/category")
     public Set<Category> allUserCategories(@PathVariable int userId) {
         User user = userService.getUserById(userId);
         return user.getCategories();
     }
 
-    @PostMapping("/users/{userId}/categories")
+    @PostMapping("/category")
     public void addUserCategory(@PathVariable int userId, @RequestParam String categoryName) {
         User user = userService.getUserById(userId);
         Category category = categoryService.findCategoryByName(categoryName);

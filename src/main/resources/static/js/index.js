@@ -12,4 +12,3 @@ var makeElement = function (tagName, className, text) {
     return element;
 };
 
-console.log("KEK");
