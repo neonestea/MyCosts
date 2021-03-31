@@ -15,39 +15,41 @@ Vue.component('category-form', {
     props: ['categories', 'categoryAttr'],
     data: function() {
         return {
-            text: '',
+            name: '',
             id: ''
         }
     },
     watch: {
         categoryAttr: function(newVal, oldVal) {
-            this.text = newVal.text;
+            this.name = newVal.name;
             this.id = newVal.id;
         }
     },
     template:
         '<div>' +
-        '<input type="text" placeholder="Category name" v-model="text" />' +
+        '<input type="text" placeholder="Category name" v-model="name" />' +
         '<input type="button" value="Add" @click="save" />' +
         '</div>',
     methods: {
         save: function() {
-            var category = { text: this.text };
-
+            var category = { name: this.name };
+            console.log(category);
             if (this.id) {
+                console.log("id");
                 categoryApi.update({id: this.id}, category).then(result =>
                     result.json().then(data => {
                         var index = getIndex(this.categories, data.id);
                         this.categories.splice(index, 1, data);
-                        this.text = ''
+                        this.name = ''
                         this.id = ''
                     })
                 )
             } else {
+                console.log("id");
                 categoryApi.save({}, category).then(result =>
                     result.json().then(data => {
                         this.categories.push(data);
-                        this.text = ''
+                        this.name = ''
                     })
                 )
             }
@@ -55,17 +57,17 @@ Vue.component('category-form', {
     }
 });
 
-/*Vue.component('category-row', {
+Vue.component('category-row', {
     props: ['category', 'editMethod', 'categories'],
-    template: '<div>' +
-        '<i>({{ category.id }})</i> {{ category.text }}' +
-        '<span style="position: absolute; right: 0">' +
+    template: '<div class="category">' +
+        '{{ category.name }}' +
+        '<span' +
         '<input type="button" value="Edit" @click="edit" />' +
         '<input type="button" value="X" @click="del" />' +
         '</span>' +
         '</div>',
     methods: {
-        /!*edit: function() {
+        edit: function() {
             this.editMethod(this.category);
         },
         del: function() {
@@ -74,7 +76,7 @@ Vue.component('category-form', {
                     this.categories.splice(this.categories.indexOf(this.category), 1)
                 }
             })
-        }*!/
+        }
     }
 });
 
@@ -96,18 +98,18 @@ Vue.component('categories-list', {
             this.category = category;
         }
     }
-});*/
+});
 
 var app = new Vue({
     el: '#app',
-    /*template:
+    template:
         '<div>' +
         '<categories-list :categories="categories" />' +
         '</div>',
     data: {
-        //categories: frontendData.categories,
+        categories: frontendData.categories,
         profile: frontendData.profile
     },
     created: function() {
-    },*/
+    },
 });

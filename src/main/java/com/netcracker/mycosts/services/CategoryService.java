@@ -35,9 +35,9 @@ public class CategoryService {
         return categoryRepository.findCategoriesByIsDefault(true);
     }
 
-    public void save(Category userCategory) {
+    public Category save(Category userCategory) {
         userCategory.setNameHash(userCategory.getName().hashCode());
-        categoryRepository.save(userCategory);
+        return categoryRepository.save(userCategory);
     }
 
 }

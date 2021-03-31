@@ -43,18 +43,7 @@ public class HomeController {
         return "accounts";
     }
 
-    @GetMapping("/categories")
-    public String categories(Model model, Authentication authentication) {
-        String email = authentication.getName();
-        User user = userService.getUserByEmail(email);
-        HashMap<Object, Object> data = new HashMap<>();
 
-        data.put("profile", user);
-        //data.put("categories", categoryService.findCategoriesByUser(user.getId()));
-
-        model.addAttribute("frontendData", data);
-        return "categories";
-    }
 
     @GetMapping("/userdetails")
     public String userDetails() {
