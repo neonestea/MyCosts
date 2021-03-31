@@ -26,6 +26,17 @@ public class HomeController {
     @Autowired
     UserService userService;
 
+    @GetMapping("/categories")
+    public String categories(Model model, @AuthenticationPrincipal User user) {
+        HashMap<Object, Object> data = new HashMap<>();
+
+        data.put("profile", user);
+        data.put("categories", user.getCategories());
+
+        model.addAttribute("frontendData", data);
+        return "categories";
+    }
+
     @GetMapping("/")
     public String index() {
 

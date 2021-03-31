@@ -1,3 +1,4 @@
+/*
 package com.netcracker.mycosts.config;
 
 import lombok.var;
@@ -35,7 +36,9 @@ public class BootConfig implements WebMvcConfigurer {
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
-/*        templateEngine.setTemplateEngineMessageSource(messageSource());*/
+*/
+/*        templateEngine.setTemplateEngineMessageSource(messageSource());*//*
+
         return templateEngine;
     }
 
@@ -49,3 +52,4 @@ public class BootConfig implements WebMvcConfigurer {
 
 
 }
+*/

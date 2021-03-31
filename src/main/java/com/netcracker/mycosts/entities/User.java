@@ -19,8 +19,8 @@ import com.netcracker.mycosts.entities.Role;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    /*@GeneratedValue(strategy = GenerationType.IDENTITY)*/
+    private String id;
 
     @NotBlank
     private String name;
@@ -28,8 +28,8 @@ public class User {
     @NotBlank
     private String email;
 
-    @NotBlank
-    private String password;
+  /*  @NotBlank
+    private String password;*/
 
     private boolean active;
 
@@ -42,7 +42,7 @@ public class User {
     @JoinTable(
             name = "user_category",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "categoty_id", referencedColumnName = "id")
+            inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
     )
     private final Set<Category> categories = new HashSet<>();
 

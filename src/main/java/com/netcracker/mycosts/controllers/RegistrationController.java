@@ -1,3 +1,4 @@
+/*
 package com.netcracker.mycosts.controllers;
 
 import com.netcracker.mycosts.entities.Role;
@@ -41,4 +42,4 @@ public class RegistrationController {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-}
+}*/

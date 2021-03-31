@@ -26,7 +26,7 @@ public class CostController {
     }
 
     @PostMapping("/users/{userId}/accounts/{accountId}/costs")
-    public Cost addCost(@PathVariable int userId, @PathVariable int accountId, @RequestParam double amount,
+    public Cost addCost(@PathVariable String userId, @PathVariable int accountId, @RequestParam double amount,
                         @NotNull String categoryName) {
         LocalDate currentDate = LocalDate.now();
         User user = userService.getUserById(userId);

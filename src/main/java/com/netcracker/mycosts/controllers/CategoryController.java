@@ -10,48 +10,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.netcracker.mycosts.services.CategoryService;
 import com.netcracker.mycosts.entities.Category;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
-@Controller
+@RestController
 public class CategoryController {
 
     private CategoryService categoryService;
     private UserService userService;
 
-    @GetMapping("/category")
+/*    @GetMapping("/category")
     public Set<Category> list(Authentication authentication) {
         String email = authentication.getName();
         User user = userService.getUserByEmail(email);
         return user.getCategories();
-    }
-
-    @GetMapping("/categories")
-    public String categories(Model model, Authentication authentication) {
-        String email = authentication.getName();
-        User user = userService.getUserByEmail(email);
-        HashMap<Object, Object> data = new HashMap<>();
-
-        data.put("profile", user);
-        data.put("categories", user.getCategories());
-
-        model.addAttribute("frontendData", data);
-        return "categories";
-    }
-
-    /*@GetMapping("/category")
-    public Set<Category> allUserCategories(@PathVariable int userId) {
-        User user = userService.getUserById(userId);
-        return user.getCategories();
     }*/
 
+
+
     @PostMapping("/category")
-    public Category create(@RequestBody Category category, Authentication authentication) {
-        String email = authentication.getName();
-        User user = userService.getUserByEmail(email);
-        category.addUser(user);
-        return categoryService.save(category);
+    public void create(@RequestBody Category category, @AuthenticationPrincipal User user) {
+        //category.addUser(user);
+        user.addCategory(category);
+        System.out.println(category);
+        categoryService.save(category);
     }
 
     @Autowired

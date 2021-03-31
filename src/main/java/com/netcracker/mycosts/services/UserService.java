@@ -15,8 +15,8 @@ public class UserService {
     private UserRepository userRepository;
     private CategoryService categoryService;
 
-    public User getUserById(int id) {
-        return userRepository.findById(id).get();
+    public User getUserById(String id) {
+        return userRepository.findById(id);
     }
 
     public User getUserByName(String name) {
@@ -28,7 +28,7 @@ public class UserService {
     }
 
     @Transactional
-    public void create(User user) {
+    public User create(User user) {
         categoryService.save(Category.builder()
                 .name("Other")
                 .isDefault(true)
@@ -36,11 +36,11 @@ public class UserService {
         List<Category> defaultCategories = categoryService.findDefaultCategories();
 
         user.addCategories(defaultCategories);
-        save(user);
+        return save(user);
     }
 
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     public List<User> findAll() {

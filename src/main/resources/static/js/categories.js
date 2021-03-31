@@ -28,14 +28,14 @@ Vue.component('category-form', {
     template:
         '<div>' +
         '<input type="text" placeholder="Category name" v-model="name" />' +
-        '<input type="button" value="Add" @click="save" />' +
+        '<input type="button" value="Save" @click="save" />' +
         '</div>',
     methods: {
         save: function() {
             var category = { name: this.name };
             console.log(category);
+
             if (this.id) {
-                console.log("id");
                 categoryApi.update({id: this.id}, category).then(result =>
                     result.json().then(data => {
                         var index = getIndex(this.categories, data.id);
@@ -45,7 +45,6 @@ Vue.component('category-form', {
                     })
                 )
             } else {
-                console.log("id");
                 categoryApi.save({}, category).then(result =>
                     result.json().then(data => {
                         this.categories.push(data);
@@ -59,12 +58,10 @@ Vue.component('category-form', {
 
 Vue.component('category-row', {
     props: ['category', 'editMethod', 'categories'],
-    template: '<div class="category">' +
+    template: '<div class="category form">' +
         '{{ category.name }}' +
-        '<span' +
         '<input type="button" value="Edit" @click="edit" />' +
         '<input type="button" value="X" @click="del" />' +
-        '</span>' +
         '</div>',
     methods: {
         edit: function() {

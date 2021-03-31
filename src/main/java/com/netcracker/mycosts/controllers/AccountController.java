@@ -27,7 +27,7 @@ public class AccountController {
     }
 
     @PostMapping("/users/{userId}/accounts")
-    public Account addAccount(@PathVariable int userId, @Valid @RequestBody Account account) {
+    public Account addAccount(@PathVariable String userId, @Valid @RequestBody Account account) {
         User user = userService.getUserById(userId);
         account.setUser(user);
         return accountService.save(account);
