@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
     <meta charset="utf-8" />
-
     <link rel="stylesheet" href="/css/site.css"/>
     <title>MyCosts</title>
     <link rel="icon" type="image/png" href="/images/favicon.ico"/>
@@ -11,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script th:inline="javascript">
+        var frontendData = [[${frontendData}]];
+    </script>
 </head>
 <body>
 <header>

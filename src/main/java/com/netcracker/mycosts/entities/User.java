@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
@@ -16,7 +18,7 @@ import com.netcracker.mycosts.entities.Role;
 @Setter
 @Builder
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
     @Id
     /*@GeneratedValue(strategy = GenerationType.IDENTITY)*/
@@ -30,6 +32,8 @@ public class User {
 
   /*  @NotBlank
     private String password;*/
+    @JsonFormat(shapt=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastVisit;
 
     private boolean active;
 
@@ -60,6 +64,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void setLastVisit(LocalDateTime lastVisit){
+        this.lastVisit = lastVisit;
+    }
+
+    public LocalDateTime getLastVisit(){
+        return lastVisit;
     }
 
     public void addCategory(Category category) {

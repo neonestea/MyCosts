@@ -108,5 +108,11 @@ var app = new Vue({
         profile: frontendData.profile
     },
     created: function() {
+        /*categoryApi.get().then(result =>
+            result.json().then(data =>
+                data.forEach(category => this.categories.push(category))
+            )
+        )*/
     },
 });
+
