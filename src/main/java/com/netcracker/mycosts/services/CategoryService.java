@@ -24,7 +24,9 @@ public class CategoryService {
 
     public Category findCategoryByName(String categoryName) {
         Category candidateCategory = findCategoryByNameHash(categoryName.hashCode());
-        if (candidateCategory.getName().toLowerCase().equals(categoryName.toLowerCase())) {
+        if (candidateCategory == null) {
+            return null;
+        } else if (candidateCategory.getName().toLowerCase().equals(categoryName.toLowerCase())) {
             return candidateCategory;
         }
         return categoryRepository.findCategoryByName(categoryName);
@@ -36,9 +38,11 @@ public class CategoryService {
     }
 
     public Category save(Category userCategory) {
-        userCategory.setNameHash(userCategory.getName().hashCode());
-        System.out.println(userCategory.getUsers().toString());
-        return categoryRepository.save(userCategory);
+        Category candidateCategory = findCategoryByName(userCategory.getName());
+        if (candidateCategory == null) {
+            return categoryRepository.save(userCategory);
+        }
+        return candidateCategory;
     }
 
 }

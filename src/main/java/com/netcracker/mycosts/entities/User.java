@@ -22,19 +22,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class User/* implements Serializable */{
 
     @Id
-    /*@GeneratedValue(strategy = GenerationType.IDENTITY)*/
     private String id;
 
-    //@NotBlank
+    @NotBlank
     private String name;
 
-    //@NotBlank
+    @NotBlank
     private String email;
-
-  /*  @NotBlank
-    private String password;*/
- /* @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime lastVisit;*/
 
     private boolean active;
 
@@ -43,31 +37,13 @@ public class User/* implements Serializable */{
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_category",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
     )
     private final Set<Category> categories = new HashSet<>();
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-
 
     public void addCategory(Category category) {
         categories.add(category);

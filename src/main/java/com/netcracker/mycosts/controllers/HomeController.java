@@ -20,11 +20,8 @@ import java.util.HashMap;
 @Controller
 public class HomeController {
 
-    @Autowired
-    CategoryService categoryService;
-
-    @Autowired
-    UserService userService;
+    private CategoryService categoryService;
+    private UserService userService;
 
     @GetMapping("/categories")
     public String categories(Model model, @AuthenticationPrincipal User user) {
@@ -77,7 +74,15 @@ public class HomeController {
         else {
             return "redirect:/login";
         }
-
     }
 
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 }

@@ -2,7 +2,6 @@ package com.netcracker.mycosts.services;
 
 import java.util.List;
 
-
 import com.netcracker.mycosts.entities.Account;
 import com.netcracker.mycosts.entities.Cost;
 import com.netcracker.mycosts.repositories.CostRepository;

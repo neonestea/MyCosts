@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -21,8 +22,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //@NotBlank
+    @NotBlank
     private String name;
+
     private boolean isDefault;
 
     private int nameHash;
@@ -31,12 +33,16 @@ public class Category {
     @JsonIgnore
     private final Set<User> users = new HashSet<>();
 
-    public void addUser(User user) {
-        users.add(user);
-        user.getCategories().add(this);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return name.equals(category.name);
     }
 
-    public Set<User> getUsers(){
-        return users;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }
