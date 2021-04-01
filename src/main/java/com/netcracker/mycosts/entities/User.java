@@ -43,7 +43,7 @@ public class User/* implements Serializable */{
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_category",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -67,13 +67,7 @@ public class User/* implements Serializable */{
         this.roles = roles;
     }
 
-    /*public void setLastVisit(LocalDateTime lastVisit){
-        this.lastVisit = lastVisit;
-    }
 
-    public LocalDateTime getLastVisit(){
-        return lastVisit;
-    }*/
 
     public void addCategory(Category category) {
         categories.add(category);

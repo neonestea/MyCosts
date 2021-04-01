@@ -8,7 +8,6 @@ function getIndex(list, id) {
     return -1;
 }
 
-
 var categoryApi = Vue.resource('/category{/id}');
 
 Vue.component('category-form', {
@@ -33,8 +32,7 @@ Vue.component('category-form', {
     methods: {
         save: function() {
             var category = { name: this.name };
-            console.log(category);
-
+            //console.log(category);
             if (this.id) {
                 categoryApi.update({id: this.id}, category).then(result =>
                     result.json().then(data => {
@@ -52,13 +50,14 @@ Vue.component('category-form', {
                     })
                 )
             }
+
         }
     }
 });
 
 Vue.component('category-row', {
     props: ['category', 'editMethod', 'categories'],
-    template: '<div class="category form">' +
+    template: '<div>' +
         '{{ category.name }}' +
         '<input type="button" value="Edit" @click="edit" />' +
         '<input type="button" value="X" @click="del" />' +
@@ -85,7 +84,7 @@ Vue.component('categories-list', {
         }
     },
     template:
-        '<div style="position: relative; width: 300px;">' +
+        '<div>' +
         '<category-form :categories="categories" :categoryAttr="category" />' +
         '<category-row v-for="category in categories" :key="category.id" :category="category" ' +
         ':editMethod="editMethod" :categories="categories" />' +
@@ -101,6 +100,7 @@ var app = new Vue({
     el: '#app',
     template:
         '<div>' +
+
         '<categories-list :categories="categories" />' +
         '</div>',
     data: {
@@ -116,3 +116,17 @@ var app = new Vue({
     },
 });
 
+var app2 = new Vue({
+    el: '#log',
+    template:
+        '<div>' +
+        '<div v-if="!profile"><a href="/login" class="navEl">SignIn</a></div>' +
+        '<div v-else><a href="/logout" class="navEl">SignOut</a></div>' +
+        '<div v-if="profile">{{profile.name}}</div>' +
+        '</div>',
+    data: {
+        profile: frontendData.profile
+    },
+    created: function() {
+    },
+});

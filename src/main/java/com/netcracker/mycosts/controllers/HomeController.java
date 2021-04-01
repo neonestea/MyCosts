@@ -29,12 +29,15 @@ public class HomeController {
     @GetMapping("/categories")
     public String categories(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
-
-        data.put("profile", user);
-        data.put("categories", user.getCategories());
-
-        model.addAttribute("frontendData", data);
-        return "categories";
+        if(user != null){
+            data.put("profile", user);
+            data.put("categories", user.getCategories());
+            model.addAttribute("frontendData", data);
+            return "categories";
+        }
+        else {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/")
@@ -59,28 +62,22 @@ public class HomeController {
             return "home";
         }
         else {
-            data.put("profile", null);
+            return "redirect:/login";
+        }
+    }
+    @GetMapping("/accounts")
+    public String accounts(Model model, @AuthenticationPrincipal User user) {
+        HashMap<Object, Object> data = new HashMap<>();
+        if(user != null){
+            data.put("profile", user);
+            data.put("accounts", user.getAccounts());
             model.addAttribute("frontendData", data);
+            return "accounts";
+        }
+        else {
             return "redirect:/login";
         }
 
-
-
-    }
-    @GetMapping("/accounts")
-    public String accounts() {
-        return "accounts";
     }
 
-
-
-    @GetMapping("/userdetails")
-    public String userDetails() {
-        return "userdetails";
-    }
-
-    @GetMapping("/hello")
-    public String hello(){
-        return "hello";
-    }
 }
