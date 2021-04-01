@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    username: admin
+    password: admin
+    url: jdbc:postgresql://localhost:5432/mycosts_db
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        event:
+          merge:
+            entity_copy_observer: allow
+
+security:
+  oauth2:
+    client:
+      clientId: 943545081954-55rlcab13b8r6m9tqpgsak61rcp8edop.apps.googleusercontent.com
+      clientSecret: VwEySXDOatnI41PMe35mGmYF
+      clientAuthenticationScheme: form
+      scope: openid,email,profile
+      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+    resource:
+      preferTokenInfo: true
+      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo

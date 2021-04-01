@@ -70,7 +70,7 @@ public class HomeController {
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
             data.put("profile", user);
-            data.put("accounts", user.getAccounts());
+            //data.put("accounts", user.getAccounts());
             model.addAttribute("frontendData", data);
             return "accounts";
         }

@@ -32,9 +32,8 @@ public class CategoryController {
 
     @PostMapping("/category")
     public void create(@RequestBody Category category, @AuthenticationPrincipal User user) {
-        //category.addUser(user);
-        user.addCategory(category);
-        System.out.println(category);
+        category.addUser(user);
+        System.out.println("asasdasdsadasdasdasd" + category.getUsers().toString() + "/n" + user.getCategories().toString());
         categoryService.save(category);
     }
 

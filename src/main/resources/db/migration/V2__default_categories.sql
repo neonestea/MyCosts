@@ -1,0 +1,1 @@
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Other', 76517104);

@@ -37,6 +37,7 @@ public class CategoryService {
 
     public Category save(Category userCategory) {
         userCategory.setNameHash(userCategory.getName().hashCode());
+        System.out.println(userCategory.getUsers().toString());
         return categoryRepository.save(userCategory);
     }
 

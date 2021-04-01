@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@Table(name = "user_categories")
+@Table(name = "categories")
 public class Category {
 
     @Id

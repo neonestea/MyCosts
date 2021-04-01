@@ -29,10 +29,7 @@ public class UserService {
 
     @Transactional
     public User create(User user) {
-        categoryService.save(Category.builder()
-                .name("Other")
-                .isDefault(true)
-                .build());
+
         List<Category> defaultCategories = categoryService.findDefaultCategories();
 
         user.addCategories(defaultCategories);
