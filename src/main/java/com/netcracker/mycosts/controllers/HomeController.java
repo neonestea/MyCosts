@@ -38,16 +38,34 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String index() {
-
+    public String index(Model model, @AuthenticationPrincipal User user) {
+        HashMap<Object, Object> data = new HashMap<>();
+        if(user != null){
+            data.put("profile", user);
+        }
+        else {
+            data.put("profile", null);
+        }
+        model.addAttribute("frontendData", data);
         return "index";
     }
 
     @GetMapping("/home")
-    public String home() {
+    public String home(Model model, @AuthenticationPrincipal User user) {
+        HashMap<Object, Object> data = new HashMap<>();
+        if(user != null){
+            data.put("profile", user);
+            model.addAttribute("frontendData", data);
+            return "home";
+        }
+        else {
+            data.put("profile", null);
+            model.addAttribute("frontendData", data);
+            return "redirect:/login";
+        }
 
 
-        return "home";
+
     }
     @GetMapping("/accounts")
     public String accounts() {

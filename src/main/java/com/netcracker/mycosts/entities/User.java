@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import com.netcracker.mycosts.entities.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @AllArgsConstructor
@@ -18,22 +19,22 @@ import com.netcracker.mycosts.entities.Role;
 @Setter
 @Builder
 @Table(name = "users")
-public class User implements Serializable {
+public class User/* implements Serializable */{
 
     @Id
     /*@GeneratedValue(strategy = GenerationType.IDENTITY)*/
     private String id;
 
-    @NotBlank
+    //@NotBlank
     private String name;
 
-    @NotBlank
+    //@NotBlank
     private String email;
 
   /*  @NotBlank
     private String password;*/
-    @JsonFormat(shapt=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime lastVisit;
+ /* @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastVisit;*/
 
     private boolean active;
 
@@ -66,13 +67,13 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public void setLastVisit(LocalDateTime lastVisit){
+    /*public void setLastVisit(LocalDateTime lastVisit){
         this.lastVisit = lastVisit;
     }
 
     public LocalDateTime getLastVisit(){
         return lastVisit;
-    }
+    }*/
 
     public void addCategory(Category category) {
         categories.add(category);

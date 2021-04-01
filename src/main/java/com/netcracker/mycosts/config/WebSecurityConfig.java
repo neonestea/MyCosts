@@ -52,12 +52,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 user.setName((String) map.get("name"));
                 user.setEmail((String) map.get("email"));
                 user.setActive(true);
-                user.setLastVisit(LocalDateTime.now());
+                /*user.setLastVisit(LocalDateTime.now());*/
                 user.setRoles(Collections.singleton(Role.USER));
                 return userService.create(user);
             }
             else {
-                user.setLastVisit(LocalDateTime.now());
+               /* user.setLastVisit(LocalDateTime.now());*/
                 return user;
             }
 

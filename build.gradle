@@ -24,7 +24,7 @@ dependencies {
     implementation 'org.springframework.security:spring-security-test'
     compile('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.1.RELEASE')
     implementation 'org.springframework.boot:spring-boot-starter-mustache'
-    compile('org.springframework.session:spring-session-jdbc')
+    /*compile('org.springframework.session:spring-session-jdbc')*/
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

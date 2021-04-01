@@ -21,7 +21,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank
+    //@NotBlank
     private String name;
     private boolean isDefault;
 
@@ -34,5 +34,9 @@ public class Category {
     public void addUser(User user) {
         users.add(user);
         user.getCategories().add(this);
+    }
+
+    public Set<User> getUsers(){
+        return users;
     }
 }
