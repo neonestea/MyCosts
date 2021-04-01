@@ -45,8 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             User user = userService.getUserById(id);
 
-            if (user == null) {
 
+            if (user == null) {
+                System.out.println("NEW");
                 user = new User();
                 user.setId(id);
                 user.setName((String) map.get("name"));
@@ -57,8 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 return userService.create(user);
             }
             else {
+                System.out.println("EXISTING");
                /* user.setLastVisit(LocalDateTime.now());*/
-                return user;
+                return userService.create(user);
             }
 
         };
