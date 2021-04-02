@@ -45,6 +45,9 @@ public class User/* implements Serializable */{
     )
     private final Set<Category> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private final Set<Account> accounts = new HashSet<>();
+
     public void addCategory(Category category) {
         categories.add(category);
         category.getUsers().add(this);
