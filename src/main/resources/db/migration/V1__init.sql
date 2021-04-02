@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS accounts
     id       SERIAL PRIMARY KEY,
     name     VARCHAR(255),
     currency VARCHAR(255),
-    amount   integer,
+    amount   decimal(10,2),
     user_id  VARCHAR(255) REFERENCES users (id)
 );
 

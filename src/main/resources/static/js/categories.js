@@ -43,8 +43,10 @@ Vue.component('category-form', {
                     })
                 )
             } else {
+                //this.categories.push(category);
                 categoryApi.save({}, category).then(result =>
                     result.json().then(data => {
+                        //console.log("KEK");
                         this.categories.push(data);
                         this.name = ''
                     })
@@ -100,7 +102,6 @@ var app = new Vue({
     el: '#app',
     template:
         '<div>' +
-
         '<categories-list :categories="categories" />' +
         '</div>',
     data: {

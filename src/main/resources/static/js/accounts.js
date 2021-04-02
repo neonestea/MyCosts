@@ -15,50 +15,49 @@ Vue.component('account-form', {
     data: function() {
         return {
             name: '',
-            id: '',
             amount: '',
-            currency: ''
+            currency: '',
+            id: ''
+
         }
     },
     watch: {
         accountAttr: function(newVal, oldVal) {
             this.name = newVal.name;
-            this.amount = newVal.amount;
-            this.currency = newVal.currency;
             this.id = newVal.id;
         }
     },
     template:
         '<div>' +
-        '<input type="text" placeholder="Account name" v-model="name" />' +
-        '<select type="text" placeholder="Currency" v-model="currency">' +
-        '<option>USD</option>\n' +
+        '<input type="text" placeholder="account name" v-model="name" />' +
+        '<input type="text" placeholder="amount" v-model="amount" />' +
+        '<select type="text" placeholder="currency" v-model="currency" >' +
         '<option>RUB</option>' +
         '</select>' +
-        '<input type="text" placeholder="Amount" v-model="amount" />' +
         '<input type="button" value="Save" @click="save" />' +
         '</div>',
     methods: {
         save: function() {
-            var amount = { name: this.name, amount: this.amount, currency: this.currency};
-            //console.log(category);
+            var account = { name: this.name, amount: this.amount, currency: this.currency };
+            //console.log(account);
             if (this.id) {
-                amountApi.update({id: this.id}, amount).then(result =>
+                accountApi.update({id: this.id}, account).then(result =>
                     result.json().then(data => {
-                        var index = getIndex(this.amounts, data.id);
-                        this.amounts.splice(index, 1, data);
-                        this.name = ''
-                        this.id = ''
+                        var index = getIndex(this.accounts, data.id);
+                        this.accounts.splice(index, 1, data);
                         this.amount = ''
+                        this.name = ''
                         this.currency = ''
+                        this.id = ''
                     })
                 )
             } else {
-                amountApi.save({}, amount).then(result =>
+
+                accountApi.save({}, account).then(result =>
                     result.json().then(data => {
-                        this.amounts.push(data);
-                        this.name = ''
+                        this.accounts.push(data);
                         this.amount = ''
+                        this.name = ''
                         this.currency = ''
                     })
                 )
@@ -71,9 +70,9 @@ Vue.component('account-form', {
 Vue.component('account-row', {
     props: ['account', 'editMethod', 'accounts'],
     template: '<div>' +
-        '{{ account.name }}' +
-        '{{ account.currency }}' +
-        '{{ account.amount }}' +
+        '{{ account.name }}   ' +
+        '{{ account.currency }}  ' +
+        '{{ account.amount }}  ' +
         '<input type="button" value="Edit" @click="edit" />' +
         '<input type="button" value="X" @click="del" />' +
         '</div>',
@@ -111,6 +110,25 @@ Vue.component('accounts-list', {
     }
 });
 
+var app = new Vue({
+    el: '#app',
+    template:
+        '<div>' +
+        '<accounts-list :accounts="accounts" />' +
+        '</div>',
+    data: {
+        accounts: frontendData.accounts,
+        profile: frontendData.profile
+    },
+    created: function() {
+        /*accountApi.get().then(result =>
+            result.json().then(data =>
+                data.forEach(account => this.accounts.push(account))
+            )
+        )*/
+    },
+});
+
 var app2 = new Vue({
     el: '#log',
     template:
@@ -123,25 +141,5 @@ var app2 = new Vue({
         profile: frontendData.profile
     },
     created: function() {
-    },
-});
-
-var app = new Vue({
-    el: '#app',
-    template:
-        '<div>' +
-
-        '<accounts-list :accounts="accounts" />' +
-        '</div>',
-    data: {
-        accounts: frontendData.accounts,
-        profile: frontendData.profile
-    },
-    created: function() {
-        /*categoryApi.get().then(result =>
-            result.json().then(data =>
-                data.forEach(category => this.categories.push(category))
-            )
-        )*/
     },
 });

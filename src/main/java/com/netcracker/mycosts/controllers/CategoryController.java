@@ -15,12 +15,14 @@ public class CategoryController {
     private UserService userService;
 
     @PostMapping("/category")
-    public void create(@RequestBody Category category, @AuthenticationPrincipal User user) {
+    public Category create(@RequestBody Category category, @AuthenticationPrincipal User user) {
         category = categoryService.save(category);
         if(!user.getCategories().contains(category)) {
             user.addCategory(category);
             userService.save(user);
+
         }
+        return category;
     }
 
     @Autowired

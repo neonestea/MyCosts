@@ -1,6 +1,7 @@
 package com.netcracker.mycosts.controllers;
 
 import com.netcracker.mycosts.entities.User;
+import com.netcracker.mycosts.services.AccountService;
 import com.netcracker.mycosts.services.CategoryService;
 import com.netcracker.mycosts.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +18,10 @@ public class HomeController {
     private CategoryService categoryService;
     private UserService userService;
 
-    @GetMapping("/categories")
-    public String categories(Model model, @AuthenticationPrincipal User user) {
-        HashMap<Object, Object> data = new HashMap<>();
-        if(user != null){
-            data.put("profile", user);
-            data.put("categories", user.getCategories());
-            model.addAttribute("frontendData", data);
-            return "categories";
-        }
-        else {
-            return "redirect:/login";
-        }
-    }
+    @Autowired
+    private AccountService accountService;
+
+
 
     @GetMapping("/")
     public String index(Model model, @AuthenticationPrincipal User user) {
@@ -57,12 +49,30 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/categories")
+    public String categories(Model model, @AuthenticationPrincipal User user) {
+        HashMap<Object, Object> data = new HashMap<>();
+        if(user != null){
+            data.put("profile", user);
+            data.put("categories", user.getCategories());
+            System.out.println("CATEGORIES " + user.getCategories());
+            model.addAttribute("frontendData", data);
+            return "categories";
+        }
+        else {
+            return "redirect:/login";
+        }
+    }
     @GetMapping("/accounts")
     public String accounts(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
+
             data.put("profile", user);
+            System.out.println("ACCOUNTS PREV " + accountService.getAll(user.getId()));
+            System.out.println("VRANYO " + user.getAccounts());
             data.put("accounts", user.getAccounts());
+            System.out.println("ACCOUNTS " + accountService.getAll(user.getId()));
             model.addAttribute("frontendData", data);
             return "accounts";
         }

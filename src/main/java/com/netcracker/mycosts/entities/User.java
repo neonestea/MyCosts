@@ -52,7 +52,9 @@ public class User/* implements Serializable */{
         categories.add(category);
         category.getUsers().add(this);
     }
-
+    public void addAccount(Account account) {
+        accounts.add(account);
+    }
     public void addCategories(List<Category> categories) {
         categories.forEach(this::addCategory);
     }
