@@ -1,15 +1,18 @@
 package com.netcracker.mycosts.controllers;
 
+import com.netcracker.mycosts.entities.Currency;
 import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.services.AccountService;
 import com.netcracker.mycosts.services.CategoryService;
 import com.netcracker.mycosts.services.UserService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 @Controller
@@ -69,10 +72,9 @@ public class HomeController {
         if(user != null){
 
             data.put("profile", user);
-            System.out.println("ACCOUNTS PREV " + accountService.getAll(user.getId()));
-            System.out.println("VRANYO " + user.getAccounts());
             data.put("accounts", user.getAccounts());
-            System.out.println("ACCOUNTS " + accountService.getAll(user.getId()));
+            List<Currency> currencies = Arrays.asList(Currency.values());
+            data.put("currencies", currencies);
             model.addAttribute("frontendData", data);
             return "accounts";
         }

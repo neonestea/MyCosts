@@ -11,14 +11,13 @@ function getIndex(list, id) {
 var accountApi = Vue.resource('/account{/id}');
 
 Vue.component('account-form', {
-    props: ['accounts', 'accountAttr'],
+    props: ['accounts', 'accountAttr', 'currencies'],
     data: function() {
         return {
             name: '',
             amount: '',
-            currency: '',
+            currency: 'RUB',
             id: ''
-
         }
     },
     watch: {
@@ -31,15 +30,15 @@ Vue.component('account-form', {
         '<div>' +
         '<input type="text" placeholder="account name" v-model="name" />' +
         '<input type="text" placeholder="amount" v-model="amount" />' +
-        '<select type="text" placeholder="currency" v-model="currency" >' +
-        '<option>RUB</option>' +
+        '<select type="text"  v-model="currency" >' +
+            '<option v-for="curr in currencies" :key="curr" :value="curr">{{curr}}</option>' +
         '</select>' +
         '<input type="button" value="Save" @click="save" />' +
         '</div>',
     methods: {
         save: function() {
+            console.log(this.currency)
             var account = { name: this.name, amount: this.amount, currency: this.currency };
-            //console.log(account);
             if (this.id) {
                 accountApi.update({id: this.id}, account).then(result =>
                     result.json().then(data => {
@@ -91,7 +90,7 @@ Vue.component('account-row', {
 });
 
 Vue.component('accounts-list', {
-    props: ['accounts'],
+    props: ['accounts', 'currencies'],
     data: function () {
         return {
             account: null
@@ -99,7 +98,7 @@ Vue.component('accounts-list', {
     },
     template:
         '<div>' +
-        '<account-form :accounts="accounts" :accountAttr="account" />' +
+        '<account-form :accounts="accounts" :accountAttr="account" :currencies="currencies" />' +
         '<account-row v-for="account in accounts" :key="account.id" :account="account" ' +
         ':editMethod="editMethod" :accounts="accounts" />' +
         '</div>',
@@ -114,10 +113,11 @@ var app = new Vue({
     el: '#app',
     template:
         '<div>' +
-        '<accounts-list :accounts="accounts" />' +
+        '<accounts-list :accounts="accounts" :currencies="currencies"/>' +
         '</div>',
     data: {
         accounts: frontendData.accounts,
+        currencies: frontendData.currencies,
         profile: frontendData.profile
     },
     created: function() {
@@ -138,7 +138,7 @@ var app2 = new Vue({
         '<div v-if="profile">{{profile.name}}</div>' +
         '</div>',
     data: {
-        profile: frontendData.profile
+        profile: frontendData.profile,
     },
     created: function() {
     },
