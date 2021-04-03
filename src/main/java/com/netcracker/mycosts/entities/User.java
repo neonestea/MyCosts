@@ -45,7 +45,7 @@ public class User/* implements Serializable */{
     )
     private final Set<Category> categories = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private final Set<Account> accounts = new HashSet<>();
 
     public void addCategory(Category category) {
