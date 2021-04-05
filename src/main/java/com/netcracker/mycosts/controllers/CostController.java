@@ -25,10 +25,10 @@ public class CostController {
         return costService.getAll(userId);
     }
 
-    @PostMapping("/users/{userId}/accounts/{accountId}/costs")
-    public Cost addCost(@PathVariable String userId, @PathVariable int accountId, @RequestParam double amount,
+    @PostMapping("/costs")
+    public void addCost(@PathVariable String userId, @PathVariable int accountId, @RequestParam double amount,
                         @NotNull String categoryName) {
-        LocalDate currentDate = LocalDate.now();
+        /*LocalDate currentDate = LocalDate.now();
         User user = userService.getUserById(userId);
         Account account = accountService.getAccountById(accountId);
         Category category = categoryService.findCategoryByName(categoryName);
@@ -47,8 +47,8 @@ public class CostController {
             monthCost.addCostAmount(amount);
         }
         monthCostsService.save(monthCost);
-        costService.save(cost);
-        return cost;
+        costService.save(cost);*/
+        //return cost;
     }
 
     @Autowired

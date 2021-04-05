@@ -121,11 +121,6 @@ var app = new Vue({
         profile: frontendData.profile
     },
     created: function() {
-        /*accountApi.get().then(result =>
-            result.json().then(data =>
-                data.forEach(account => this.accounts.push(account))
-            )
-        )*/
     },
 });
 
