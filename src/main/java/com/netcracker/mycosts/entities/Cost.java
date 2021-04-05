@@ -3,6 +3,7 @@ package com.netcracker.mycosts.entities;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -21,7 +22,7 @@ public class Cost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     private double amount;

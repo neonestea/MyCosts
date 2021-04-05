@@ -23,14 +23,13 @@ public class CostController {
     private MonthCostsService monthCostsService;
     private CategoryService categoryService;
 
-    @GetMapping("/users/{userId}/costs")
-    public List<Cost> allCosts(@PathVariable int userId) {
-        return costService.getAll(userId);
-    }
+
 
     @PostMapping("/costs")
     public ResponseEntity<Cost> addCost(@RequestBody Cost cost, @AuthenticationPrincipal User user) {
+        cost.setUser(user);
         LocalDate date = cost.getDate();
+
         Account account = cost.getAccount();
         Category category = cost.getCategory();
         double amount = cost.getAmount();

@@ -18,11 +18,11 @@ public class CostService {
         this.costRepository = costRepository;
     }
 
-    public List<Cost> getAll(int userId) {
+    public List<Cost> getAll(String userId) {
         return costRepository.findCostByUserId(userId);
     }
 
-    public List<Cost> getAll(int userId, Account account) {
+    public List<Cost> getAll(String userId, Account account) {
         return costRepository.findCostByUserIdAndAccount(userId, account);
 
     }

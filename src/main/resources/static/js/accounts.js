@@ -16,7 +16,7 @@ Vue.component('account-form', {
         return {
             name: '',
             amount: '',
-            currency: 'RUB',
+            currency: '',
             id: ''
         }
     },
@@ -28,9 +28,10 @@ Vue.component('account-form', {
     },
     template:
         '<div>' +
-        '<input type="text" placeholder="account name" v-model="name" />' +
-        '<input type="text" placeholder="amount" v-model="amount" />' +
+        '<input type="text" placeholder="Account name" v-model="name" />' +
+        '<input type="text" placeholder="Amount" v-model="amount" />' +
         '<select type="text"  v-model="currency" >' +
+        '<option value="" disabled selected>Currency</option>' +
             '<option v-for="curr in currencies" :key="curr" :value="curr">{{curr}}</option>' +
         '</select>' +
         '<input type="button" value="Save" @click="save" />' +

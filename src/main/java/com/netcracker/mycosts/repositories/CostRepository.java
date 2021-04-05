@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CostRepository extends JpaRepository<Cost, Integer> {
 
-    List<Cost> findCostByUserId(int userId);
+    List<Cost> findCostByUserId(String userId);
 
-    List<Cost> findCostByUserIdAndAccount(int userId, Account account);
+    List<Cost> findCostByUserIdAndAccount(String userId, Account account);
 }

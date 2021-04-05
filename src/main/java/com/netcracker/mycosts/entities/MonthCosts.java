@@ -20,7 +20,6 @@ public class MonthCosts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank
     private LocalDate startDate;
 
     private double amount;

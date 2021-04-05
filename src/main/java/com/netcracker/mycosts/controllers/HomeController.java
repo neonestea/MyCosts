@@ -4,6 +4,7 @@ import com.netcracker.mycosts.entities.Currency;
 import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.services.AccountService;
 import com.netcracker.mycosts.services.CategoryService;
+import com.netcracker.mycosts.services.CostService;
 import com.netcracker.mycosts.services.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,7 @@ public class HomeController {
 
     private CategoryService categoryService;
     private UserService userService;
-
-    @Autowired
+    private CostService costService;
     private AccountService accountService;
 
 
@@ -43,6 +43,7 @@ public class HomeController {
     public String home(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
+            data.put("costs", costService.getAll(user.getId()));
             data.put("profile", user);
             data.put("accounts", user.getAccounts());
             data.put("categories", user.getCategories());
@@ -92,5 +93,15 @@ public class HomeController {
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setCostService(CostService costService) {
+        this.costService = costService;
+    }
+
+    @Autowired
+    public void setAccountService(AccountService accountService) {
+        this.accountService = accountService;
     }
 }
