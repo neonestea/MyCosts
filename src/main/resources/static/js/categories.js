@@ -32,9 +32,7 @@ Vue.component('category-form', {
     methods: {
         save: function() {
             var category = { name: this.name };
-            //console.log(category);
             if (this.id) {
-                console.log("KEK!!!")
                 categoryApi.update({id: this.id}, category).then(result =>
                     result.json().then(data => {
                         var index = getIndex(this.categories, data.id);
@@ -44,10 +42,8 @@ Vue.component('category-form', {
                     })
                 )
             } else {
-                //this.categories.push(category);
                 categoryApi.save({}, category).then(result =>
                     result.json().then(data => {
-                        //console.log("KEK");
                         this.categories.push(data);
                         this.name = ''
                     })

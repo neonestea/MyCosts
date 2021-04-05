@@ -6,6 +6,9 @@ import java.util.List;
 import com.netcracker.mycosts.entities.*;
 import com.netcracker.mycosts.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -25,17 +28,18 @@ public class CostController {
         return costService.getAll(userId);
     }
 
-    @PostMapping("/users/{userId}/accounts/{accountId}/costs")
-    public Cost addCost(@PathVariable String userId, @PathVariable int accountId, @RequestParam double amount,
-                        @NotNull String categoryName) {
-        LocalDate currentDate = LocalDate.now();
-        User user = userService.getUserById(userId);
-        Account account = accountService.getAccountById(accountId);
-        Category category = categoryService.findCategoryByName(categoryName);
-        Cost cost = Cost.builder().user(user).account(account).date(currentDate).build();
-        LocalDate startDate = LocalDate.of(currentDate.getYear(), currentDate.getMonth(), 1);
+    @PostMapping("/costs")
+    public ResponseEntity<Cost> addCost(@RequestBody Cost cost, @AuthenticationPrincipal User user) {
+        LocalDate date = cost.getDate();
+        Account account = cost.getAccount();
+        Category category = cost.getCategory();
+        double amount = cost.getAmount();
+
+        LocalDate startDate = LocalDate.of(date.getYear(), date.getMonth(), 1);
+
         MonthCosts monthCost = monthCostsService.findMonthCostsByUserAndAccountAndCategoryAndStartDate(user, account, category,
                 startDate);
+
         if (monthCost == null) {
             monthCost = MonthCosts.builder()
                     .user(user)
@@ -46,9 +50,10 @@ public class CostController {
         } else {
             monthCost.addCostAmount(amount);
         }
+
         monthCostsService.save(monthCost);
         costService.save(cost);
-        return cost;
+        return ResponseEntity.status(HttpStatus.CREATED).body(cost);
     }
 
     @Autowired
