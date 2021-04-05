@@ -34,6 +34,7 @@ Vue.component('category-form', {
             var category = { name: this.name };
             //console.log(category);
             if (this.id) {
+                console.log("KEK!!!")
                 categoryApi.update({id: this.id}, category).then(result =>
                     result.json().then(data => {
                         var index = getIndex(this.categories, data.id);

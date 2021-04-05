@@ -40,6 +40,7 @@ public class CategoryService {
     public Category save(Category userCategory) {
         Category candidateCategory = findCategoryByName(userCategory.getName());
         if (candidateCategory == null) {
+            userCategory.setNameHash(userCategory.getName().hashCode());
             return categoryRepository.save(userCategory);
         }
         return candidateCategory;
