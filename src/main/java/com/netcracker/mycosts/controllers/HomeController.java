@@ -44,8 +44,10 @@ public class HomeController {
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
             data.put("profile", user);
+            data.put("accounts", user.getAccounts());
+            data.put("categories", user.getCategories());
             model.addAttribute("frontendData", data);
-            return "home";
+            return "costs";
         }
         else {
             return "redirect:/login";
@@ -70,7 +72,6 @@ public class HomeController {
     public String accounts(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
-
             data.put("profile", user);
             data.put("accounts", user.getAccounts());
             List<Currency> currencies = Arrays.asList(Currency.values());
