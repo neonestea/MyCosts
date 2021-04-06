@@ -28,17 +28,28 @@ Vue.component('account-form', {
     },
     template:
         '<div>' +
-        '<input type="text" placeholder="Account name" v-model="name" />' +
-        '<input type="text" placeholder="Amount" v-model="amount" />' +
+        '<input type="text" placeholder="Account name" v-model="name" maxlength="25"/>' +
+        '<input type="number" step="0.01" placeholder="Amount" v-model="amount" :oninput="checkAmount()"/>' +
         '<select type="text"  v-model="currency" >' +
         '<option value="" disabled selected>Currency</option>' +
             '<option v-for="curr in currencies" :key="curr" :value="curr">{{curr}}</option>' +
         '</select>' +
-        '<input type="button" value="Save" @click="save" />' +
+        '<input type="button" value="Save" @click="save" :disabled="isDisable(name, currency)"/>' +
         '</div>',
     methods: {
+        checkAmount(){
+            if (this.amount.indexOf(".") != '-1') {
+                this.amount=this.amount.substring(0, this.amount.indexOf(".") + 3);
+            }
+            else {
+                this.amount = this.amount + ".00";
+            }
+        },
+        isDisable(name, currency) {
+            return name.length == 0 || currency.length == 0;
+        },
         save: function() {
-            console.log(this.currency)
+
             var account = { name: this.name, amount: this.amount, currency: this.currency };
             if (this.id) {
                 accountApi.update({id: this.id}, account).then(result =>
@@ -69,18 +80,19 @@ Vue.component('account-form', {
 
 Vue.component('account-row', {
     props: ['account', 'editMethod', 'accounts'],
-    template: '<div>' +
-        '{{ account.name }}   ' +
-        '{{ account.currency }}  ' +
-        '{{ account.amount }}  ' +
-        '<input type="button" value="Edit" @click="edit" />' +
+    template: '<div class="card">' +
+        '<div>{{ account.name }}</div>' +
+        '<div>{{ account.currency }}</div>' +
+        '<div>{{ account.amount }}</div>' +
+        /*'<input type="button" value="Edit" @click="edit" />' +*/
         '<input type="button" value="X" @click="del" />' +
         '</div>',
     methods: {
-        edit: function() {
+        /*edit: function() {
             this.editMethod(this.account);
-        },
+        },*/
         del: function() {
+
             accountApi.remove({id: this.account.id}).then(result => {
                 if (result.ok) {
                     this.accounts.splice(this.accounts.indexOf(this.account), 1)
@@ -100,8 +112,10 @@ Vue.component('accounts-list', {
     template:
         '<div>' +
         '<account-form :accounts="accounts" :accountAttr="account" :currencies="currencies" />' +
+        '<div class="cards">' +
         '<account-row v-for="account in accounts" :key="account.id" :account="account" ' +
         ':editMethod="editMethod" :accounts="accounts" />' +
+        '</div>' +
         '</div>',
     methods: {
         editMethod: function (account) {

@@ -18,6 +18,7 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
+
     public List<Account> getAll(String userId) {
         return accountRepository.findAccountByUserId(userId);
     }

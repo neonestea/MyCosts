@@ -34,7 +34,7 @@ Vue.component('cost-form', {
             account: '',
             category: '',
             amount: '',
-            date: '',
+            date: maxDate,
             max: maxDate,
             min: minDate
 
@@ -52,7 +52,7 @@ Vue.component('cost-form', {
     template:
         '<div>' +
         '<input type="date" v-model="date" :max="max" :min="min" />' +
-        '<input type="text" placeholder="Amount" v-model="amount" />' +
+        '<input type="number" step="0.01" placeholder="Amount" v-model="amount" :oninput="checkAmount()" />' +
         '<select type="text" v-model="account" >' +
         '<option value="" disabled selected>Account</option>' +
         '<option v-for="acc in accounts" :key="acc.id" :value="acc">{{acc.name}}</option>' +
@@ -61,9 +61,20 @@ Vue.component('cost-form', {
         '<option value="" disabled selected>Category</option>' +
         '<option v-for="cat in categories" :key="cat.id":value="cat">{{cat.name}}</option>' +
         '</select>' +
-        '<input type="button" value="Save" @click="save" />' +
+        '<input type="button" value="Save" @click="save" :disabled="isDisable(amount, account, category)"/>' +
         '</div>',
     methods: {
+        checkAmount(){
+            if (this.amount.indexOf(".") != '-1') {
+                this.amount=this.amount.substring(0, this.amount.indexOf(".") + 3);
+            }
+            else {
+                this.amount = this.amount + ".00";
+            }
+        },
+        isDisable(amount, account, category) {
+            return amount.length == 0 || account.length == 0 || category.length == 0;
+        },
         save: function() {
             var cost = { date: this.date, amount: this.amount, account: this.account, category: this.category };
             //console.log(cost);
@@ -92,11 +103,14 @@ Vue.component('cost-form', {
 
 Vue.component('cost-row', {
     props: ['cost', 'editMethod', 'costs'],
-    template: '<div>' +
-        '{{ cost.date }}  ' +
-        '{{ cost.amount }}  ' +
-        '{{ cost.account.name }}   ' +
-        '{{ cost.category.name }}' +
+    template:
+
+        '<div class="cost">' +
+        '<div class="costEl">{{ cost.date }}</div>' +
+        '<div class="costEl">{{ cost.amount }} {{cost.account.currency}}</div>' +
+        '<div class="costEl">{{ cost.account.name }}</div>' +
+        '<div class="costEl">{{ cost.category.name }}</div>' +
+
         '<input type="button" value="Edit" @click="edit" />' +
         '<input type="button" value="X" @click="del" />' +
         '</div>',
@@ -118,18 +132,26 @@ Vue.component('costs-list', {
     props: ['costs', 'accounts', 'categories'],
     data: function () {
         return {
-            cost: null
+            cost: null,
+            fields: ['date', 'amount', 'account', 'category'],
         }
     },
     template:
         '<div>' +
         '<cost-form :costs="costs" :costAttr="cost" :accounts="accounts" :categories="categories" />' +
+
+        '<div class="cards">' +
         '<cost-row v-for="cost in costs" :key="cost.id" :cost="cost" ' +
         ':editMethod="editMethod" :costs="costs" />' +
+        '</div>' +
         '</div>',
     methods: {
         editMethod: function (cost) {
             this.cost = cost;
+        },
+        sortBy: function(sortKey) {
+            this.reverse = (this.sortKey == sortKey) ? ! this.reverse : false;
+            this.sortKey = sortKey;
         }
     }
 });

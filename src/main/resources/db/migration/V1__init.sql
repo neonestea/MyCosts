@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS accounts
     name     VARCHAR(255),
     currency VARCHAR(255),
     amount   decimal(10,2),
+    active boolean,
     user_id  VARCHAR(255) REFERENCES users (id)
 );
 

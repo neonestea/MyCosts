@@ -27,9 +27,12 @@ Vue.component('category-form', {
     template:
         '<div>' +
         '<input type="text" placeholder="Category name" v-model="name" />' +
-        '<input type="button" value="Save" @click="save" />' +
+        '<input type="button" value="Save" @click="save" :disabled="isDisable(name)"/>' +
         '</div>',
     methods: {
+        isDisable(name) {
+            return name.length == 0;
+        },
         save: function() {
             var category = { name: this.name };
             if (this.id) {
@@ -56,7 +59,7 @@ Vue.component('category-form', {
 
 Vue.component('category-row', {
     props: ['category', 'editMethod', 'categories'],
-    template: '<div>' +
+    template: '<div class="card">' +
         '{{ category.name }}' +
         '<input type="button" value="Edit" @click="edit" />' +
         '<input type="button" value="X" @click="del" />' +
@@ -85,8 +88,11 @@ Vue.component('categories-list', {
     template:
         '<div>' +
         '<category-form :categories="categories" :categoryAttr="category" />' +
+        '<div class="cards">' +
+
         '<category-row v-for="category in categories" :key="category.id" :category="category" ' +
         ':editMethod="editMethod" :categories="categories" />' +
+        '</div>' +
         '</div>',
     methods: {
         editMethod: function (category) {

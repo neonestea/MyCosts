@@ -7,6 +7,7 @@ html {
 body {
     margin: 20px 0;
     background: #EBF0F3;
+    min-width: 50vh;
 }
 main {
     padding-bottom: 70px;
@@ -66,7 +67,7 @@ nav {
     border-radius: 3px;
 }
 
-.accounts, .categories {
+.cards {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -77,26 +78,34 @@ nav {
     align-items: center;
 
 }
-.account {
+.card {
     display: flex;
     flex-direction: column;
     padding: 20px;
     background: rgba(245, 251, 255, 0.7);
-    max-width: 35%;
+    width: 80px;
+    height: 100px;
     border: #AFBAC1 solid 4px;
     border-radius: 3px;
     margin: 20px;
 }
 
-.category {
+.cost {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 20px;
-    flex-direction: column;
     background: rgba(245, 251, 255, 0.7);
     border: #AFBAC1 solid 4px;
     border-radius: 3px;
     margin: 20px;
+    width: 500px;
 }
+
+.costEl {
+    width: 18%;
+}
+
 
 .addElement {
     visibility: hidden;

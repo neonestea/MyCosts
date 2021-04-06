@@ -1,20 +1,20 @@
 package com.netcracker.mycosts.controllers;
 
+import com.netcracker.mycosts.entities.Account;
 import com.netcracker.mycosts.entities.Currency;
 import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.services.AccountService;
 import com.netcracker.mycosts.services.CategoryService;
 import com.netcracker.mycosts.services.CostService;
 import com.netcracker.mycosts.services.UserService;
-import java.util.List;
+
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.Arrays;
-import java.util.HashMap;
 
 @Controller
 public class HomeController {
@@ -45,7 +45,15 @@ public class HomeController {
         if(user != null){
             data.put("costs", costService.getAll(user.getId()));
             data.put("profile", user);
-            data.put("accounts", user.getAccounts());
+            Set<Account> accounts = new HashSet<>();
+            Set<Account> accountsFromDb = user.getAccounts();
+            for(Account acc : accountsFromDb){
+                if (acc.getActive() == true){
+                    System.out.println(acc.getActive());
+                    accounts.add(acc);
+                }
+            }
+            data.put("accounts", accounts);
             data.put("categories", user.getCategories());
             model.addAttribute("frontendData", data);
             return "costs";
@@ -74,8 +82,17 @@ public class HomeController {
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
             data.put("profile", user);
-            data.put("accounts", user.getAccounts());
+            List<Account> accountsFromDb = accountService.getAll(user.getId());
+
             List<Currency> currencies = Arrays.asList(Currency.values());
+            Set<Account> accounts = new HashSet<>();
+            for(Account acc : accountsFromDb){
+                if (acc.getActive() == true){
+                    System.out.println(acc.getActive());
+                    accounts.add(acc);
+                }
+            }
+            data.put("accounts", accounts);
             data.put("currencies", currencies);
             model.addAttribute("frontendData", data);
             return "accounts";

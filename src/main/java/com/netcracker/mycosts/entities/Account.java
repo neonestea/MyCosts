@@ -42,6 +42,16 @@ public class Account {
     @Column(name = "currency")
     private Currency currency;
 
+    private boolean active;
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public int getId() {
         return id;
     }
