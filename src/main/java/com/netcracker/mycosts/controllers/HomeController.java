@@ -24,8 +24,6 @@ public class HomeController {
     private CostService costService;
     private AccountService accountService;
 
-
-
     @GetMapping("/")
     public String index(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
@@ -46,7 +44,7 @@ public class HomeController {
             data.put("costs", costService.getAll(user.getId()));
             data.put("profile", user);
             Set<Account> accounts = new HashSet<>();
-            Set<Account> accountsFromDb = user.getAccounts();
+            List<Account> accountsFromDb = accountService.getAllUsers(user.getId());
             for(Account acc : accountsFromDb){
                 if (acc.getActive() == true){
                     System.out.println(acc.getActive());
@@ -82,7 +80,7 @@ public class HomeController {
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
             data.put("profile", user);
-            List<Account> accountsFromDb = accountService.getAll(user.getId());
+            List<Account> accountsFromDb = accountService.getAllUsers(user.getId());
 
             List<Currency> currencies = Arrays.asList(Currency.values());
             Set<Account> accounts = new HashSet<>();
@@ -101,6 +99,8 @@ public class HomeController {
             return "redirect:/login";
         }
     }
+
+    //TODO add view with month costs
 
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
@@ -121,4 +121,5 @@ public class HomeController {
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
+
 }

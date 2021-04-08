@@ -23,8 +23,6 @@ public class CostController {
     private MonthCostsService monthCostsService;
     private CategoryService categoryService;
 
-
-
     @PostMapping("/costs")
     public ResponseEntity<Cost> addCost(@RequestBody Cost cost, @AuthenticationPrincipal User user) {
         cost.setUser(user);
@@ -54,6 +52,8 @@ public class CostController {
         costService.save(cost);
         return ResponseEntity.status(HttpStatus.CREATED).body(cost);
     }
+
+    //TODO delete cost
 
     @Autowired
     public void setCostService(CostService costService) {

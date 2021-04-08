@@ -20,11 +20,6 @@ public class AccountController {
     private AccountService accountService;
     private UserService userService;
 
-    /*@GetMapping("/users/{userId}/accounts")
-    public List<Account> allAccounts(@PathVariable int userId) {
-        return accountService.getAll(userId);
-    }*/
-
     @PostMapping("/account")
     public Account create(@RequestBody Account account, @AuthenticationPrincipal User user) {
         Set<Account> accountsFromDb = user.getAccounts();

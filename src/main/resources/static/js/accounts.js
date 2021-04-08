@@ -20,12 +20,6 @@ Vue.component('account-form', {
             id: ''
         }
     },
-    watch: {
-        accountAttr: function(newVal, oldVal) {
-            this.name = newVal.name;
-            this.id = newVal.id;
-        }
-    },
     template:
         '<div>' +
         '<input type="text" placeholder="Account name" v-model="name" maxlength="25"/>' +
@@ -35,6 +29,10 @@ Vue.component('account-form', {
             '<option v-for="curr in currencies" :key="curr" :value="curr">{{curr}}</option>' +
         '</select>' +
         '<input type="button" value="Save" @click="save" :disabled="isDisable(name, currency)"/>' +
+        '<p id="error_line"></p>' +
+        '<p id="recovery_line">You already had this account. Do you want to recover it?</p>' +
+        '<input type="button" value="Yes" @click="recover" id="no"/>' +
+        '<input type="button" value="No" @click="notRecover" id="yes"/>' +
         '</div>',
     methods: {
         checkAmount(){
@@ -48,49 +46,111 @@ Vue.component('account-form', {
         isDisable(name, currency) {
             return name.length == 0 || currency.length == 0;
         },
+        recover: function() {
+            //RECOVER ACCOUNT
+        },
+        notRecover: function() {
+            const recoveryLine = document.getElementById('recovery_line');
+            const yes = document.getElementById('yes');
+            const no = document.getElementById('no');
+            recoveryLine.style.display = "none";
+            yes.style.display = "none";
+            no.style.display = "none";
+            this.amount = ''
+            this.name = ''
+            this.currency = ''
+
+        },
         save: function() {
-
             var account = { name: this.name, amount: this.amount, currency: this.currency };
-            if (this.id) {
-                accountApi.update({id: this.id}, account).then(result =>
-                    result.json().then(data => {
-                        var index = getIndex(this.accounts, data.id);
-                        this.accounts.splice(index, 1, data);
-                        this.amount = ''
-                        this.name = ''
-                        this.currency = ''
-                        this.id = ''
-                    })
-                )
-            } else {
-
-                accountApi.save({}, account).then(result =>
-                    result.json().then(data => {
+            accountApi.save({}, account).then(result =>
+                result.json().then(data => {
+                    if (data != null){
                         this.accounts.push(data);
                         this.amount = ''
                         this.name = ''
                         this.currency = ''
-                    })
-                )
-            }
-
+                    }
+                    else {
+                        const errorLine = document.getElementById('error_line');
+                        errorLine.innerHTML = "Account already exists!";
+                    }
+                    //if (такой аккаунт есть, но он неактивный) {
+                    //const recoveryLine = document.getElementById('recovery_line');
+                    //const yes = document.getElementById('yes');
+                    //const no = document.getElementById('no');
+                    //recoveryLine.style.visibility = "visible";
+                    //yes.style.visibility = "visible";
+                    //no.style.visibility = "visible";
+                    //}
+                })
+            )
         }
     }
 });
 
 Vue.component('account-row', {
     props: ['account', 'editMethod', 'accounts'],
+    data: function() {
+        return {
+            name: '',
+            amount: '',
+            id: ''
+        }
+    },
     template: '<div class="card">' +
         '<div>{{ account.name }}</div>' +
         '<div>{{ account.currency }}</div>' +
         '<div>{{ account.amount }}</div>' +
-        /*'<input type="button" value="Edit" @click="edit" />' +*/
-        '<input type="button" value="X" @click="del" />' +
+        '<input :id="`edit`+account.id" type="button" value="Edit" @click="askEdit" />' +
+        '<input :id="`delete`+account.id" type="button" value="X" @click="del" />' +
+        '<input style="display: none;" :id="`name`+account.id" type="text" placeholder="Account name" v-model="name" maxlength="25"/>' +
+        '<input style="display: none;" :id="`amount`+account.id" type="number" step="0.01" placeholder="Amount" v-model="amount" :oninput="checkAmount()"/>' +
+        '<input :id="`editBtn`+account.id" style="display: none;" type="button" value="Edit" @click="edit" />' +
+        '<input :id="`cancelBtn`+account.id" style="display: none;" type="button" value="Cancel" @click="cancel" />' +
         '</div>',
     methods: {
-        /*edit: function() {
-            this.editMethod(this.account);
-        },*/
+        checkAmount(){
+            if (this.amount.indexOf(".") != '-1') {
+                this.amount=this.amount.substring(0, this.amount.indexOf(".") + 3);
+            }
+            else {
+                this.amount = this.amount + ".00";
+            }
+        },
+        askEdit: function() {
+            const name = document.getElementById('name'+this.account.id);
+            const amount = document.getElementById('amount'+this.account.id);
+            const btn = document.getElementById('editBtn'+this.account.id);
+            const edit = document.getElementById('edit'+this.account.id);
+            const del = document.getElementById('delete'+this.account.id);
+            const cancel = document.getElementById('cancelBtn'+this.account.id);
+            name.style.display = "block";
+            amount.style.display = "block";
+            btn.style.display = "block";
+            edit.style.display = "none";
+            del.style.display = "none";
+            cancel.style.display = "block";
+
+        },
+        edit: function() {
+            //this.editMethod(this.account);
+        },
+        cancel: function(){
+            const name = document.getElementById('name'+this.account.id);
+            const amount = document.getElementById('amount'+this.account.id);
+            const btn = document.getElementById('editBtn'+this.account.id);
+            const edit = document.getElementById('edit'+this.account.id);
+            const del = document.getElementById('delete'+this.account.id);
+            const cancel = document.getElementById('cancelBtn'+this.account.id);
+            name.style.display = "none";
+            amount.style.display = "none";
+            btn.style.display = "none";
+            edit.style.display = "block";
+            del.style.display = "block";
+            cancel.style.display = "none";
+
+        },
         del: function() {
 
             accountApi.remove({id: this.account.id}).then(result => {

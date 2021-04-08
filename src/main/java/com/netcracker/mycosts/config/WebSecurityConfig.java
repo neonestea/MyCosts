@@ -37,10 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PrincipalExtractor principalExtractor(UserService userService) {
         return map -> {
             String id = (String) map.get("sub");
-
             User user = userService.getUserById(id);
-
-
             if (user == null) {
                 System.out.println("NEW");
                 user = new User();
@@ -48,16 +45,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 user.setName((String) map.get("name"));
                 user.setEmail((String) map.get("email"));
                 user.setActive(true);
-                /*user.setLastVisit(LocalDateTime.now());*/
                 user.setRoles(Collections.singleton(Role.USER));
                 return userService.create(user);
             }
             else {
                 System.out.println("EXISTING");
-               /* user.setLastVisit(LocalDateTime.now());*/
                 return userService.create(user);
             }
-
         };
     }
 }

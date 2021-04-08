@@ -110,14 +110,9 @@ Vue.component('cost-row', {
         '<div class="costEl">{{ cost.amount }} {{cost.account.currency}}</div>' +
         '<div class="costEl">{{ cost.account.name }}</div>' +
         '<div class="costEl">{{ cost.category.name }}</div>' +
-
-        '<input type="button" value="Edit" @click="edit" />' +
         '<input type="button" value="X" @click="del" />' +
-        '</div>',
+         '</div>',
     methods: {
-        edit: function() {
-            this.editMethod(this.cost);
-        },
         del: function() {
             costApi.remove({id: this.cost.id}).then(result => {
                 if (result.ok) {

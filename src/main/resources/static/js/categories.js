@@ -8,6 +8,7 @@ function getIndex(list, id) {
     return -1;
 }
 
+
 var categoryApi = Vue.resource('/category{/id}');
 
 Vue.component('category-form', {
@@ -18,16 +19,17 @@ Vue.component('category-form', {
             id: ''
         }
     },
-    watch: {
+/*    watch: {
         categoryAttr: function(newVal, oldVal) {
             this.name = newVal.name;
             this.id = newVal.id;
         }
-    },
+    },*/
     template:
         '<div>' +
         '<input type="text" placeholder="Category name" v-model="name" />' +
         '<input type="button" value="Save" @click="save" :disabled="isDisable(name)"/>' +
+        '<p id="error_line"></p>' +
         '</div>',
     methods: {
         isDisable(name) {
@@ -35,7 +37,7 @@ Vue.component('category-form', {
         },
         save: function() {
             var category = { name: this.name };
-            if (this.id) {
+          /*  if (this.id) {
                 categoryApi.update({id: this.id}, category).then(result =>
                     result.json().then(data => {
                         var index = getIndex(this.categories, data.id);
@@ -44,27 +46,68 @@ Vue.component('category-form', {
                         this.id = ''
                     })
                 )
-            } else {
+            } else {*/
                 categoryApi.save({}, category).then(result =>
                     result.json().then(data => {
-                        this.categories.push(data);
-                        this.name = ''
+                        if (data != null){
+                            this.categories.push(data);
+                            this.name = ''
+                        }
+                        else {
+                            const errorLine = document.getElementById('error_line');
+                            errorLine.innerHTML = "Category already exists!";
+                        }
                     })
                 )
             }
 
         }
-    }
+  /*  }*/
 });
 
 Vue.component('category-row', {
     props: ['category', 'editMethod', 'categories'],
+    data: function() {
+        return {
+            name: '',
+            id: ''
+        }
+    },
     template: '<div class="card">' +
         '{{ category.name }}' +
-        '<input type="button" value="Edit" @click="edit" />' +
-        '<input type="button" value="X" @click="del" />' +
+        '<input :id="`edit`+category.id" type="button" value="Edit" @click="askEdit" />' +
+        '<input :id="`delete`+category.id" type="button" value="X" @click="del" />' +
+        '<input style="display: none;" :id="`name`+category.id" type="text" placeholder="Category name" v-model="name" maxlength="25"/>' +
+        '<input :id="`editBtn`+category.id" style="display: none;" type="button" value="Edit" @click="edit" />' +
+        '<input :id="`cancelBtn`+category.id" style="display: none;" type="button" value="Cancel" @click="cancel" />' +
+
         '</div>',
     methods: {
+        askEdit: function() {
+            const name = document.getElementById('name'+this.category.id);
+            const btn = document.getElementById('editBtn'+this.category.id);
+            const edit = document.getElementById('edit'+this.category.id);
+            const del = document.getElementById('delete'+this.category.id);
+            const cancel = document.getElementById('cancelBtn'+this.category.id);
+            name.style.display = "block";
+            btn.style.display = "block";
+            edit.style.display = "none";
+            del.style.display = "none";
+            cancel.style.display = "block";
+
+        },
+        cancel: function(){
+            const name = document.getElementById('name'+this.category.id);
+            const btn = document.getElementById('editBtn'+this.category.id);
+            const edit = document.getElementById('edit'+this.category.id);
+            const del = document.getElementById('delete'+this.category.id);
+            const cancel = document.getElementById('cancelBtn'+this.category.id);
+            name.style.display = "none";
+            btn.style.display = "none";
+            edit.style.display = "block";
+            del.style.display = "block";
+            cancel.style.display = "none";
+        },
         edit: function() {
             this.editMethod(this.category);
         },

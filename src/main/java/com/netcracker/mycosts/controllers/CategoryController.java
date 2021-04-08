@@ -34,6 +34,8 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
+    //TODO delete and edit category
+
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
         this.categoryService = categoryService;
