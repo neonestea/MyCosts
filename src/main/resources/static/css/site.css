@@ -113,3 +113,17 @@ nav {
     margin: 20px;
 
 }
+
+.editForm {
+    background: rgba(245, 251, 255, 0.9);
+    z-index: 9999;
+    margin: 30px auto;
+    flex-direction: column;
+    padding: 50px;
+    display: flex;
+    width: 150px;
+    justify-content: center;
+    align-items: center;
+    border: #AFBAC1 solid 4px;
+    border-radius: 3px;
+}

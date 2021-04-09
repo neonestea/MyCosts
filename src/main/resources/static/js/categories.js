@@ -27,25 +27,19 @@ Vue.component('category-form', {
     },*/
     template:
         '<div>' +
-        '<input type="text" placeholder="Category name" v-model="name" />' +
+        '<input id="addInput" type="text" placeholder="Category name" v-model="name" />' +
         '<input type="button" value="Save" @click="save" :disabled="isDisable(name)"/>' +
-        '<p id="error_line"></p>' +
+        '<p id="error_line" style="display: none;"></p>' +
         '</div>',
     methods: {
+
         isDisable(name) {
             return name.length == 0;
         },
         save: function() {
             var category = { name: this.name };
           /*  if (this.id) {
-                categoryApi.update({id: this.id}, category).then(result =>
-                    result.json().then(data => {
-                        var index = getIndex(this.categories, data.id);
-                        this.categories.splice(index, 1, data);
-                        this.name = ''
-                        this.id = ''
-                    })
-                )
+
             } else {*/
                 categoryApi.save({}, category).then(result =>
                     result.json().then(data => {
@@ -64,52 +58,68 @@ Vue.component('category-form', {
         }
   /*  }*/
 });
-
-Vue.component('category-row', {
-    props: ['category', 'editMethod', 'categories'],
+Vue.component('category-edit-form', {
+    props: ['category', 'categories'],
     data: function() {
         return {
-            name: '',
+            name: this.category.name,
             id: ''
         }
     },
-    template: '<div class="card">' +
-        '{{ category.name }}' +
-        '<input :id="`edit`+category.id" type="button" value="Edit" @click="askEdit" />' +
-        '<input :id="`delete`+category.id" type="button" value="X" @click="del" />' +
-        '<input style="display: none;" :id="`name`+category.id" type="text" placeholder="Category name" v-model="name" maxlength="25"/>' +
-        '<input :id="`editBtn`+category.id" style="display: none;" type="button" value="Edit" @click="edit" />' +
-        '<input :id="`cancelBtn`+category.id" style="display: none;" type="button" value="Cancel" @click="cancel" />' +
+    template:
 
+        '<div class="editForm" :id="`form`+category.id">' +
+        'New category name:' +
+        '<input :id="`name`+category.id" type="text" placeholder="Category name" v-model="name" maxlength="25" />' +
+        '<input :id="`editBtn`+category.id" type="button" value="Edit" @click="edit" :disabled="isDisable(name)"/>' +
+        '<input :id="`cancelBtn`+category.id" type="button" value="Cancel" @click="cancel" />' +
         '</div>',
-    methods: {
-        askEdit: function() {
-            const name = document.getElementById('name'+this.category.id);
-            const btn = document.getElementById('editBtn'+this.category.id);
-            const edit = document.getElementById('edit'+this.category.id);
-            const del = document.getElementById('delete'+this.category.id);
-            const cancel = document.getElementById('cancelBtn'+this.category.id);
-            name.style.display = "block";
-            btn.style.display = "block";
-            edit.style.display = "none";
-            del.style.display = "none";
-            cancel.style.display = "block";
 
+    methods: {
+        isDisable(name) {
+            return name.length == 0;
         },
         cancel: function(){
-            const name = document.getElementById('name'+this.category.id);
-            const btn = document.getElementById('editBtn'+this.category.id);
-            const edit = document.getElementById('edit'+this.category.id);
-            const del = document.getElementById('delete'+this.category.id);
-            const cancel = document.getElementById('cancelBtn'+this.category.id);
-            name.style.display = "none";
-            btn.style.display = "none";
-            edit.style.display = "block";
-            del.style.display = "block";
-            cancel.style.display = "none";
+            const form = document.getElementById('form'+this.category.id);
+            const editBtn = document.getElementById('editBtn'+this.category.id);
+            const cancelBtn = document.getElementById('cancelBtn'+this.category.id);
+            form.style.display = "none";
+            cancelBtn.disabled = false;
+            editBtn.disabled = false;
+            document.querySelectorAll('.button').forEach(elem => {
+                elem.disabled = false;
+            });
+            const add = document.getElementById('addInput');
+            add.disabled = false;
         },
         edit: function() {
             this.editMethod(this.category);
+        },
+    }
+});
+
+
+Vue.component('category-row', {
+    props: ['category', 'editMethod', 'categories'],
+    template:
+        '<div >' +
+        '<category-edit-form style="display: none; z-index: 9999; position: absolute;" :id="`form`+category.id" :categories="categories" :category="category" />' +
+
+        '<div class="card">' +
+        '{{ category.name }}' +
+        '<input class="button" :id="`edit`+category.id" type="button" value="Edit" @click="askEdit" />' +
+        '<input class="button" :id="`delete`+category.id" type="button" value="X" @click="del" />' +
+        '</div>' +
+    '</div>',
+    methods: {
+        askEdit: function() {
+            const form = document.getElementById('form'+this.category.id);
+            form.style.display = "block";
+            document.querySelectorAll('.button').forEach(elem => {
+                elem.disabled = true;
+            });
+            const add = document.getElementById('addInput');
+            add.disabled = true;
         },
         del: function() {
             categoryApi.remove({id: this.category.id}).then(result => {
