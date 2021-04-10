@@ -19,7 +19,7 @@ public class AccountService {
     }
 
 
-    public List<Account> getAllUsers(String userId) {
+    public List<Account> getAllUserAccounts(String userId) {
         return accountRepository.findAccountByUserId(userId);
     }
 

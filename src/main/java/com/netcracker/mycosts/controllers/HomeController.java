@@ -44,7 +44,7 @@ public class HomeController {
             data.put("costs", costService.getAll(user.getId()));
             data.put("profile", user);
             Set<Account> accounts = new HashSet<>();
-            List<Account> accountsFromDb = accountService.getAllUsers(user.getId());
+            List<Account> accountsFromDb = accountService.getAllUserAccounts(user.getId());
             for(Account acc : accountsFromDb){
                 if (acc.getActive() == true){
                     System.out.println(acc.getActive());
@@ -80,7 +80,7 @@ public class HomeController {
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
             data.put("profile", user);
-            List<Account> accountsFromDb = accountService.getAllUsers(user.getId());
+            List<Account> accountsFromDb = accountService.getAllUserAccounts(user.getId());
 
             List<Currency> currencies = Arrays.asList(Currency.values());
             Set<Account> accounts = new HashSet<>();
