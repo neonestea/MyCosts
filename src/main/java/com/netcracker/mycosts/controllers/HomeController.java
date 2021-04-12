@@ -47,7 +47,6 @@ public class HomeController {
             List<Account> accountsFromDb = accountService.getAllUserAccounts(user.getId());
             for(Account acc : accountsFromDb){
                 if (acc.getActive() == true){
-                    System.out.println(acc.getActive());
                     accounts.add(acc);
                 }
             }
@@ -67,7 +66,6 @@ public class HomeController {
         if(user != null){
             data.put("profile", user);
             data.put("categories", user.getCategories());
-            System.out.println("CATEGORIES " + user.getCategories());
             model.addAttribute("frontendData", data);
             return "categories";
         }
@@ -86,7 +84,6 @@ public class HomeController {
             Set<Account> accounts = new HashSet<>();
             for(Account acc : accountsFromDb){
                 if (acc.getActive() == true){
-                    System.out.println(acc.getActive());
                     accounts.add(acc);
                 }
             }

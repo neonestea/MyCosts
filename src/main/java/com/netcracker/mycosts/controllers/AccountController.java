@@ -28,10 +28,8 @@ public class AccountController {
         List<Account> accountsFromDb = accountService.getAllUserAccounts(user.getId());
         for (Account acc : accountsFromDb) {
             if (acc.getActive() == false && acc.getName().equals(account.getName()) && acc.getCurrency() == account.getCurrency()) {
-                System.out.println("RECOVER");
                 return ResponseEntity.status(HttpStatus.CREATED).body(acc);
             } else if (acc.getActive() == true && acc.getName().equals(account.getName()) && acc.getCurrency() == account.getCurrency()) {
-                System.out.println("EXISTING");
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             }
         }
@@ -50,18 +48,24 @@ public class AccountController {
 
     @PutMapping("/account/{id}")
     public ResponseEntity<Account> update(@PathVariable int id, @RequestBody(required=false) Account account, @AuthenticationPrincipal User user) {
-        System.out.println("KEK");
-        System.out.println(account);
         if (account != null) {
             List<Account> accountsFromDb = accountService.getAllUserAccounts(user.getId());
             for (Account acc : accountsFromDb) {
-                if (acc.getActive() == false && acc.getName().equals(account.getName()) && acc.getCurrency() == account.getCurrency()) {
-                    System.out.println("RECOVER");
+                if (acc.getActive() == false && acc.getName().equals(account.getName())) {
                     return ResponseEntity.status(HttpStatus.CREATED).body(acc);
-                } else if (acc.getActive() == true && acc.getName().equals(account.getName()) && acc.getCurrency() == account.getCurrency()) {
-                    System.out.println("EXISTING");
-                    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+                } else if (acc.getActive() == true && acc.getName().equals(account.getName())) {
+                    if (acc.getCurrency() == account.getCurrency() ){
+                        Account accountFromDB = accountService.getAccountById(id);
+                        accountFromDB.setAmount(account.getAmount());
+
+                        return ResponseEntity.status(HttpStatus.OK).body(accountService.save(accountFromDB));
+
+                    }
+                    else {
+                        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+                    }
                 }
+
             }
             Account accountFromDB = accountService.getAccountById(id);
             accountFromDB.setName(account.getName());

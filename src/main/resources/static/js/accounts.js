@@ -51,7 +51,6 @@ Vue.component('account-form', {
             return name.length == 0 || currency.length == 0;
         },
         recover: function() {
-            console.log(this.id);
             accountApi.update({id: this.id}, null)
                 .then(result => {
                         result.json()
@@ -154,7 +153,7 @@ Vue.component('account-edit-form', {
             }
         },
         isDisable(name, amount) {
-            return this.name.length == 0 || this.amount.length == 0;
+            return this.name.length == 0 || this.amount.length == 0 || (this.name == this.account.name && this.amount == this.account.amount);
         },
         cancel: function () {
             const form = document.getElementById('form' + this.account.id);
@@ -176,6 +175,7 @@ Vue.component('account-edit-form', {
                     if(result.status == '200') {
                     result.json()
                         .then(data => {
+                            this.name = this.account.name;
                             this.accounts.splice(this.accounts.indexOf(this.account), 1);
                             const form = document.getElementById('form' + this.account.id);
                             form.style.display = "none";
@@ -189,18 +189,30 @@ Vue.component('account-edit-form', {
                     }
 
                     else if(result.status == "201") {
+                        const form = document.getElementById('form' + this.account.id);
+                        form.style.display = "none";
                         $("#rec_line").show('slow');
                         setTimeout(function() { $("#rec_line").hide('slow'); }, 2000);
-                        this.amount = ''
-                        this.name = ''
-                        this.currency = ''
+                        //this.amount = this.account.amount;
+                        this.name = this.account.name;
+                        document.querySelectorAll('.button').forEach(elem => {
+                            elem.disabled = false;
+                        });
+                        const add = document.getElementById('addInput');
+                        add.disabled = false;
                 }
                 else {
+                        const form = document.getElementById('form' + this.account.id);
+                        form.style.display = "none";
                     $("#error_line").show('slow');
                     setTimeout(function() { $("#error_line").hide('slow'); }, 2000);
-                    this.amount = ''
-                    this.name = ''
-                    this.currency = ''
+                    //this.amount = this.account.amount;
+                    this.name = this.account.name;
+                        document.querySelectorAll('.button').forEach(elem => {
+                            elem.disabled = false;
+                        });
+                        const add = document.getElementById('addInput');
+                        add.disabled = false;
                 }
             })
         },
