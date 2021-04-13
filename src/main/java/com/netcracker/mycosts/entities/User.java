@@ -1,5 +1,6 @@
 package com.netcracker.mycosts.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.List;
 import com.netcracker.mycosts.entities.Role;
@@ -52,11 +54,30 @@ public class User/* implements Serializable */{
         categories.add(category);
         category.getUsers().add(this);
     }
+
+    public void removeCategory(Category category) {
+        category.getUsers().remove(this);
+        categories.remove(category);
+    }
+
     public void addAccount(Account account) {
         accounts.add(account);
     }
+
     public void addCategories(List<Category> categories) {
         categories.forEach(this::addCategory);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

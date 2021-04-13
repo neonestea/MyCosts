@@ -29,9 +29,10 @@ public class Category {
 
     private int nameHash;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
     @JsonIgnore
     private final Set<User> users = new HashSet<>();
+
 
     @Override
     public boolean equals(Object o) {
@@ -45,4 +46,5 @@ public class Category {
     public int hashCode() {
         return Objects.hash(name);
     }
+
 }

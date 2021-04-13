@@ -34,7 +34,22 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
-    //TODO delete and edit category
+    @DeleteMapping("/category/{id}")
+    public void delete(@PathVariable int id, @AuthenticationPrincipal User user) {
+        Category category = categoryService.findCategoryById(id);
+        userService.removeCategoryFromUser(user, category);
+        //try to remove user from category or redownload category from db
+        //category.removeUser(user);
+        if (shouldDeleteCategory(category)) {
+            categoryService.deleteCategoryById(category.getId());
+        }
+    }
+
+
+    private boolean shouldDeleteCategory(Category category) {
+        return category.getUsers().size() == 0 && !category.isDefault();
+    }
+
 
     @Autowired
     public void setCategoryService(CategoryService categoryService) {

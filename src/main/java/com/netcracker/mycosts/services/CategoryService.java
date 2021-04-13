@@ -6,9 +6,11 @@ import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class CategoryService {
 
     private CategoryRepository categoryRepository;
@@ -32,7 +34,6 @@ public class CategoryService {
         return categoryRepository.findCategoryByName(categoryName);
     }
 
-    @Transactional
     public List<Category> findDefaultCategories() {
         return categoryRepository.findCategoriesByIsDefault(true);
     }
@@ -44,6 +45,14 @@ public class CategoryService {
             return categoryRepository.save(userCategory);
         }
         return candidateCategory;
+    }
+
+    public Category findCategoryById(int id) {
+        return categoryRepository.findCategoryById(id);
+    }
+
+    public void deleteCategoryById(int id) {
+        categoryRepository.deleteCategoryById(id);
     }
 
 }

@@ -5,6 +5,7 @@ import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -27,15 +28,19 @@ public class UserService {
         return userRepository.findUserByEmail(email);
     }
 
-    @Transactional
     public User create(User user) {
-
         List<Category> defaultCategories = categoryService.findDefaultCategories();
-
         user.addCategories(defaultCategories);
         return save(user);
     }
 
+    @Transactional
+    public void removeCategoryFromUser(User user, Category category) {
+        user.removeCategory(category);
+        save(user);
+    }
+
+    @Transactional
     public User save(User user) {
         return userRepository.save(user);
     }

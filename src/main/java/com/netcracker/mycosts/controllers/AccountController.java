@@ -28,10 +28,8 @@ public class AccountController {
         List<Account> accountsFromDb = accountService.getAllUserAccounts(user.getId());
         for (Account acc : accountsFromDb) {
             if (acc.getActive() == false && acc.getName().equals(account.getName()) && acc.getCurrency() == account.getCurrency()) {
-                System.out.println("RECOVER");
                 return ResponseEntity.status(HttpStatus.CREATED).body(acc);
             } else if (acc.getActive() == true && acc.getName().equals(account.getName()) && acc.getCurrency() == account.getCurrency()) {
-                System.out.println("EXISTING");
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             }
         }

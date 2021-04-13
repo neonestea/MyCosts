@@ -12,5 +12,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     List<Category> findCategoriesByIsDefault(boolean isDefault);
 
+    Category findCategoryById(int id);
 
+    void deleteCategoryById(int id);
 }
