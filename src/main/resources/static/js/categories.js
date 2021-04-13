@@ -19,70 +19,63 @@ Vue.component('category-form', {
             id: ''
         }
     },
-/*    watch: {
-        categoryAttr: function(newVal, oldVal) {
-            this.name = newVal.name;
-            this.id = newVal.id;
-        }
-    },*/
     template:
         '<div>' +
-        '<input id="addInput" type="text" placeholder="Category name" v-model="name" />' +
+        '<input id="addInput" type="text" placeholder="Category name" v-model="name" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>' +
         '<input type="button" value="Save" @click="save" :disabled="isDisable(name)"/>' +
-        '<p id="error_line" style="display: none;"></p>' +
+        '<p id="error_line" style="display: none;">Category already exists!</p>' +
         '</div>',
     methods: {
-
         isDisable(name) {
             return name.length == 0;
         },
-        save: function() {
-            var category = { name: this.name };
-          /*  if (this.id) {
-
-            } else {*/
-                categoryApi.save({}, category).then(result =>
-                    result.json().then(data => {
-                        if (data != null){
+        save: function () {
+            var category = {name: this.name};
+            categoryApi.save({}, category).then(result => {
+                if (result.status == '201') {
+                    result.json()
+                        .then(data => {
                             this.categories.push(data);
                             this.name = ''
-                        }
-                        else {
-                            const errorLine = document.getElementById('error_line');
-                            errorLine.innerHTML = "Category already exists!";
-                        }
-                    })
-                )
-            }
+                        })
+                } else {
 
-        }
-  /*  }*/
+                    $("#error_line").show('slow');
+                    setTimeout(function () {
+                        $("#error_line").hide('slow');
+                    }, 2000);
+                    this.name = ''
+                }
+
+            })
+        },
+    }
 });
 Vue.component('category-edit-form', {
     props: ['category', 'categories'],
     data: function() {
         return {
             name: this.category.name,
-            id: ''
+            id: this.category.id
         }
     },
     template:
-
         '<div class="editForm" :id="`form`+category.id">' +
         'New category name:' +
-        '<input :id="`name`+category.id" type="text" placeholder="Category name" v-model="name" maxlength="25" />' +
-        '<input :id="`editBtn`+category.id" type="button" value="Edit" @click="edit" :disabled="isDisable(name)"/>' +
+        '<input :id="`name`+category.id" type="text" placeholder="Category name" v-model="name" maxlength="25" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>' +
+        '<input :id="`editBtn`+category.id"  type="button" value="Edit" @click="edit" :disabled="isDisable(name)"/>' +
         '<input :id="`cancelBtn`+category.id" type="button" value="Cancel" @click="cancel" />' +
         '</div>',
 
+
     methods: {
-        isDisable(name) {
-            return name.length == 0;
+        isDisable(name, amount) {
+            return this.name.length == 0 || this.name == this.category.name;
         },
-        cancel: function(){
-            const form = document.getElementById('form'+this.category.id);
-            const editBtn = document.getElementById('editBtn'+this.category.id);
-            const cancelBtn = document.getElementById('cancelBtn'+this.category.id);
+        cancel: function () {
+            const form = document.getElementById('form' + this.category.id);
+            const editBtn = document.getElementById('editBtn' + this.category.id);
+            const cancelBtn = document.getElementById('cancelBtn' + this.category.id);
             form.style.display = "none";
             cancelBtn.disabled = false;
             editBtn.disabled = false;
@@ -92,8 +85,38 @@ Vue.component('category-edit-form', {
             const add = document.getElementById('addInput');
             add.disabled = false;
         },
-        edit: function() {
-            this.editMethod(this.category);
+        edit: function () {
+            var category = {name: this.name};
+            categoryApi.update({id: this.category.id}, category)
+                .then(result => {
+                    if(result.status == '201') {
+                        result.json()
+                            .then(data => {
+                                this.name = this.category.name;
+                                this.categories.splice(this.categories.indexOf(this.category), 1);
+                                const form = document.getElementById('form' + this.category.id);
+                                form.style.display = "none";
+                                this.categories.push(data);
+                                document.querySelectorAll('.button').forEach(elem => {
+                                    elem.disabled = false;
+                                });
+                                const add = document.getElementById('addInput');
+                                add.disabled = false;
+                            })
+                    }
+                    else {
+                        const form = document.getElementById('form' + this.category.id);
+                        form.style.display = "none";
+                        $("#error_line").show('slow');
+                        setTimeout(function() { $("#error_line").hide('slow'); }, 2000);
+                        this.name = this.category.name;
+                        document.querySelectorAll('.button').forEach(elem => {
+                            elem.disabled = false;
+                        });
+                        const add = document.getElementById('addInput');
+                        add.disabled = false;
+                    }
+                })
         },
     }
 });
@@ -104,7 +127,6 @@ Vue.component('category-row', {
     template:
         '<div >' +
         '<category-edit-form style="display: none; z-index: 9999; position: absolute;" :id="`form`+category.id" :categories="categories" :category="category" />' +
-
         '<div class="card">' +
         '{{ category.name }}' +
         '<input class="button" :id="`edit`+category.id" type="button" value="Edit" @click="askEdit" />' +

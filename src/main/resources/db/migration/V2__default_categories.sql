@@ -1,1 +1,11 @@
 INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Other', 76517104);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Food', 2195582);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Transport', -1238034679);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Health', -2137395588);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Home', 2255103);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Clothes', -1763744728);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Presents', -1212021960);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Entertainment', 1298968424);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Stationery', 1895000024);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Services', 1443853438);
+INSERT INTO categories (is_default, name, name_hash) VALUES (true, 'Taxes', 80584057);

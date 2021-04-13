@@ -22,7 +22,7 @@ Vue.component('account-form', {
     },
     template:
         '<div>' +
-        '<input id="addInput" type="text" placeholder="Account name" v-model="name" maxlength="25"/>' +
+        '<input id="addInput" type="text" placeholder="Account name" v-model="name" maxlength="25" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>' +
         '<input id="addInput" type="number" step="0.01" placeholder="Amount" v-model="amount" :oninput="checkAmount()"/>' +
         '<select type="text"  v-model="currency" >' +
         '<option value="" disabled selected>Currency</option>' +
@@ -136,7 +136,7 @@ Vue.component('account-edit-form', {
     template:
         '<div class="editForm" :id="`form`+amount.id">' +
         'New account name:' +
-        '<input :id="`name`+account.id" type="text" placeholder="Account name" v-model="name" maxlength="25"/>' +
+        '<input :id="`name`+account.id" type="text" placeholder="Account name" v-model="name" maxlength="25" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>' +
         'New amount:' +
         '<input :id="`amount`+account.id" type="number" step="0.01" placeholder="Amount" v-model="amount" :oninput="checkAmount()"/>' +
         '<input :id="`editBtn`+account.id"  type="button" value="Edit" @click="edit" :disabled="isDisable(name)"/>' +
