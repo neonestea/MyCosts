@@ -17,7 +17,7 @@ public class UserService {
     private CategoryService categoryService;
 
     public User getUserById(String id) {
-        return userRepository.findById(id);
+        return userRepository.findUserById(id);
     }
 
     public User getUserByName(String name) {
@@ -34,13 +34,14 @@ public class UserService {
         return save(user);
     }
 
-    @Transactional
-    public void removeCategoryFromUser(User user, Category category) {
+    //@Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void removeCategoryFromUser(String userId, int categoryId) {
+        User user = userRepository.findUserById(userId);
+        Category category = categoryService.findCategoryById(categoryId);
         user.removeCategory(category);
         save(user);
     }
 
-    @Transactional
     public User save(User user) {
         return userRepository.save(user);
     }
@@ -49,7 +50,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void deleteById(int id) {
+    public void deleteById(String id) {
         userRepository.deleteById(id);
     }
 

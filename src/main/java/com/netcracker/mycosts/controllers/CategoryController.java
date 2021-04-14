@@ -36,10 +36,9 @@ public class CategoryController {
 
     @DeleteMapping("/category/{id}")
     public void delete(@PathVariable int id, @AuthenticationPrincipal User user) {
+        System.out.println("ID was: " + id);
         Category category = categoryService.findCategoryById(id);
-        userService.removeCategoryFromUser(user, category);
-        //try to remove user from category or redownload category from db
-        //category.removeUser(user);
+        userService.removeCategoryFromUser(user.getId(), category.getId());
         if (shouldDeleteCategory(category)) {
             categoryService.deleteCategoryById(category.getId());
         }
