@@ -45,6 +45,7 @@ public class CostController {
             monthCost = MonthCosts.builder()
                     .user(user)
                     .account(account)
+                    .startDate(startDate)
                     .category(category)
                     .amount(amount)
                     .build();
@@ -59,14 +60,22 @@ public class CostController {
 
     //TODO delete cost
     @DeleteMapping("/costs/{id}")
-    public void delete(@PathVariable int id) {
+    public void delete(@PathVariable int id, @AuthenticationPrincipal User user) {
         Cost cost = costService.getCostById(id);
         Account account = cost.getAccount();
         int accountId = account.getId();
         double amount = cost.getAmount();
+        Category category = cost.getCategory();
         double newAmount = account.getAmount() + amount;
         Account accountFromDB = accountService.getAccountById(accountId);
         accountFromDB.setAmount(newAmount);
+        LocalDate date = cost.getDate();
+        LocalDate startDate = LocalDate.of(date.getYear(), date.getMonth(), 1);
+
+        MonthCosts monthCost = monthCostsService.findMonthCostsByUserAndAccountAndCategoryAndStartDate(user, account, category,
+                startDate);
+        monthCost.setAmount(monthCost.getAmount() - amount);
+        monthCostsService.save(monthCost);
         accountService.save(accountFromDB);
         costService.deleteCostById(id);
     }

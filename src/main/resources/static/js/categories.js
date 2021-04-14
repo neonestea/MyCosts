@@ -35,6 +35,8 @@ Vue.component('category-form', {
                 if (result.status == '201') {
                     result.json()
                         .then(data => {
+                            console.log(data)
+                            console.log(data.id + " id")
                             this.categories.push(data);
                             this.name = ''
                         })
@@ -87,11 +89,15 @@ Vue.component('category-edit-form', {
         },
         edit: function () {
             var category = {name: this.name};
-            categoryApi.update({id: this.category.id}, category)
+            categoryApi.update({name: this.category.name}, category)
                 .then(result => {
                     if(result.status == '201') {
+                        console.log(data)
+                        console.log(data.id + " :id")
                         result.json()
                             .then(data => {
+                                console.log(data)
+                                console.log(data.id + " :id")
                                 this.name = this.category.name;
                                 this.categories.splice(this.categories.indexOf(this.category), 1);
                                 const form = document.getElementById('form' + this.category.id);
