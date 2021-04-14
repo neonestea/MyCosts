@@ -31,7 +31,11 @@ public class CostController {
         Account account = cost.getAccount();
         Category category = cost.getCategory();
         double amount = cost.getAmount();
-
+        double newAmount = account.getAmount() - amount;
+        int id = account.getId();
+        Account accountFromDB = accountService.getAccountById(id);
+        accountFromDB.setAmount(newAmount);
+        accountService.save(accountFromDB);
         LocalDate startDate = LocalDate.of(date.getYear(), date.getMonth(), 1);
 
         MonthCosts monthCost = monthCostsService.findMonthCostsByUserAndAccountAndCategoryAndStartDate(user, account, category,
@@ -54,6 +58,18 @@ public class CostController {
     }
 
     //TODO delete cost
+    @DeleteMapping("/costs/{id}")
+    public void delete(@PathVariable int id) {
+        Cost cost = costService.getCostById(id);
+        Account account = cost.getAccount();
+        int accountId = account.getId();
+        double amount = cost.getAmount();
+        double newAmount = account.getAmount() + amount;
+        Account accountFromDB = accountService.getAccountById(accountId);
+        accountFromDB.setAmount(newAmount);
+        accountService.save(accountFromDB);
+        costService.deleteCostById(id);
+    }
 
     @Autowired
     public void setCostService(CostService costService) {

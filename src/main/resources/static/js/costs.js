@@ -85,6 +85,8 @@ Vue.component('cost-form', {
                         this.costs.splice(index, 1, data);
                         this.amount = ''
                         this.id = ''
+                        this.currency = ''
+                        this.account = ''
                     })
                 )
             } else {

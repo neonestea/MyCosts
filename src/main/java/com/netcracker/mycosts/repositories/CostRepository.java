@@ -9,6 +9,7 @@ import java.util.List;
 public interface CostRepository extends JpaRepository<Cost, Integer> {
 
     List<Cost> findCostByUserId(String userId);
+    void deleteCostById(int id);
 
     List<Cost> findCostByUserIdAndAccount(String userId, Account account);
 }
