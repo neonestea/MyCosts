@@ -8,7 +8,10 @@ import com.netcracker.mycosts.repositories.CostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class CostService {
 
     private CostRepository costRepository;
@@ -25,6 +28,12 @@ public class CostService {
     public List<Cost> getAll(String userId, Account account) {
         return costRepository.findCostByUserIdAndAccount(userId, account);
 
+    }
+    public void deleteCostById(int id) {
+        costRepository.deleteCostById(id);
+    }
+    public Cost getCostById(int id) {
+        return costRepository.findById(id).get();
     }
 
     public void save(Cost cost) {

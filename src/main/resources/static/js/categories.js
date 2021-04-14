@@ -135,11 +135,19 @@ Vue.component('category-row', {
         '<category-edit-form style="display: none; z-index: 9999; position: absolute;" :id="`form`+category.id" :categories="categories" :category="category" />' +
         '<div class="card">' +
         '{{ category.name }}' +
-        '<input class="button" :id="`edit`+category.id" type="button" value="Edit" @click="askEdit" />' +
-        '<input class="button" :id="`delete`+category.id" type="button" value="X" @click="del" />' +
+        '<input :style="showButton()" class="button" :id="`edit`+category.id" type="button" value="Edit" @click="askEdit" />' +
+        '<input :style="showButton()" class="button" :id="`delete`+category.id" type="button" value="X" @click="del" />' +
         '</div>' +
     '</div>',
     methods: {
+        showButton: function(){
+            if(this.category.name == "Other"){
+                return "display: none;";
+            }
+            else {
+                return "display: block;"
+            }
+        },
         askEdit: function() {
             const form = document.getElementById('form'+this.category.id);
             form.style.display = "block";
