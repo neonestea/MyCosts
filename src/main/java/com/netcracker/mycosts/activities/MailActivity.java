@@ -10,9 +10,9 @@ public class MailActivity {
     @Autowired
     private MailSender mailSender;
 
-    @Scheduled(fixedRate = 60000)
+    /*@Scheduled(fixedRate = 60000)
     public void sendEmail(){
         String message = String.format("Hello");
         mailSender.send("yankova.nastya@yandex.ru", "Costs by april", message);
-    }
+    }*/
 }

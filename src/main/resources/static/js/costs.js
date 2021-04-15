@@ -36,7 +36,9 @@ Vue.component('cost-form', {
             amount: '',
             date: maxDate,
             max: maxDate,
-            min: minDate
+            min: minDate,
+            isRegular: "false",
+            dayInterval: ''
 
         }
     },
@@ -61,9 +63,23 @@ Vue.component('cost-form', {
         '<option value="" disabled selected>Category</option>' +
         '<option v-for="cat in categories" :key="cat.id":value="cat">{{cat.name}}</option>' +
         '</select>' +
-        '<input type="button" value="Save" @click="save" :disabled="isDisable(amount, account, category)"/>' +
+        '<input type="radio" value="true" v-model="isRegular" >' +
+        '<label>regular</label>' +
+        '<input type="radio" value="false" v-model="isRegular" >' +
+        '<label>not regular </label>' +
+        '<input id="daysInput" :disabled="disableInput(isRegular)" type="number" step="1" min="1" placeholder="Interval in days" v-model="dayInterval"/>' +
+        '<input type="button" value="Save" @click="save" :disabled="isDisable(amount, account, category,dayInterval)"/>' +
         '</div>',
     methods: {
+        disableInput(isRegular){
+            if(isRegular == "true"){
+                return false;
+            }
+            else {
+                this.dayInterval = '';
+                return true;
+            }
+        },
         checkAmount(){
             if (this.amount.indexOf(".") != '-1') {
                 this.amount=this.amount.substring(0, this.amount.indexOf(".") + 3);
@@ -73,9 +89,15 @@ Vue.component('cost-form', {
             }
         },
         isDisable(amount, account, category) {
-            return amount.length == 0 || account.length == 0 || category.length == 0;
+            if (this.isRegular == "true"){
+                return amount.length == 0 || account.length == 0 || category.length == 0 || this.dayInterval.length == 0;
+            }
+            else {
+                return amount.length == 0 || account.length == 0 || category.length == 0;
+            }
         },
         save: function() {
+
             var cost = { date: this.date, amount: this.amount, account: this.account, category: this.category };
             //console.log(cost);
             if (this.id) {
@@ -87,6 +109,7 @@ Vue.component('cost-form', {
                         this.id = ''
                         this.currency = ''
                         this.account = ''
+                        this.dayInterval = '';
                     })
                 )
             } else {

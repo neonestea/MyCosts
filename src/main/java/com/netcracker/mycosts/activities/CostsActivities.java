@@ -16,11 +16,11 @@ public class CostsActivities {
 
     private CostService costService;
 
-    @Scheduled(fixedRate = 60000)
+   /* @Scheduled(fixedRate = 60000)
     public void deleteOldCost() {
         costService.deleteAllWithCreationDateTimeBefore(LocalDate.now().minusMonths(MONTHS_TO_STORE_COSTS));
     }
-
+*/
     @Autowired
     public void setcostService(CostService costService) {
         this.costService = costService;
