@@ -20,7 +20,6 @@ import java.util.Collections;
 @EnableOAuth2Sso
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //TODO Remove all comments if we don't need them
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
