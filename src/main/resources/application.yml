@@ -15,6 +15,16 @@ spring:
           merge:
             entity_copy_observer: allow
 
+  mail:
+    host: smtp.gmail.com
+    username: mycostssender@gmail.com
+    password: mycosts12345
+    port: 465
+    protocol: smtps
+
+mail:
+  debug: true
+
 security:
   oauth2:
     client:
@@ -27,4 +37,6 @@ security:
     resource:
       preferTokenInfo: true
       userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+
+
 
