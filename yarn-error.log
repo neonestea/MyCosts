@@ -30,7 +30,7 @@ npm manifest:
   {
     "name": "MyCosts",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "main.js",
     "repository": "https://github.com/neonestea/MyCosts",
     "author": "neo_nestea <yakova.nastya@yandex.ru>",
     "license": "MIT",

@@ -7,8 +7,6 @@
     <meta name="keywords" content="Finances" />
     <meta name="description" content="Finances" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
     <script th:inline="javascript">
         var frontendData = [[${frontendData}]];
@@ -24,42 +22,16 @@
         <a href="/home" class="navEl">Costs</a>
         <a href="/accounts" class="navEl navActive">Accounts</a>
         <a href="/categories" class="navEl">Categories</a>
-        <!--<a href="/userdetails" class="navEl">My info</a>-->
         <div id="log"></div>
     </nav>
 </header>
 <main>
     <h2>Here you can manage your accounts</h2>
-    <div id="app">
-
+    <div id="accountsApp">
     </div>
-    <!--<button onclick="addAccount();" id="addAcc">Add account</button>
-    <div class="addElement" id="newAccount">
-        <input placeholder="account name" id="textAcc" oninput='enterAccount();' >
-        <input placeholder="currency" id="textCur" oninput='enterCurrency();' >
-        <input placeholder="amount" id="textAmount" oninput='enterAmount();' >
-        <button id="addAccBtn" disabled="true">Add</button>
-        <button onclick="cancelAddingAccount();">Cancel</button>
-    </div>
-    <ul class="accounts" id="accounts-list">
-        <li class="account">
-            <h3>Tinkoff</h3>
-            <p>Currency: RUB</p>
-            <p>Available amount: 0.0</p>
-            <button>Edit</button>
-            <button>Delete</button>
-        </li>
-        <li class="account">
-            <h3>Tinkoff</h3>
-            <p>Currency: RUB</p>
-            <p>Available amount: 0.0</p>
-            <button>Edit</button>
-            <button>Delete</button>
-        </li>
-    </ul>-->
 </main>
 <footer>2021, MyCosts</footer>
-<script src="/js/accounts.js"></script>
-<script src="/js/elements.js"></script>
+<script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
+
 </body>
 </html>

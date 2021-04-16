@@ -33,7 +33,7 @@ public class CostsActivities {
     //TODO get regular costs by parts
     //TODO save costs
     //TODO refactor this. Please!!!
-    @Scheduled(fixedRate = 10000000)
+   /* @Scheduled(fixedRate = 10000000)
     public void regularCosts() {
         List<RegularCost> regularCosts = regularCostService.findAll();
         regularCosts.forEach(regularCost -> {
@@ -47,7 +47,7 @@ public class CostsActivities {
                     }
                 }
         );
-    }
+    }*/
 
     private void updateLastDateOfRegularCost(RegularCost regularCost, LocalDate now) {
         makeCost(regularCost);

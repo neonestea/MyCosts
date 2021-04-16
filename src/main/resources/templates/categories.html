@@ -7,8 +7,6 @@
     <meta name="keywords" content="Finances" />
     <meta name="description" content="Finances" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
     <script th:inline="javascript">
         var frontendData = [[${frontendData}]];
@@ -16,47 +14,21 @@
 </head>
 <body>
 <header>
-<!--    <div>
-        <form action="/logout" method="post">
-            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-            <input type="submit" value="Sign Out"/>
-        </form>
-    </div>-->
     <nav>
         <a href="/" class="navEl">Main</a>
         <a href="/home" class="navEl">Costs</a>
         <a href="/accounts" class="navEl">Accounts</a>
         <a href="/categories" class="navEl navActive">Categories</a>
-        <!--<a href="/userdetails" class="navEl">My info</a>-->
         <div id="log"></div>
-
     </nav>
 </header>
 <main>
     <h2>Here you can manage your categories</h2>
-    <div id="app">
-
+    <div id="categoriesApp">
     </div>
-    <!--<button onclick="addCategory();" id="addCat">Add category</button>
-    <div class="addElement" id="newCategory">
-        <input placeholder="category name" id="textCat" oninput='enterCategory();' >
-        <button id="addCatBtn" disabled="true">Add</button>
-        <button onclick="cancelAddingCategory();">Cancel</button>
-    </div>
-    <ul class="categories">
-        <li class="category">
-            <h3>Food</h3>
-            <button>Edit</button>
-            <button>Delete</button>
-        </li>
-        <li class="category">
-            <h3>Food</h3>
-            <button>Edit</button>
-            <button>Delete</button>
-        </li>
-    </ul>-->
 </main>
 <footer>2021, MyCosts</footer>
-<script src="/js/categories.js"></script>
+<script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
+
 </body>
 </html>

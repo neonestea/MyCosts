@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 @Component
 
 public class PdfActivity {
-    @SneakyThrows
+    /*@SneakyThrows
     @Scheduled(fixedRate = 60000)
     public void createDocument() {
         Document document = new Document(PageSize.A4, 20, 20, 20, 20);
@@ -37,7 +37,7 @@ public class PdfActivity {
         document.add(table);
         document.close();
     }
-
+*/
 
     private void addTableHeader(PdfPTable table) {
         Stream.of("Account", "Category", "Total amount")

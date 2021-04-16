@@ -4,11 +4,10 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
     mode: 'development',
     devtool: 'source-map',
-    entry: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'index.js'),
+    entry: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'main.js'),
     devServer: {
         contentBase: './dist',
         compress: true,
-        //TODO разобраться с портами
         port: 8000,
         allowedHosts: [
             'localhost:8080'

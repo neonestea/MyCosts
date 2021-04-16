@@ -7,8 +7,6 @@
     <meta name="keywords" content="Finances" />
     <meta name="description" content="Finances" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <script th:inline="javascript">
         var frontendData = [[${frontendData}]];
     </script>
@@ -25,11 +23,10 @@
 </header>
 <main>
     <h2>Here you can manage your costs</h2>
-    <div id="app">
-
+    <div id="costsApp">
     </div>
 </main>
 <footer>2021, MyCosts</footer>
-<script src="/js/costs.js"></script>
+<script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
 </body>
 </html>

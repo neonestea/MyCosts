@@ -11,6 +11,7 @@ import com.netcracker.mycosts.services.UserService;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
+
+    @Value("${spring.profiles.active}")
+    private String profile;
 
     private CategoryService categoryService;
     private UserService userService;
@@ -34,6 +38,7 @@ public class HomeController {
             data.put("profile", null);
         }
         model.addAttribute("frontendData", data);
+        model.addAttribute("isDevMode", "dev".equals(profile));
         return "index";
     }
 
@@ -53,6 +58,8 @@ public class HomeController {
             data.put("accounts", accounts);
             data.put("categories", user.getCategories());
             model.addAttribute("frontendData", data);
+            model.addAttribute("isDevMode", "dev".equals(profile));
+
             return "costs";
         }
         else {
@@ -67,6 +74,8 @@ public class HomeController {
             data.put("profile", user);
             data.put("categories", user.getCategories());
             model.addAttribute("frontendData", data);
+            model.addAttribute("isDevMode", "dev".equals(profile));
+
             return "categories";
         }
         else {
@@ -90,6 +99,8 @@ public class HomeController {
             data.put("accounts", accounts);
             data.put("currencies", currencies);
             model.addAttribute("frontendData", data);
+            model.addAttribute("isDevMode", "dev".equals(profile));
+
             return "accounts";
         }
         else {
