@@ -2,7 +2,11 @@
   <div>
     <account-form :accounts="accounts"
                   :currencies="currencies"/>
-    <div class="cards">
+    <v-divider></v-divider>
+    <div style="display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-items:center;">
       <account-row v-for="account in accounts"
                    :key="account.id"
                    :account="account"

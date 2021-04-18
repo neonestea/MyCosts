@@ -1,9 +1,13 @@
 <template>
-  <div>
+  <div >
     <category-form
         :categories="categories"
         :categoryAttr="category"/>
-    <div class="cards">
+    <v-divider></v-divider>
+    <div style="display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-items:center;">
       <category-row v-for="category in categories"
                     :key="category.id"
                     :category="category"

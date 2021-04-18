@@ -1,22 +1,25 @@
 <template>
   <div class="editForm"
        :id="`amount_form`+amount.id">
-    New amount:
+    <v-card-title>New amount:</v-card-title>
     <input :id="`amount`+account.id"
+           style="padding: 5px;
+    border: dotted 1px;"
            type="number"
            step="0.01"
            placeholder="Amount"
            v-model="amount"
            :oninput="checkAmount()"/>
-    <input :id="`editBtn`+account.id"
+    <button :id="`editBtn`+account.id"
            type="button"
            value="Edit"
+
            @click="edit"
-           :disabled="isDisable(name)"/>
-    <input :id="`cancelBtn`+account.id"
+            :disabled="isDisable(name)"><v-icon>edit</v-icon></button>
+    <button :id="`cancelBtn`+account.id"
            type="button"
            value="Cancel"
-           @click="cancel"/>
+            @click="cancel"><v-icon>cancel</v-icon></button>
   </div>
 </template>
 <script>
@@ -107,5 +110,17 @@ export default {
 }
 </script>
 <style>
-
+.editForm {
+  display: flex;
+  justify-content: center;
+  padding: 25px;
+  align-items: center;
+  z-index: 9999;
+  flex-direction: column;
+  border-radius: 3px;
+  background: #FFFFFF;
+  -webkit-box-shadow: -20px 21px 8px 0px rgba(66, 73, 78, 0.2);
+  -moz-box-shadow: -20px 21px 8px 0px rgba(66, 73, 78, 0.2);
+  box-shadow: -20px 21px 8px 0px rgba(66, 73, 78, 0.2);
+}
 </style>

@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="/css/site.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <title>MyCosts</title>
     <link rel="icon" type="image/png" href="/images/favicon.ico"/>
     <meta name="keywords" content="Finances" />
     <meta name="description" content="Finances" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script th:inline="javascript">
         var frontendData = [[${frontendData}]];
     </script>
 </head>
-<body>
+<body style="background: #F4F5F5;">
 <header>
-    <nav>
-        <a href="/" class="navEl">Main</a>
-        <a href="/home" class="navEl navActive">Costs</a>
-        <a href="/accounts" class="navEl">Accounts</a>
-        <a href="/categories" class="navEl">Categories</a>
-        <div id="log"></div>
-    </nav>
+    <div id="head"></div>
 </header>
 <main>
-    <h2>Here you can manage your costs</h2>
+    <h2 style="margin: 10px;">Here you can manage your costs</h2>
     <div id="costsApp">
     </div>
 </main>
-<footer>2021, MyCosts</footer>
+<footer>
+    <div id="foot"></div>
+</footer>
 <script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
 </body>
 </html>

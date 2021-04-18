@@ -28,15 +28,12 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-context-support', version: '5.3.6'
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.4.4'
-
     /*compile('org.springframework.session:spring-session-jdbc')*/
     implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.10'
     // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
     implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.4'
 // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
     implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.64'
-
-
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation group: 'org.flywaydb', name: 'flyway-core'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

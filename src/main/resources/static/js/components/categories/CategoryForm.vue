@@ -1,15 +1,20 @@
 <template>
-  <div>
+  <div style="margin: 20px 10px;">
+
     <input id="addInput"
            type="text"
+           style="background: #FFF;
+    padding: 5px;
+    border-radius: 5px;"
            placeholder="Category name"
            v-model="name"
            onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-    <input type="button"
+    <v-btn type="button"
+           style="height: 22px;"
            value="Save"
            @click="save"
-           :disabled="isDisable(name)"/>
-    <p id="error_line" style="display: none;">Category already exists!</p>
+           :disabled="isDisable(name)">Save</v-btn>
+    <p id="error_line" style="display: none; padding: 15px;">Category already exists!</p>
   </div>
 </template>
 <script>

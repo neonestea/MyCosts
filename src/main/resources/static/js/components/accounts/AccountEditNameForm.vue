@@ -1,22 +1,24 @@
 <template>
   <div class="editForm"
        :id="`name_form`+amount.id">
-    New account name:
+    <v-card-title>New account name:</v-card-title>
     <input :id="`name`+account.id"
            type="text"
            placeholder="Account name"
            v-model="name"
            maxlength="25"
+           style="padding: 5px;
+    border: dotted 1px;"
            onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-    <input :id="`editBtn`+account.id"
+    <button :id="`editBtn`+account.id"
            type="button"
            value="Edit"
            @click="edit"
-           :disabled="isDisable(name)"/>
-    <input :id="`cancelBtn`+account.id"
+            :disabled="isDisable(name)"><v-icon>edit</v-icon></button>
+    <button :id="`cancelBtn`+account.id"
            type="button"
            value="Cancel"
-           @click="cancel"/>
+           @click="cancel"><v-icon>cancel</v-icon></button>
   </div>
 
 </template>
@@ -100,5 +102,17 @@ export default {
 }
 </script>
 <style>
-
+.editForm {
+  display: flex;
+  justify-content: center;
+  padding: 25px;
+  align-items: center;
+  z-index: 9999;
+  flex-direction: column;
+  border-radius: 3px;
+  background: #FFFFFF;
+  -webkit-box-shadow: -20px 21px 8px 0px rgba(66, 73, 78, 0.2);
+  -moz-box-shadow: -20px 21px 8px 0px rgba(66, 73, 78, 0.2);
+  box-shadow: -20px 21px 8px 0px rgba(66, 73, 78, 0.2);
+}
 </style>

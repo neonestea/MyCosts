@@ -1,24 +1,34 @@
 <template>
-  <div >
+  <div>
   <category-edit-form style="display: none; z-index: 9999; position: absolute;"
                       :id="`form`+category.id"
                       :categories="categories"
                       :category="category" />
-  <div class="card">
-    {{ category.name }}
-    <input :style="showButton()"
+
+  <v-card style="margin: 20px; padding: 10px; display: flex; flex-direction: column; justify-content: center;">
+    <v-card-title>{{ category.name }}</v-card-title>
+    <div style="display: flex; justify-content: space-evenly;">
+      <button :style="showButton()"
            class="button"
            :id="`edit`+category.id"
            type="button"
            value="Edit"
-           @click="askEdit" />
-    <input :style="showButton()"
+           @click="askEdit">
+        <v-icon>edit</v-icon>
+      </button>
+      <button :style="showButton()"
            class="button"
            :id="`delete`+category.id"
            type="button"
            value="X"
-           @click="del" />
+           @click="del" >
+        <v-icon>delete</v-icon>
+      </button>
     </div>
+
+
+
+  </v-card>
     </div>
 </template>
 <script>
@@ -57,5 +67,12 @@ export default {
 }
 </script>
 <style>
+button:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
 
+button {
+  opacity: 0.8;
+}
 </style>

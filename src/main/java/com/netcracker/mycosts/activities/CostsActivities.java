@@ -25,10 +25,10 @@ public class CostsActivities {
     private CostService costService;
     private RegularCostService regularCostService;
 
-    @Scheduled(fixedRate = 10000000)
+    /*@Scheduled(fixedRate = 10000000)
     public void deleteOldCost() {
         costService.deleteAllWithCreationDateTimeBefore(LocalDate.now().minusMonths(MONTHS_TO_STORE_COSTS));
-    }
+    }*/
 
     //TODO get regular costs by parts
     //TODO save costs

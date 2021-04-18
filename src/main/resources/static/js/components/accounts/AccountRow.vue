@@ -8,25 +8,27 @@
                               :id="`amount_form`+account.id"
                               :accounts="accounts"
                               :account="account"/>
-    <div class="card">
-      <div>{{ account.name }}</div>
-      <div>{{ account.currency }}</div>
-      <div>{{ account.amount }}</div>
-      <input class="button"
+    <v-card style="margin: 20px; padding: 10px; display: flex; flex-direction: column;">
+      <v-card-title>{{ account.name }}</v-card-title>
+      <v-card-subtitle>{{ account.currency }}</v-card-subtitle>
+      <v-card-subtitle>{{ account.amount }}</v-card-subtitle>
+      <div style="display: flex; justify-content: space-evenly;">
+      <button class="button"
              :id="`editName`+account.id"
              type="button"
              value="Edit"
-             @click="askEditName"/>
-      <input class="button"
+           @click="askEditName"><v-icon>edit</v-icon></button>
+      <button class="button"
              :id="`editAmount`+account.id"
              type="button"
              value="Check"
-             @click="askEditAmount"/>
-      <input class="button"
+           @click="askEditAmount"><v-icon>savings</v-icon></button>
+      <button class="button"
              :id="`delete`+account.id"
              type="button" value="X"
-             @click="del"/>
-    </div>
+           @click="del"><v-icon>delete</v-icon></button>
+      </div>
+    </v-card>
   </div>
 </template>
 <script>
@@ -70,5 +72,12 @@ export default {
 }
 </script>
 <style>
+button:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
 
+button {
+  opacity: 0.8;
+}
 </style>
