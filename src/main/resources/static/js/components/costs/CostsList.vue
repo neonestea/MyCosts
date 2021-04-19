@@ -1,35 +1,85 @@
 <template>
-  <div>
+<div>
   <cost-form :costs="costs"
               :accounts="accounts"
               :categories="categories" />
-  <div class="cards">
-    <cost-row v-for="cost in costs"
-              :key="cost.id"
-              :cost="cost"
-              :costs="costs" />
-    </div>
+  <v-divider style="margin: 10px;"></v-divider>
+  <v-card>
+  <v-card-title>
+    MyCosts
+    <v-spacer></v-spacer>
+    <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+    ></v-text-field>
+  </v-card-title>
+  <v-data-table
+      :headers="headers"
+      :items="costsRow"
+      :search="search"
+      sort-by="date"
+      class="elevation-1"
+  >
+    <template v-slot:item.actions="{ item }">
+      <v-icon
+          small
+          @click="deleteItem(item)"
+      >delete</v-icon>
+    </template>
+  </v-data-table>
+  </v-card>
   </div>
 </template>
 <script>
-import CostRow from 'components/costs/CostRow.vue'
 import CostForm from 'components/costs/CostForm.vue'
 export default {
   components: {
-    CostRow,
     CostForm
   },
-  props: ['costs', 'accounts', 'categories'],
+  //props: ['costs', 'accounts', 'categories'],
   data: function () {
     return {
-      cost: null,
-      fields: ['date', 'amount', 'account', 'category'],
+      search: '',
+      costs: frontendData.costs,
+      accounts: frontendData.accounts,
+      categories: frontendData.categories,
+      costsRow: [],
+      headers: [
+        { text: 'Date', value: 'date' },
+        { text: 'Amount', value: 'amount' },
+        { text: 'Account', value: 'account' },
+        { text: 'Category', value: 'category' },
+        { text: 'Actions', value: 'actions', sortable: false },
+      ],
     }
   },
+  created () {
+    this.initialize()
+  },
   methods: {
-    editMethod(cost) {
-      this.cost = cost;
+    initialize(){
+      this.costsRow = this.costs.map(function(item) {
+        return {
+            date: item.date,
+            amount: item.amount,
+            id: item.id,
+            category: item.category.name,
+            account: item.account.name
+          };
+      });
     },
+    deleteItem (item) {
+      this.$resource('/costs{/id}').remove({id: item.id}).then(result => {
+        if (result.ok) {
+          //this.costsRow.splice(this.costs.indexOf(this.cost), 1)
+          location.reload();
+        }
+      })
+    },
+
   }
 }
 </script>

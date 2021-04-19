@@ -1,21 +1,31 @@
 <template>
-  <div>
+  <div style="paddig: 10px; margin-bottom: 10px;">
     <input type="date"
            v-model="date"
+           style="background: #FFF;
+    padding: 5px;
+    border-radius: 5px;"
            :max="max"
            :min="min"/>
     <input type="number"
            step="0.01" placeholder="Amount"
+           style="background: #FFF;
+    padding: 5px;
+    border-radius: 5px;"
            v-model="amount"
            :oninput="checkAmount()"/>
-    <select type="text" v-model="account">
+    <select type="text" v-model="account" style="background: #FFF;
+    padding: 5px;
+    border-radius: 5px;">
       <option value="" disabled selected>Account</option>
       <option v-for="acc in accounts"
               :key="acc.id"
               :value="acc">{{ acc.name }}
       </option>
     </select>
-    <select type="text" v-model="category">
+    <select type="text" v-model="category" style="background: #FFF;
+    padding: 5px;
+    border-radius: 5px;">
       <option value="" disabled selected>Category</option>
       <option v-for="cat in categories"
               :key="cat.id"
@@ -26,12 +36,14 @@
     <label>regular</label>
     <input type="radio" value="false" v-model="isRegular">
     <label>not regular </label>
-    <input id="daysInput"
+    <input id="daysInput" style="background: #FFF;
+    padding: 5px;
+    border-radius: 5px;"
            :disabled="disableInput(isRegular)"
            type="number" step="1" min="1"
            placeholder="Interval in days" v-model="dayInterval"/>
-    <input type="button" value="Save" @click="save"
-           :disabled="isDisable(amount, account, category,dayInterval)"/>
+    <v-btn type="button" value="Save" @click="save" style="height: 22px;"
+            :disabled="isDisable(amount, account, category,dayInterval)">Save</v-btn>
   </div>
 </template>
 <script>
@@ -97,7 +109,7 @@ export default {
           result.json().then(data => {
             this.costs.push(data);
             this.amount = ''
-
+            location.reload();
           })
       )
     }
