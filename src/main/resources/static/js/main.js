@@ -5,6 +5,7 @@ import Footer from 'pages/Footer.vue'
 import Accounts from 'pages/Accounts.vue'
 import Categories from 'pages/Categories.vue'
 import Costs from 'pages/Costs.vue'
+import RegularCosts from 'pages/RegularCosts.vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
@@ -40,4 +41,10 @@ new Vue ({
     el: '#costsApp',
     vuetify : new Vuetify(),
     render: a => a(Costs)
+})
+
+new Vue ({
+    el: '#regularCostsApp',
+    vuetify : new Vuetify(),
+    render: a => a(RegularCosts)
 })

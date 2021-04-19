@@ -1,5 +1,6 @@
 package com.netcracker.mycosts.services;
 
+import com.netcracker.mycosts.entities.Cost;
 import com.netcracker.mycosts.entities.RegularCost;
 import com.netcracker.mycosts.repositories.RegularCostRepository;
 import java.util.List;
@@ -18,6 +19,12 @@ public class RegularCostService {
 
     public List<RegularCost> findAll() {
         return regularCostRepository.findAll();
+    }
+    public List<RegularCost> getAll(String userId) {
+        return regularCostRepository.findRegularCostByUserId(userId);
+    }
+    public void deleteById(int regularCostId) {
+        regularCostRepository.deleteById(regularCostId);
     }
 
     public void save(RegularCost regularCost) {

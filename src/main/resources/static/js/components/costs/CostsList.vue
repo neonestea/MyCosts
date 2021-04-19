@@ -3,7 +3,7 @@
   <cost-form :costs="costs"
               :accounts="accounts"
               :categories="categories" />
-  <v-divider style="margin: 10px;"></v-divider>
+  <v-divider style="margin: 20px 0;"></v-divider>
   <v-card>
   <v-card-title>
     MyCosts
@@ -39,7 +39,6 @@ export default {
   components: {
     CostForm
   },
-  //props: ['costs', 'accounts', 'categories'],
   data: function () {
     return {
       search: '',

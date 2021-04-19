@@ -1,5 +1,6 @@
 <template>
   <div style="paddig: 10px; margin-bottom: 10px;">
+    First day:
     <input type="date"
            v-model="date"
            style="background: #FFF;
@@ -32,13 +33,18 @@
               :value="cat">{{ cat.name }}
       </option>
     </select>
+    <input id="daysInput" style="background: #FFF;
+    padding: 5px;
+    border-radius: 5px;"
+           type="number" step="1" min="1"
+           placeholder="Interval in days" v-model="dayInterval"/>
     <v-btn type="button" value="Save" @click="save" style="height: 22px;"
-            :disabled="isDisable(amount, account, category)">Save</v-btn>
+           :disabled="isDisable(amount, account, category,dayInterval)">Save</v-btn>
   </div>
 </template>
 <script>
 export default {
-  props: ['costs', 'accounts', 'categories'],
+  props: ['regularCosts', 'accounts', 'categories'],
   data: function () {
     const today = new Date();
     const year = today.getFullYear();
@@ -50,20 +56,20 @@ export default {
     if (day < 10) {
       day = "0" + day;
     }
-    let minMonth = today.getMonth();
-    if (minMonth < 10) {
-      minMonth = "0" + minMonth;
-    }
-    const minDate = year + '-' + minMonth + '-01';
-    const maxDate = year + '-' + month + '-' + day;
+    let currentTime = new Date();
+    var days = new Date(currentTime.getFullYear(), month, 0).getDate();
+    const maxDate = year + '-' + month + '-'+ days;
+    const minDate = year + '-' + month + '-' + day;
     return {
       id: '',
       account: '',
       category: '',
       amount: '',
-      date: maxDate,
+      date: minDate,
       max: maxDate,
       min: minDate,
+      dayInterval: ''
+
     }
   },
   methods: {
@@ -75,18 +81,20 @@ export default {
       }
     },
     isDisable(amount, account, category) {
-        return amount.length == 0 || account.length == 0 || category.length == 0;
+        return amount.length == 0 || account.length == 0 || category.length == 0 || this.dayInterval.length == 0;
     },
     save() {
-      var cost = {date: this.date, amount: this.amount, account: this.account, category: this.category};
-      this.$resource('/costs{/id}').save({}, cost).then(result =>
+
+      var regularCost = {lastDate: this.lastDate, /*nextDate: this.nextDate,*/ amount: this.amount, account: this.account, category: this.category};
+      this.$resource('/regular_costs{/id}').save({}, regularCost).then(result =>
           result.json().then(data => {
-            this.costs.push(data);
+            this.regularCosts.push(data);
             this.amount = ''
             location.reload();
           })
       )
     }
+
   }
 }
 </script>
