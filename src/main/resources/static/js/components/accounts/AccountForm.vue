@@ -110,6 +110,7 @@ export default {
 
     },
     save() {
+
       var account = {name: this.name, amount: this.amount, currency: this.currency};
       this.$resource('/account{/id}').save({}, account).then(result => {
         if (result.status == '200') {

@@ -28,6 +28,8 @@ public class Cost {
 
     private double amount;
 
+    private double amountUSD;
+
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")

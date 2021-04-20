@@ -37,6 +37,17 @@
   </div>
 </template>
 <script>
+function getRate(url) {
+  return fetch(url)
+      .then((response) => {
+        return response.json().then((data) => {
+          console.log(data);
+          return data.conversion_rates.USD;
+        }).catch((err) => {
+          console.log(err);
+        })
+      });
+}
 export default {
   props: ['costs', 'accounts', 'categories'],
   data: function () {
@@ -77,15 +88,34 @@ export default {
     isDisable(amount, account, category) {
         return amount.length == 0 || account.length == 0 || category.length == 0;
     },
+
     save() {
-      var cost = {date: this.date, amount: this.amount, account: this.account, category: this.category};
+      let currency = this.account.currency;
+      let url = "https://v6.exchangerate-api.com/v6/612198050b3168e80bedf8bb/latest/" + currency;
+      let rate;
+      fetch(url)
+          .then(function (resp) { return resp.json() })
+          .then(function (data) {
+            rate = data.conversion_rates.USD;
+          })
+          /*.catch(function (err) {
+              alert(err);
+          });*/
+      console.log(rate);
+      //const exchAmount = (this.amount * rate);
+      //console.log(exchAmount);
+      var cost = {date: this.date, amount: this.amount, /*amountUSD: exchAmount,*/ account: this.account, category: this.category};
       this.$resource('/costs{/id}').save({}, cost).then(result =>
           result.json().then(data => {
             this.costs.push(data);
             this.amount = ''
-            location.reload();
+            //location.reload();
           })
       )
+          /*.catch(function (err) {
+            alert(err);
+          });*/
+
     }
   }
 }

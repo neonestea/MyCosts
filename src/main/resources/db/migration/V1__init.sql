@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS costs
     id          SERIAL PRIMARY KEY,
     date        DATE,
     amount      NUMERIC(10, 2),
+    amountUSD      NUMERIC(10, 2),
     category_id INTEGER REFERENCES categories (id),
     account_id  INTEGER REFERENCES accounts (id),
     user_id     VARCHAR(255) REFERENCES users (id)

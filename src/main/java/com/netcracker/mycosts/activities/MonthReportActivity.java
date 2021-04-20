@@ -28,8 +28,9 @@ public class MonthReportActivity {
 
     private JavaMailSender emailSender;
 
+    //TODO Cron - the last day of each month
     @SneakyThrows
-    @Scheduled(fixedRate = 60000)
+    //@Scheduled(fixedRate = 60000)
     public InputStream createDocument() {
         Document document = new Document(PageSize.A4, 20, 20, 20, 20);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
