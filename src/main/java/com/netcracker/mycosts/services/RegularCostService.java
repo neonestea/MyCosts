@@ -23,4 +23,8 @@ public class RegularCostService {
     public void save(RegularCost regularCost) {
         regularCostRepository.save(regularCost);
     }
+
+    public void deleteById(int regularCostId) {
+        regularCostRepository.deleteById(regularCostId);
+    }
 }

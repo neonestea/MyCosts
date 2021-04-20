@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS accounts
     id       SERIAL PRIMARY KEY,
     name     VARCHAR(255),
     currency VARCHAR(255),
-    amount   decimal(10,2),
-    active boolean,
+    amount   decimal(10, 2),
+    active   boolean,
     user_id  VARCHAR(255) REFERENCES users (id)
 );
 
@@ -51,6 +51,19 @@ CREATE TABLE IF NOT EXISTS month_costs
     id          SERIAL PRIMARY KEY,
     amount      NUMERIC(10, 2),
     start_date  DATE,
+    category_id INTEGER REFERENCES categories (id),
+    account_id  INTEGER REFERENCES accounts (id),
+    user_id     VARCHAR(255) REFERENCES users (id)
+);
+
+CREATE TABLE IF NOT EXISTS regular_costs
+(
+    id          SERIAL PRIMARY KEY,
+    last_date   DATE,
+    next_date   DATE,
+    every_month BOOLEAN,
+    period      INTEGER,
+    amount      NUMERIC(10, 2),
     category_id INTEGER REFERENCES categories (id),
     account_id  INTEGER REFERENCES accounts (id),
     user_id     VARCHAR(255) REFERENCES users (id)

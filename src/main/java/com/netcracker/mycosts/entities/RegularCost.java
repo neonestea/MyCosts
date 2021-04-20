@@ -24,6 +24,9 @@ public class RegularCost {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate lastDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate nextDate;
+
     private int period;
 
     private boolean everyMonth;
