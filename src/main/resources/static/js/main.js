@@ -6,8 +6,14 @@ import Accounts from 'pages/Accounts.vue'
 import Categories from 'pages/Categories.vue'
 import Costs from 'pages/Costs.vue'
 import RegularCosts from 'pages/RegularCosts.vue'
+import Statistics from 'pages/Statistics.vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import MainPage from 'pages/MainPage.vue'
+import VueApexCharts from 'vue-apexcharts'
+Vue.use(VueApexCharts)
+
+Vue.component('apexchart', VueApexCharts)
 
 Vue.use(Vuetify)
 Vue.use(VueResource)
@@ -30,6 +36,17 @@ new Vue ({
     render: a => a(Accounts)
 })
 
+new Vue ({
+    el: '#statApp',
+    vuetify : new Vuetify(),
+    render: a => a(Statistics)
+})
+
+new Vue ({
+    el: '#mainPage',
+    vuetify : new Vuetify(),
+    render: a => a(MainPage)
+})
 
 new Vue ({
     el: '#categoriesApp',

@@ -1,7 +1,9 @@
 <template>
   <div>
+    <data-app>
     <account-form :accounts="accounts"
                   :currencies="currencies"/>
+    </data-app>
     <v-divider></v-divider>
     <div style="display: flex;
     flex-wrap: wrap;
@@ -12,6 +14,7 @@
                    :account="account"
                    :accounts="accounts"/>
     </div>
+
   </div>
 </template>
 <script>
