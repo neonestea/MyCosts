@@ -4,11 +4,13 @@ import com.netcracker.mycosts.entities.Account;
 import com.netcracker.mycosts.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class AccountService {
 
     private AccountRepository accountRepository;

@@ -9,17 +9,21 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@EqualsAndHashCode
 @Setter
 @Builder
-@Table(name = "currency_exchanges_rates")
+@Table(name = "currency_exchange_rates")
 public class CurrencyExchangeRate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
     private LocalDate date;
 
-    private double rateToRub;
+    private double rate;
+
+
 }

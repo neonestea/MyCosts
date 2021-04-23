@@ -5,12 +5,14 @@ import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class UserService {
 
     private UserRepository userRepository;
@@ -34,7 +36,6 @@ public class UserService {
         return save(user);
     }
 
-    //@Transactional(propagation = Propagation.REQUIRES_NEW)
     public void removeCategoryFromUser(String userId, int categoryId) {
         User user = userRepository.findUserById(userId);
         Category category = categoryService.findCategoryById(categoryId);

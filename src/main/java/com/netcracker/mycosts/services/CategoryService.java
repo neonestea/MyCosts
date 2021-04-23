@@ -3,14 +3,16 @@ package com.netcracker.mycosts.services;
 import java.util.List;
 
 import com.netcracker.mycosts.entities.Category;
+import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class CategoryService {
 
     private CategoryRepository categoryRepository;

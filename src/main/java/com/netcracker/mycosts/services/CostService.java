@@ -3,15 +3,21 @@ package com.netcracker.mycosts.services;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netcracker.mycosts.entities.*;
 import com.netcracker.mycosts.repositories.CostRepository;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 @Service
-@Transactional
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class CostService {
 
     private CostRepository costRepository;
@@ -45,7 +51,18 @@ public class CostService {
         return costRepository.findById(id).get();
     }
 
+    public List<Cost> findCostsByUser(User user) {
+        return costRepository.findAllByUser(user);
+    }
+
+    public List<Cost> findCostsByUserAndCategory(User user, Category category) {
+        return costRepository.findAllByUserAndCategory(user, category);
+    }
+
+    @SneakyThrows
     public void save(Cost cost) {
+        Double exchangeToUsdRate = getExchangeToUsdRate(cost);
+        cost.setAmountUSD(cost.getAmount() * exchangeToUsdRate);
         int accountId = cost.getAccount().getId();
         Account account = accountService.getAccountById(accountId);
         double newAmount = account.getAmount() - cost.getAmount();
@@ -53,6 +70,21 @@ public class CostService {
         createOrUpdateMonthCosts(cost);
         accountService.save(account);
         costRepository.save(cost);
+    }
+
+    private Double getExchangeToUsdRate(Cost cost) throws JsonProcessingException {
+        Double exchangeToUsdRate = 1.0;
+        Currency currency = cost.getAccount().getCurrency();
+        if (currency != Currency.USD) {
+            String uri = "https://v6.exchangerate-api.com/v6/612198050b3168e80bedf8bb/latest/" + currency.name();
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(response.getBody());
+            JsonNode rate = root.path("conversion_rates");
+            exchangeToUsdRate = rate.path("USD").asDouble();
+        }
+        return exchangeToUsdRate;
     }
 
     public void deleteAllWithCreationDateTimeBefore(LocalDate minusMonths) {

@@ -5,12 +5,16 @@ import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.entities.MonthCosts;
 import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.repositories.MonthCostsRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
 @Service
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class MonthCostsService {
 
     private MonthCostsRepository monthCostsRepository;
@@ -25,7 +29,15 @@ public class MonthCostsService {
         return monthCostsRepository.findMonthCostsByUserAndAccountAndCategoryAndStartDate(user, account, category, startDate);
     }
 
+    public List<MonthCosts> findMonthCostsByUser(User user) {
+        return monthCostsRepository.findAllByUser(user);
+    }
+
     public void save(MonthCosts monthCosts) {
         monthCostsRepository.save(monthCosts);
+    }
+
+    public List<MonthCosts> findMonthCostsByUserAndCategory(User user, Category category) {
+        return monthCostsRepository.findMonthCostsByUserAndCategory(user, category);
     }
 }

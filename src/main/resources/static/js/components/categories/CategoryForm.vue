@@ -42,7 +42,6 @@ export default {
                 this.name = ''
               })
         } else {
-
           $("#error_line").show('slow');
           setTimeout(function () {
             $("#error_line").hide('slow');

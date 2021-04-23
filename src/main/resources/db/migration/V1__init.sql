@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS costs
     id          SERIAL PRIMARY KEY,
     date        DATE,
     amount      NUMERIC(10, 2),
+    amount_usd  NUMERIC(10, 2),
     category_id INTEGER REFERENCES categories (id),
     account_id  INTEGER REFERENCES accounts (id),
     user_id     VARCHAR(255) REFERENCES users (id)
@@ -59,12 +60,22 @@ CREATE TABLE IF NOT EXISTS month_costs
 CREATE TABLE IF NOT EXISTS regular_costs
 (
     id          SERIAL PRIMARY KEY,
+    name        VARCHAR(25),
     last_date   DATE,
     next_date   DATE,
     every_month BOOLEAN,
     period      INTEGER,
     amount      NUMERIC(10, 2),
+    currency    VARCHAR(10),
     category_id INTEGER REFERENCES categories (id),
     account_id  INTEGER REFERENCES accounts (id),
     user_id     VARCHAR(255) REFERENCES users (id)
+);
+
+CREATE TABLE IF NOT EXISTS currency_exchange_rates
+(
+    id       SERIAL PRIMARY KEY,
+    date     DATE,
+    currency VARCHAR(10),
+    rate     NUMERIC(10, 5)
 );

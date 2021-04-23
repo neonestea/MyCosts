@@ -1,7 +1,14 @@
 <template>
   <div style="paddig: 10px; margin-bottom: 10px;">
+    <input type="text"
+           v-model="name"
+           style="background: #FFF;
+    padding: 5px;
+    border-radius: 5px;"
+           placeholder="Name"/>
+    First day:
     <input type="date"
-           v-model="date"
+           v-model="firstDay"
            style="background: #FFF;
     padding: 5px;
     border-radius: 5px;"
@@ -32,24 +39,22 @@
               :value="cat">{{ cat.name }}
       </option>
     </select>
+    Every month
+    <input type="checkbox"
+          v-model="everyMonthPicked"
+          value=true>
+    <input id="daysInput" style="background: #FFF;
+    padding: 5px;
+    border-radius: 5px;"
+           type="number" step="1" min="1"
+           placeholder="Interval in days" v-model="dayInterval"/>
     <v-btn type="button" value="Save" @click="save" style="height: 22px;"
-            :disabled="isDisable(amount, account, category)">Save</v-btn>
+           :disabled="isDisable(amount, account, category,dayInterval)">Save</v-btn>
   </div>
 </template>
 <script>
-function getRate(url) {
-  return fetch(url)
-      .then((response) => {
-        return response.json().then((data) => {
-          console.log(data);
-          return data.conversion_rates.USD;
-        }).catch((err) => {
-          console.log(err);
-        })
-      });
-}
 export default {
-  props: ['costs', 'accounts', 'categories'],
+  props: ['regularCosts', 'accounts', 'categories'],
   data: function () {
     const today = new Date();
     const year = today.getFullYear();
@@ -61,20 +66,20 @@ export default {
     if (day < 10) {
       day = "0" + day;
     }
-    let minMonth = today.getMonth();
-    if (minMonth < 10) {
-      minMonth = "0" + minMonth;
-    }
-    const minDate = year + '-' + minMonth + '-01';
-    const maxDate = year + '-' + month + '-' + day;
+    let currentTime = new Date();
+    var days = new Date(currentTime.getFullYear(), month, 0).getDate();
+    const maxDate = year + '-' + month + '-'+ days;
+    const minDate = year + '-' + month + '-' + day;
     return {
       id: '',
       account: '',
       category: '',
       amount: '',
-      date: maxDate,
+      firstDay: minDate,
       max: maxDate,
       min: minDate,
+      dayInterval: '',
+      everyMonthPicked: false
     }
   },
   methods: {
@@ -86,37 +91,21 @@ export default {
       }
     },
     isDisable(amount, account, category) {
-        return amount.length == 0 || account.length == 0 || category.length == 0;
+        return amount.length == 0 || account.length == 0 || category.length == 0 || this.dayInterval.length == 0;
     },
-
     save() {
-      let currency = this.account.currency;
-      let url = "https://v6.exchangerate-api.com/v6/612198050b3168e80bedf8bb/latest/" + currency;
-      let rate;
-      fetch(url)
-          .then(function (resp) { return resp.json() })
-          .then(function (data) {
-            rate = data.conversion_rates.USD;
-          })
-          /*.catch(function (err) {
-              alert(err);
-          });*/
-      console.log(rate);
-      //const exchAmount = (this.amount * rate);
-      //console.log(exchAmount);
-      var cost = {date: this.date, amount: this.amount, /*amountUSD: exchAmount,*/ account: this.account, category: this.category};
-      this.$resource('/costs{/id}').save({}, cost).then(result =>
+
+      var regularCost = {name: this.name, lastDate: this.firstDay, amount: this.amount, account: this.account, category: this.category,
+      everyMonth: this.everyMonthPicked};
+      this.$resource('/regular_costs{/id}').save({}, regularCost).then(result =>
           result.json().then(data => {
-            this.costs.push(data);
+            this.regularCosts.push(data);
             this.amount = ''
             location.reload();
           })
       )
-          /*.catch(function (err) {
-            alert(err);
-          });*/
-
     }
+
   }
 }
 </script>

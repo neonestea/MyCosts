@@ -21,11 +21,16 @@ public class RegularCost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String name;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate lastDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate nextDate;
+
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
     private int period;
 

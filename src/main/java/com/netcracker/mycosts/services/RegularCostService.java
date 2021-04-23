@@ -1,12 +1,19 @@
 package com.netcracker.mycosts.services;
 
+import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.entities.RegularCost;
+import com.netcracker.mycosts.entities.User;
 import com.netcracker.mycosts.repositories.RegularCostRepository;
+
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class RegularCostService {
 
     private RegularCostRepository regularCostRepository;
@@ -19,12 +26,33 @@ public class RegularCostService {
     public List<RegularCost> findAll() {
         return regularCostRepository.findAll();
     }
+    public List<RegularCost> getAll(String userId) {
+        return regularCostRepository.findRegularCostByUserId(userId);
+    }
 
     public void save(RegularCost regularCost) {
+        regularCost.setLastDate(LocalDate.now());
+        if (regularCost.isEveryMonth()) {
+            regularCost.setNextDate(LocalDate.now().plusMonths(1));
+        } else {
+            regularCost.setNextDate(LocalDate.now().plusDays(regularCost.getPeriod()));
+        }
         regularCostRepository.save(regularCost);
     }
 
     public void deleteById(int regularCostId) {
         regularCostRepository.deleteById(regularCostId);
+    }
+
+    public void regularCostProcedure() {
+        regularCostRepository.regularCostProcedure();
+    }
+
+   public List<RegularCost> findRegularCostsByUser(User user) {
+        return regularCostRepository.findAllByUser(user);
+    }
+
+    public List<RegularCost> findRegularCostsByUserAndCategory(User user, Category category) {
+        return regularCostRepository.findRegularCostsByUserAndCategory(user, category);
     }
 }

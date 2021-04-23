@@ -3,10 +3,7 @@ package com.netcracker.mycosts.controllers;
 import com.netcracker.mycosts.entities.Account;
 import com.netcracker.mycosts.entities.Currency;
 import com.netcracker.mycosts.entities.User;
-import com.netcracker.mycosts.services.AccountService;
-import com.netcracker.mycosts.services.CategoryService;
-import com.netcracker.mycosts.services.CostService;
-import com.netcracker.mycosts.services.UserService;
+import com.netcracker.mycosts.services.*;
 
 import java.util.*;
 
@@ -26,6 +23,7 @@ public class HomeController {
     private CategoryService categoryService;
     private UserService userService;
     private CostService costService;
+    private RegularCostService regularCostService;
     private AccountService accountService;
 
     @GetMapping("/")
@@ -42,10 +40,25 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/stat")
+    public String statistics(Model model, @AuthenticationPrincipal User user) {
+        HashMap<Object, Object> data = new HashMap<>();
+        if(user != null){
+            data.put("profile", user);
+        }
+        else {
+            data.put("profile", null);
+        }
+        model.addAttribute("frontendData", data);
+        model.addAttribute("isDevMode", "dev".equals(profile));
+        return "stat";
+    }
+
     @GetMapping("/home")
     public String home(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
-        if(user != null){
+        user = userService.getUserById(user.getId());
+        if(user != null) {
             data.put("costs", costService.getAll(user.getId()));
             data.put("profile", user);
             Set<Account> accounts = new HashSet<>();
@@ -67,9 +80,35 @@ public class HomeController {
         }
     }
 
+    @GetMapping("/regular")
+    public String regularCosts(Model model, @AuthenticationPrincipal User user) {
+        HashMap<Object, Object> data = new HashMap<>();
+        if(user != null){
+            data.put("regularCosts", regularCostService.getAll(user.getId()));
+            data.put("profile", user);
+            Set<Account> accounts = new HashSet<>();
+            List<Account> accountsFromDb = accountService.getAllUserAccounts(user.getId());
+            for(Account acc : accountsFromDb){
+                if (acc.getActive() == true){
+                    accounts.add(acc);
+                }
+            }
+            data.put("accounts", accounts);
+            data.put("categories", user.getCategories());
+            model.addAttribute("frontendData", data);
+            model.addAttribute("isDevMode", "dev".equals(profile));
+
+            return "regular";
+        }
+        else {
+            return "redirect:/login";
+        }
+    }
+
     @GetMapping("/categories")
     public String categories(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
+        user = userService.getUserById(user.getId());
         if(user != null){
             data.put("profile", user);
             data.put("categories", user.getCategories());
@@ -123,6 +162,9 @@ public class HomeController {
     @Autowired
     public void setCostService(CostService costService) {
         this.costService = costService;
+    }@Autowired
+    public void setRegularCostService(RegularCostService regularCostService) {
+        this.regularCostService = regularCostService;
     }
 
     @Autowired

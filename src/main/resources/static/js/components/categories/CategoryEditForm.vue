@@ -49,10 +49,10 @@ export default {
       add.disabled = false;
     },
     edit() {
-      var category = {name: this.name};
-      this.$resource('/category{/id}').update({name: this.category.name}, category)
+      console.log(this.category.id + " id " + this.name )
+      this.$resource('/category/' + this.category.id + '?newCategoryName=' + this.name).update()
           .then(result => {
-            if(result.status == '201') {
+            if(result.status == '202') {
               result.json()
                   .then(data => {
                     this.name = this.category.name;
