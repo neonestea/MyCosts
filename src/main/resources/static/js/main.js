@@ -6,17 +6,19 @@ import Accounts from 'pages/Accounts.vue'
 import Categories from 'pages/Categories.vue'
 import Costs from 'pages/Costs.vue'
 import RegularCosts from 'pages/RegularCosts.vue'
-import Statistics from 'pages/Statistics.vue'
+import Bar from 'pages/Bar.vue'
+import Donut from 'pages/Donut.vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import MainPage from 'pages/MainPage.vue'
 import VueApexCharts from 'vue-apexcharts'
-Vue.use(VueApexCharts)
+
 
 Vue.component('apexchart', VueApexCharts)
 
 Vue.use(Vuetify)
 Vue.use(VueResource)
+Vue.use(VueApexCharts)
 
 new Vue ({
     el: '#head',
@@ -37,11 +39,15 @@ new Vue ({
 })
 
 new Vue ({
-    el: '#statApp',
+    el: '#donutApp',
     vuetify : new Vuetify(),
-    render: a => a(Statistics)
+    render: a => a(Donut)
 })
-
+new Vue ({
+    el: '#barApp',
+    vuetify : new Vuetify(),
+    render: a => a(Bar)
+})
 new Vue ({
     el: '#mainPage',
     vuetify : new Vuetify(),
