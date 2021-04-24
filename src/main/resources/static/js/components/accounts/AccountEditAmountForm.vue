@@ -1,25 +1,30 @@
 <template>
   <div class="editForm"
        :id="`amount_form`+amount.id">
-    <v-card-title>New amount:</v-card-title>
-    <input :id="`amount`+account.id"
+    <v-card-title>Add amount:</v-card-title>
+    <input :id="`add_amount`+account.id"
+           class="inp"
            style="padding: 5px;
     border: dotted 1px;"
            type="number"
            step="0.01"
-           placeholder="Amount"
+           min="0"
+           placeholder="0.00"
            v-model="amount"
            :oninput="checkAmount()"/>
     <button :id="`editBtn`+account.id"
            type="button"
            value="Edit"
 
-           @click="edit"
+           @click="addAmount"
             :disabled="isDisable(name)"><v-icon>edit</v-icon></button>
-    <button :id="`cancelBtn`+account.id"
-           type="button"
-           value="Cancel"
-            @click="cancel"><v-icon>cancel</v-icon></button>
+    <p id="error"></p>
+    <div style="display: flex; justify-content: center; margin: 10px;">
+      <button :id="`cancelBtn`+account.id"
+              type="button"
+              value="Cancel"
+              @click="cancel"><v-icon>cancel</v-icon></button>
+    </div>
   </div>
 </template>
 <script>
@@ -28,21 +33,28 @@ export default {
   data: function () {
     return {
       name: this.account.name,
-      amount: this.account.amount.toString(),
+      amount: '',
       currency: this.account.currency,
       id: this.account.id
     }
   },
   methods: {
     checkAmount() {
-      if (this.amount.indexOf(".") != '-1') {
-        this.amount = this.amount.substring(0, this.amount.indexOf(".") + 3);
-      } else {
-        this.amount = this.amount + ".00";
+      let res = this.amount.match(/^\d+(\.\d\d)?$/);
+      const el = document.getElementById('add_amount' + this.account.id);
+      if(this.amount.length != 0){
+        if (res && (this.amount.indexOf(".") != '-1')) {
+          el.style.background = "#E2ECDE";
+        }
+        else{
+          el.style.background = "#F9D4D1";
+        }
       }
+
     },
     isDisable(name, amount) {
-      return this.amount.length == 0 || this.amount == this.account.amount;
+      let res = this.amount.match(/^\d+(\.\d\d)?$/);
+      return this.amount.length == 0 || !res || (this.amount.indexOf(".") == '-1');
     },
     cancel() {
       const form = document.getElementById('amount_form' + this.account.id);
@@ -57,8 +69,9 @@ export default {
       const add = document.getElementById('addInput');
       add.disabled = false;
     },
-    edit() {
-      var account = {name: this.name, amount: this.amount, currency: this.currency};
+    addAmount() {
+      let newAmount = parseFloat(this.account.amount) + parseFloat(this.amount);
+      var account = {name: this.name, amount: newAmount, currency: this.currency};
       this.$resource('/account{/id}').update({id: this.account.id}, account)
           .then(result => {
             if (result.status == '200') {
@@ -122,5 +135,9 @@ export default {
   -webkit-box-shadow: -20px 21px 8px 0px rgba(66, 73, 78, 0.2);
   -moz-box-shadow: -20px 21px 8px 0px rgba(66, 73, 78, 0.2);
   box-shadow: -20px 21px 8px 0px rgba(66, 73, 78, 0.2);
+}
+
+.inp:focus {
+  border: none;
 }
 </style>

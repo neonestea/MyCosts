@@ -1,19 +1,31 @@
 <template>
-  <div style="margin: 20px 10px;">
-
-    <input id="addInput"
-           type="text"
-           style="background: #FFF;
-    padding: 5px;
-    border-radius: 5px;"
-           placeholder="Category name"
-           v-model="name"
-           onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-    <v-btn type="button"
-           style="height: 22px;"
-           value="Save"
-           @click="save"
-           :disabled="isDisable(name)">Save</v-btn>
+  <div style="margin: 20px 10px; width: 250px;">
+    <v-row>
+    <v-col
+        class="d-flex"
+        cols="12"
+        sm="6"
+    >
+      <v-text-field label="Category name"
+                    hide-details="auto"
+                    placeholder="Category name"
+                    type="text"
+                    maxlength="25"
+                    v-model="name"></v-text-field>
+    </v-col>
+      <v-col
+          class="d-flex"
+          cols="12"
+          sm="6"
+          style="align-items: baseline;"
+      >
+      <v-btn type="button"
+             style="height: 22px; margin-top: 25px;"
+             value="Save"
+             @click="save"
+             :disabled="isDisable(name)">Save</v-btn>
+      </v-col>
+    </v-row>
     <p id="error_line" style="display: none; padding: 15px;">Category already exists!</p>
   </div>
 </template>
@@ -23,7 +35,10 @@ export default {
   data() {
     return {
       name: '',
-      id: ''
+      id: '',
+      rulesName: [
+        value => !!value || 'Required.'
+      ],
     }
   },
   methods: {

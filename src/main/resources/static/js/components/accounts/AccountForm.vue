@@ -1,38 +1,37 @@
 <template>
   <div style="margin: 20px 10px;">
-    <input id="addInput"
-           style="background: #FFF;
-    padding: 5px;
-    border-radius: 5px;"
-           type="text"
-           placeholder="Account name"
-           v-model="name"
-           maxlength="25"
-           onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-    <input id="addInput"
-           style="background: #FFF;
-    padding: 5px;
-    border-radius: 5px;"
-           type="number"
-           step="0.01"
-           placeholder="Amount"
-           v-model="amount"
-           :oninput="checkAmount()"/>
-    <select type="text"
-            style="background: #FFF;
-    padding: 5px;
-    border-radius: 5px;"
-            v-model="currency">
-      <option value="" disabled selected>Currency</option>
-      <option v-for="curr in currencies"
-              :key="curr"
-              :value="curr">{{ curr }}</option>
-    </select>
-    <v-btn type="button"
-           style="height: 22px;"
-           value="Save"
-           @click="save"
-           :disabled="isDisable(name, currency)">Save</v-btn>
+    <v-row>
+      <v-text-field id="addInput"
+                    label="Account name"
+                    hide-details="auto"
+                    placeholder="Account name"
+                    type="text"
+                    maxlength="25"
+                    v-model="name"></v-text-field>
+      <v-text-field label="Amount"
+                    id="addInput"
+                    hide-details="auto"
+                    placeholder="Amount"
+                    step="0.01"
+                    min="0"
+                    type="number"
+                    v-model="amount">
+
+      </v-text-field>
+      <v-select
+          v-model="currency"
+          :items="currencies"
+          label="Currency"
+          name="currency"
+          v-validate="'required'"
+          item-text="name"
+      ></v-select>
+      <v-btn type="button"
+             style="height: 22px; margin-top: 20px;"
+             value="Save"
+             @click="save"
+             :disabled="isDisable(name, currency)">Save</v-btn>
+    </v-row>
     <p id="error_line"
        style="display: none; padding: 15px;">Account already exists!</p>
     <p id="rec_line"
@@ -41,7 +40,6 @@
          id="recover_block">
       <p>You already had this account. Do you want to recover it?</p>
       <button type="button"
-
              value="Yes"
              @click="recover"
               id="yes"><v-icon>thumb_up_alt</v-icon></button>
@@ -51,6 +49,7 @@
               id="no"><v-icon>thumb_down_alt</v-icon></button>
     </div>
   </div>
+
 </template>
 <script>
 export default {
@@ -60,16 +59,28 @@ export default {
       name: '',
       amount: '',
       currency: '',
-      id: ''
+      id: '',
+      currenciesValues:[],
+      rulesName: [
+        value => !!value || 'Required.'
+      ],
+      rules: [
+        value => !!value || 'Required.',
+        value => (value && value.match(/^\d+(\.\d\d)?$/) && value.indexOf(".") != '-1') || 'Invalid input.',
+      ],
     }
   },
+  created () {
+    this.initialize()
+  },
+
   methods: {
-    checkAmount() {
-      if (this.amount.indexOf(".") != '-1') {
-        this.amount = this.amount.substring(0, this.amount.indexOf(".") + 3);
-      } else {
-        this.amount = this.amount + ".00";
-      }
+    initialize(){
+      this.currenciesValues = this.currencies.map(function(item) {
+        return {
+          currency: item.name
+        };
+      });
     },
     isDisable(name, currency) {
       return name.length == 0 || currency.length == 0;

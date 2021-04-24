@@ -1,18 +1,23 @@
 <template>
-  <div>
-    <account-form :accounts="accounts"
-                  :currencies="currencies"/>
-    <v-divider></v-divider>
-    <div style="display: flex;
+  <v-app>
+    <div>
+      <data-app>
+        <account-form :accounts="accounts"
+                      :currencies="currencies"/>
+      </data-app>
+      <v-divider></v-divider>
+      <div style="display: flex;
     flex-wrap: wrap;
     justify-content:center;
     align-items:center;">
-      <account-row v-for="account in accounts"
-                   :key="account.id"
-                   :account="account"
-                   :accounts="accounts"/>
+        <account-row v-for="account in accounts"
+                     :key="account.id"
+                     :account="account"
+                     :accounts="accounts"/>
+      </div>
+
     </div>
-  </div>
+  </v-app>
 </template>
 <script>
 import AccountRow from 'components/accounts/AccountRow.vue'

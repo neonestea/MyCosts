@@ -1,9 +1,11 @@
 <template>
-<div>
+  <v-app>
+<div style="background: #F4F5F5;">
   <cost-form :costs="costs"
               :accounts="accounts"
               :categories="categories" />
   <v-divider style="margin: 20px 0;"></v-divider>
+  <data-app>
   <v-card>
   <v-card-title>
     MyCosts
@@ -31,7 +33,9 @@
     </template>
   </v-data-table>
   </v-card>
+  </data-app>
   </div>
+  </v-app>
 </template>
 <script>
 import CostForm from 'components/costs/CostForm.vue'
