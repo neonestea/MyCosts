@@ -1,6 +1,7 @@
 <template>
   <div style="paddig: 10px; margin-bottom: 10px; margin-top:30px; margin-left: 10px; margin-right:10px;">
-    <v-row>
+    <v-row style="justify-content: center;
+    padding: 10px;">
       <v-menu
           v-model="menu2"
           :close-on-content-click="false"
@@ -12,8 +13,6 @@
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
               v-model="date"
-              :max="max"
-              :min="min"
               prepend-icon="event"
               readonly
               v-bind="attrs"
@@ -22,6 +21,8 @@
         </template>
         <v-date-picker
             v-model="date"
+            :max="max"
+            :min="min"
             @input="menu2 = false"
         ></v-date-picker>
       </v-menu>
@@ -33,10 +34,9 @@
                   step="0.01"
                   min="0"
                   type="number"
+                  :rules="rules"
                   v-model="amount">
-
     </v-text-field>
-
         <v-select
             :items="accounts"
             label="Account"
@@ -45,8 +45,6 @@
             v-validate="'required'"
             item-text="name"
         ></v-select>
-
-
         <v-select
             v-model="category"
             :items="categories"
@@ -59,25 +57,6 @@
       <v-btn type="button" value="Save" @click="save" style="height: 22px; margin-top: 20px;"
                      :disabled="isDisable(amount, account, category)">Save</v-btn>
     </v-row>
-<!--    <select type="text" v-model="account" style="background: #FFF;
-    padding: 5px;
-    border-radius: 5px;">
-      <option value="" disabled selected>Account</option>
-      <option v-for="acc in accounts"
-              :key="acc.id"
-              :value="acc">{{ acc.name }}
-      </option>
-    </select>-->
-<!--    <select type="text" v-model="category" style="background: #FFF;
-    padding: 5px;
-    border-radius: 5px;">
-      <option value="" disabled selected>Category</option>
-      <option v-for="cat in categories"
-              :key="cat.id"
-              :value="cat">{{ cat.name }}
-      </option>
-    </select>-->
-
   </div>
 </template>
 <script>
@@ -112,8 +91,7 @@ export default {
       min: minDate,
       menu2: false,
       rules: [
-        value => !!value || 'Required.',
-        value => (value && value.match(/^\d+(\.\d\d)?$/) && value.indexOf(".") != '-1') || 'Invalid input.',
+        value => (((value.match(/^\d+(\.\d\d)?$/) || value.match(/^\d+(\.\d)?$/))&& value.indexOf(".") != '-1') || value.indexOf(".") == '-1' ) || 'Invalid input.',
       ],
       accItems: [],
     }
@@ -129,8 +107,8 @@ export default {
       }
     },
     isDisable(amount, account, category) {
-        let res = this.amount.match(/^\d+(\.\d\d)?$/);
-        return amount.length == 0 || account.length == 0 || category.length == 0 || !res || (this.amount.indexOf(".") == '-1');
+      let res = ((this.amount.match(/^\d+(\.\d\d)?$/) || this.amount.match(/^\d+(\.\d)?$/)) && this.amount.indexOf(".") != '-1') || this.amount.indexOf(".") == '-1';
+      return amount.length == 0 || account.length == 0 || category.length == 0 || !res;
     },
     save() {
       var realAcc;

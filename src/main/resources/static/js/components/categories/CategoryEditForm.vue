@@ -1,16 +1,14 @@
 <template>
   <div class="editForm"
        :id="`form`+category.id">
-    <v-card-title>New category name:</v-card-title>
-
-    <input :id="`name`+category.id"
-         type="text"
-           style="padding: 5px;
-          border: dotted 1px;"
-         placeholder="Category name"
-         v-model="name"
-         maxlength="25"
-         onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
+    <v-text-field :id="`name`+category.id"
+        label="New name"
+                  hide-details="auto"
+                  placeholder="Category name"
+                  type="text"
+                  maxlength="25"
+                  v-model="name"></v-text-field>
+    <div style="display: flex; justify-content: space-evenly; padding: 10px;">
   <button :id="`editBtn`+category.id"
           type="button"
           value="Edit"
@@ -20,6 +18,7 @@
          type="button"
          value="Cancel"
          @click="cancel" ><v-icon>cancel</v-icon></button>
+  </div>
   </div>
 </template>
 <script>

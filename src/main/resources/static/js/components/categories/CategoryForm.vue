@@ -36,9 +36,6 @@ export default {
     return {
       name: '',
       id: '',
-      rulesName: [
-        value => !!value || 'Required.'
-      ],
     }
   },
   methods: {

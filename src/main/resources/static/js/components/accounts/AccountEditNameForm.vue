@@ -1,37 +1,39 @@
 <template>
   <div class="editForm"
        :id="`name_form`+amount.id">
-    <v-card-title>New account name:</v-card-title>
-    <input :id="`name`+account.id"
+    <div style="display: flex;">
+      <v-text-field :id="`name`+account.id"
+                    label="Account name"
+                    hide-details="auto"
+                    placeholder="Account name"
+                    type="text"
+                    maxlength="25"
+                    v-model="name"></v-text-field>
+      <button :id="`editBtn`+account.id"
+              style="margin-top: 20px; margin-left: 5px;"
+              type="button"
+              value="Edit"
+              @click="editName"
+              :disabled="isDisableName()"><v-icon>edit</v-icon></button>
+    </div>
+    <div style="display: flex;">
+      <v-text-field label="New amount"
+                    :id="`amount`+account.id"
+                    :rules="rules"
+                    hide-details="auto"
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
+                    type="number"
+                    v-model="amount"></v-text-field>
+      <button :id="`editBtn`+account.id"
+              style="margin-top: 20px; margin-left: 5px;"
+              type="button"
+              value="Edit"
+              @click="editAmount"
+              :disabled="isDisableAmount()"><v-icon>edit</v-icon></button>
+    </div>
 
-           type="text"
-           placeholder="Account name"
-           v-model="name"
-           maxlength="25"
-           style="padding: 5px;
-    border: dotted 1px;"
-           onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)"/>
-    <button :id="`editBtn`+account.id"
-
-            type="button"
-            value="Edit"
-            @click="editName"
-            :disabled="isDisableName()"><v-icon>edit</v-icon></button>
-    <v-card-title>New amount:</v-card-title>
-    <input :id="`amount`+account.id"
-           class="inp"
-           style="padding: 5px;
-    border: dotted 1px;"
-           type="number"
-           step="0.01"
-           placeholder="Amount"
-           v-model="amount"
-           :oninput="checkAmount()"/>
-    <button :id="`editBtn`+account.id"
-           type="button"
-           value="Edit"
-           @click="editAmount"
-            :disabled="isDisableAmount()"><v-icon>edit</v-icon></button>
     <div style="display: flex; justify-content: center; margin: 10px;">
       <button :id="`cancelBtn`+account.id"
               type="button"
@@ -50,55 +52,20 @@ export default {
       name: this.account.name,
       amount: this.account.amount.toString(),
       currency: this.account.currency,
-      id: this.account.id
+      id: this.account.id,
+      rules: [
+        value => (((value.match(/^\d+(\.\d\d)?$/) || value.match(/^\d+(\.\d)?$/))&& value.indexOf(".") != '-1') || value.indexOf(".") == '-1' ) || 'Invalid input.',
+      ],
     }
   },
   methods: {
-    checkAmount() {
-      if(parseInt(this.amount) > 0){
-        let res = this.amount.match(/^\d+(\.\d\d)?$/);
-        const form = document.getElementById('name_form' + this.account.id);
-        if(form != null) {
-          const el = document.getElementById('amount' + this.account.id);
-          if (this.amount.length != 0) {
-            if (res && (this.amount.indexOf(".") != '-1')) {
-              el.style.background = "#E2ECDE";
-            } else {
-              el.style.background = "#F9D4D1";
-            }
-          }
-        }
-      }
-      else{
-        let new_amount = this.amount.slice(1);
-        let res = new_amount.match(/^\d+(\.\d\d)?$/);
-
-        const form = document.getElementById('name_form' + this.account.id);
-        if(form != null) {
-          const el = document.getElementById('amount' + this.account.id);
-          if (this.amount.length != 0) {
-            if (res && (this.amount.indexOf(".") != '-1')) {
-              el.style.background = "#E2ECDE";
-            } else {
-              el.style.background = "#F9D4D1";
-            }
-          }
-        }
-      }
-    },
     isDisableName() {
-
       return this.name.length == 0 || this.name == this.account.name;
     },
     isDisableAmount(){
-      let res = false;
-      if(parseInt(this.amount) > 0){
-        res = this.amount.match(/^\d+(\.\d\d)?$/);}
-      else {
-        let new_amount = this.amount.slice(1);
-        res = new_amount.match(/^\d+(\.\d\d)?$/);
-      }
-      return this.amount.length == 0 || this.amount == this.account.amount || !res || (this.amount.indexOf(".") == '-1');
+      let res = ((this.amount.match(/^\d+(\.\d\d)?$/) || this.amount.match(/^\d+(\.\d)?$/)) && this.amount.indexOf(".") != '-1') || this.amount.indexOf(".") == '-1';
+
+      return this.amount.length == 0 || this.amount == this.account.amount || !res;
     },
     cancel() {
       const form = document.getElementById('name_form' + this.account.id);

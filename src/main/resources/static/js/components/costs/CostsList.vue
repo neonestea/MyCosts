@@ -15,6 +15,7 @@
         append-icon="search"
         label="Search"
         single-line
+
         hide-details
     ></v-text-field>
   </v-card-title>
@@ -23,6 +24,7 @@
       :items="costsRow"
       :search="search"
       sort-by="date"
+      multi-sort
       class="elevation-1"
   >
     <template v-slot:item.actions="{ item }">

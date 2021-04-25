@@ -1,6 +1,6 @@
 <template>
   <div style="margin: 20px 10px;">
-    <v-row>
+    <v-row style="padding: 15px;">
       <v-text-field id="addInput"
                     label="Account name"
                     hide-details="auto"
@@ -10,8 +10,9 @@
                     v-model="name"></v-text-field>
       <v-text-field label="Amount"
                     id="addInput"
+                    :rules="rules"
                     hide-details="auto"
-                    placeholder="Amount"
+                    placeholder="0.00"
                     step="0.01"
                     min="0"
                     type="number"
@@ -61,12 +62,8 @@ export default {
       currency: '',
       id: '',
       currenciesValues:[],
-      rulesName: [
-        value => !!value || 'Required.'
-      ],
       rules: [
-        value => !!value || 'Required.',
-        value => (value && value.match(/^\d+(\.\d\d)?$/) && value.indexOf(".") != '-1') || 'Invalid input.',
+        value => (((value.match(/^\d+(\.\d\d)?$/) || value.match(/^\d+(\.\d)?$/))&& value.indexOf(".") != '-1') || value.indexOf(".") == '-1' ) || 'Invalid input.',
       ],
     }
   },
@@ -83,7 +80,9 @@ export default {
       });
     },
     isDisable(name, currency) {
-      return name.length == 0 || currency.length == 0;
+      let res = ((this.amount.match(/^\d+(\.\d\d)?$/) || this.amount.match(/^\d+(\.\d)?$/)) && this.amount.indexOf(".") != '-1') || this.amount.indexOf(".") == '-1';
+
+      return name.length == 0 || currency.length == 0 || !res || this.amount.length == 0;
     },
     recover() {
       this.$resource('/account{/id}').update({id: this.id}, null)

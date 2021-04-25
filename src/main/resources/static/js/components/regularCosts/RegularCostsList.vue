@@ -1,4 +1,5 @@
 <template>
+  <v-app>
   <div>
     <regular-cost-form :regularCosts="regularCosts"
                :accounts="accounts"
@@ -32,6 +33,7 @@
       </v-data-table>
     </v-card>
   </div>
+  </v-app>
 </template>
 <script>
 import RegularCostForm from 'components/regularCosts/RegularCostForm.vue'
