@@ -12,6 +12,18 @@ export default {
       series: [44, 55, 100, 21]
 
     }
+  },
+  created () {
+    this.initialize()
+  },
+  methods: {
+    initialize(){
+      this.$resource('/last-month-stat').get().then(result =>
+          result.json().then(data => {
+            console.log(data);
+          })
+      )
+    }
   }
 }
 </script>
