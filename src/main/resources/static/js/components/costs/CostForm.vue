@@ -53,7 +53,6 @@
             v-validate="'required'"
             item-text="name"
         ></v-select>
-
       <v-btn type="button" value="Save" @click="save" style="height: 22px; margin-top: 20px;"
                      :disabled="isDisable(amount, account, category)">Save</v-btn>
     </v-row>
@@ -96,16 +95,7 @@ export default {
       accItems: [],
     }
   },
-  created () {
-    this.initialize()
-  },
   methods: {
-
-    initialize(){
-      for (let i = 0; i < props.accounts.length; i++){
-        console.log(this.accounts.get(i).name)
-      }
-    },
     isDisable(amount, account, category) {
       let res = ((this.amount.match(/^\d+(\.\d\d)?$/) || this.amount.match(/^\d+(\.\d)?$/)) && this.amount.indexOf(".") != '-1') || this.amount.indexOf(".") == '-1';
       return amount.length == 0 || account.length == 0 || category.length == 0 || !res;

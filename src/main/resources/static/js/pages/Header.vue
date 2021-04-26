@@ -1,7 +1,6 @@
 <template>
 
   <div>
-
     <v-toolbar
         dark
         prominent

@@ -71,7 +71,6 @@
                     style="width: 50px;"
                     :disabled="isDisableInterval()"
                     v-model="dayInterval">
-
       </v-text-field>
       <v-btn type="button" value="Save" @click="save" style="height: 22px; margin-top: 20px;"
              :disabled="isDisable()">Save</v-btn>
@@ -143,6 +142,8 @@ export default {
           result.json().then(data => {
             this.regularCosts.push(data);
             this.amount = ''
+            this.account = ''
+            this.category = ''
             location.reload();
           })
       )

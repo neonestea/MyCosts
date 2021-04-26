@@ -7,9 +7,9 @@ export default {
   data: function() {
     return {
       options: {
-        labels: ['Apple', 'Mango', 'Orange']
+        labels: ['Food', 'Services', 'Other', 'Entertainment']
       },
-      series: [44, 55, 41]
+      series: [44, 55, 100, 21]
 
     }
   }

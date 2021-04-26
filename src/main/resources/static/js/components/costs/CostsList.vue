@@ -79,7 +79,6 @@ export default {
     deleteItem (item) {
       this.$resource('/costs{/id}').remove({id: item.id}).then(result => {
         if (result.ok) {
-          //this.costsRow.splice(this.costs.indexOf(this.cost), 1)
           location.reload();
         }
       })

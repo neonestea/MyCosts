@@ -54,6 +54,8 @@ new Vue ({
     render: a => a(MainPage)
 })
 
+
+
 new Vue ({
     el: '#categoriesApp',
     vuetify : new Vuetify(),
