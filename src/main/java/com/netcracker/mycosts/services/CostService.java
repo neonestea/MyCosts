@@ -97,6 +97,7 @@ public class CostService {
         Account account = cost.getAccount();
         Category category = cost.getCategory();
         double amount = cost.getAmount();
+        double amountUSD = cost.getAmountUSD();
 
         LocalDate startDate = LocalDate.of(costDate.getYear(), costDate.getMonth(), 1);
         MonthCosts monthCost = monthCostsService.findMonthCostsByUserAndAccountAndCategoryAndStartDate(user, account, category,
@@ -109,9 +110,11 @@ public class CostService {
                     .startDate(startDate)
                     .category(category)
                     .amount(amount)
+                    .amountUSD(amountUSD)
                     .build();
         } else {
             monthCost.addCostAmount(amount);
+            monthCost.addCostAmountUSD(amountUSD);
         }
 
         monthCostsService.save(monthCost);

@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS month_costs
 (
     id          SERIAL PRIMARY KEY,
     amount      NUMERIC(10, 2),
+    amount_usd  NUMERIC(10, 2),
     start_date  DATE,
     category_id INTEGER REFERENCES categories (id),
     account_id  INTEGER REFERENCES accounts (id),

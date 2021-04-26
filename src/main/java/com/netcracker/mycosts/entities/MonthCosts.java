@@ -24,6 +24,9 @@ public class MonthCosts {
 
     private double amount;
 
+    @Column(name = "amount_usd")
+    private double amountUSD;
+
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
@@ -40,4 +43,9 @@ public class MonthCosts {
     public void addCostAmount(double amount) {
         this.amount += amount;
     }
+
+    public void addCostAmountUSD(double amountUSD) {
+        this.amountUSD += amountUSD;
+    }
+
 }

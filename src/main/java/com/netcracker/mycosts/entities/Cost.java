@@ -23,7 +23,6 @@ public class Cost {
     private int id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    //@Temporal(TemporalType.DATE)
     private LocalDate date;
 
     private double amount;
