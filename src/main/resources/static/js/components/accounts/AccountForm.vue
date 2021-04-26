@@ -24,7 +24,6 @@
           :items="currencies"
           label="Currency"
           name="currency"
-          v-validate="'required'"
           item-text="name"
       ></v-select>
       <v-btn type="button"

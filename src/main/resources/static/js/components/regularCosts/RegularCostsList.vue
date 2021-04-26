@@ -154,12 +154,13 @@ export default {
   },
   methods: {
     initialize(){
+      let per;
       this.regularCostsRow = this.regularCosts.map(function(item) {
-        if(item.everyMonthPicked == false){
-          let per = item.period;
+        if(item.everyMonth == false){
+          per = item.period;
         }
         else {
-          let per = 'monthly';
+          per = 'monthly';
         }
         return {
           name: item.name,

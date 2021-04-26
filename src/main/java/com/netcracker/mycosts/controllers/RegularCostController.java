@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 
@@ -52,10 +49,10 @@ public class RegularCostController {
     }
 
 
-    @DeleteMapping("/regular_costs")
-    public ResponseEntity<RegularCost> deleteRegularCost(@RequestParam int regularCostId,
+    @DeleteMapping("/regular_costs/{id}")
+    public ResponseEntity<RegularCost> deleteRegularCost(@PathVariable int id,
                                                          @AuthenticationPrincipal User user) {
-        regularCostService.deleteById(regularCostId);
+        regularCostService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
