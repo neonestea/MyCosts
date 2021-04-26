@@ -7,7 +7,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.netcracker.mycosts.entities.Currency;
 import com.netcracker.mycosts.entities.MonthCosts;
 import com.netcracker.mycosts.entities.User;
-import com.netcracker.mycosts.entities.UserEmailView;
+//import com.netcracker.mycosts.entities.UserEmailView;
 import com.netcracker.mycosts.services.MonthCostsService;
 import com.netcracker.mycosts.services.UserService;
 
@@ -42,7 +42,7 @@ public class MonthReportActivity {
     private MonthCostsService monthCostsService;
 
     //TODO Cron - the last day of each month
-    @SneakyThrows
+    /*@SneakyThrows
     @Scheduled(fixedRate = 60000000)
     public void first() {
         List<String> usersEmails = userService.getUsersEmails().stream()
@@ -51,7 +51,7 @@ public class MonthReportActivity {
 
         usersEmails.parallelStream()
                 .forEach(this::sendEmail);
-    }
+    }*/
 
     @SneakyThrows
     private InputStream createDocument(List<MonthCosts> userMonthCosts) {

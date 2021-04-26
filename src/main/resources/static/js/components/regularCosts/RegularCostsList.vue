@@ -24,12 +24,101 @@
           sort-by="date"
           class="elevation-1"
       >
-        <template v-slot:item.actions="{ item }">
-          <v-icon
-              small
-              @click="deleteItem(item)"
-          >delete</v-icon>
-        </template>
+<!--        <v-dialog
+            v-model="dialog"
+            max-width="500px"
+        >
+          <v-card>
+            <v-card-title>
+              <span class="headline">Edit</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <v-text-field
+                        v-model="editedItem.name"
+                        label="Cost name"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <v-text-field
+                        v-model="editedItem.nextPayDate"
+                        label="Next pay date"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <v-text-field
+                        v-model="editedItem.amount"
+                        label="Amount"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <v-text-field
+                        v-model="editedItem.carbs"
+                        label="Carbs (g)"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                  >
+                    <v-text-field
+                        v-model="editedItem.protein"
+                        label="Protein (g)"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="close"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="save"
+              >
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>-->
+          <template v-slot:item.actions="{ item }">
+            <v-icon
+                small
+                class="mr-2"
+                @click="editItem(item)"
+            >edit</v-icon>
+            <v-icon
+                small
+                @click="deleteItem(item)"
+            >delete</v-icon>
+          </template>
       </v-data-table>
     </v-card>
   </div>
@@ -66,11 +155,17 @@ export default {
   methods: {
     initialize(){
       this.regularCostsRow = this.regularCosts.map(function(item) {
+        if(item.everyMonthPicked == false){
+          let per = item.period;
+        }
+        else {
+          let per = 'monthly';
+        }
         return {
           name: item.name,
           lastDate: item.lastDate,
           nextPayDate: item.nextDate,
-          period: item.period,
+          period: per,
           amount: item.amount,
           id: item.id,
           category: item.category.name,

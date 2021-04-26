@@ -1,10 +1,26 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
     devtool: 'source-map',
-    entry: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'main.js'),
+    entry: {
+        'mainPage': path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'main.js'),
+        /*'categoriesPage': path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'categories.js'),
+        'accountsPage' : path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'accounts.js'),
+        'costsPage' : path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'costs.js'),
+        'regularCostsPage' : path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'regularCosts.js'),
+        'statisticsPage' : path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'statistics.js'),*/
+    },
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src', 'main', 'resources', 'templates', 'main.js'),
+            filename: 'mainPage',
+        }),
+
+    ],
     devServer: {
         contentBase: './dist',
         compress: true,

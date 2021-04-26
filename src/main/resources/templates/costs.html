@@ -13,6 +13,7 @@
     <script th:inline="javascript">
         var frontendData = [[${frontendData}]];
     </script>
+    <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body style="background: #F4F5F5;">
 <header>
@@ -25,6 +26,6 @@
 <footer>
     <div id="foot"></div>
 </footer>
-<script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
+<script th:src="${isDevMode} ? 'http://localhost:8000/costs.js' : '/js/costs.js'"></script>
 </body>
 </html>
