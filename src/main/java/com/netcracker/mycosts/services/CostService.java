@@ -76,10 +76,11 @@ public class CostService {
         Double exchangeToUsdRate = 1.0;
         Currency currency = cost.getAccount().getCurrency();
         if (currency != Currency.USD) {
-            String uri = "https://v6.exchangerate-api.com/v6/612198050b3168e80bedf8bb/latest/" + currency.name();
+            String uri = "https://v6.exchangerate-api.com/v6/502d6864b20b7f5b793bede4/latest/" + currency.name();
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
             ObjectMapper mapper = new ObjectMapper();
+            //TODO check if result is error
             JsonNode root = mapper.readTree(response.getBody());
             JsonNode rate = root.path("conversion_rates");
             exchangeToUsdRate = rate.path("USD").asDouble();
