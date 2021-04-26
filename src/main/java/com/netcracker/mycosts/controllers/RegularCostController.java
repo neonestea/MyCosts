@@ -27,17 +27,38 @@ public class RegularCostController {
     public ResponseEntity<RegularCost> addRegularCost(@RequestBody RegularCost regularCost,
                                                       @AuthenticationPrincipal User user) {
         regularCost.setUser(user);
+        regularCost.setPayDay(regularCost.getLastDate().getDayOfMonth());
         regularCost.setCurrency(regularCost.getAccount().getCurrency());
+        regularCost.setLastDate(LocalDate.now());
+        regularCost.setNextDate(getNextDate(regularCost));
         costService.save(costFromRegularCost(regularCost));
         regularCostService.save(regularCost);
         return ResponseEntity.status(HttpStatus.CREATED).body(regularCost);
     }
 
+    @DeleteMapping("/regular_costs/{id}")
+    public ResponseEntity<RegularCost> deleteRegularCost(@PathVariable int id,
+                                                         @AuthenticationPrincipal User user) {
+        regularCostService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
 
-    public Cost costFromRegularCost(RegularCost regularCost) {
+    private LocalDate getNextDate(RegularCost regularCost) {
+        LocalDate nextDate;
+        if (regularCost.isEveryMonth()) {
+            nextDate = LocalDate.now().plusMonths(1);
+            nextDate = nextDate.getDayOfMonth() < regularCost.getPayDay() ?  LocalDate.of(nextDate.getYear(), nextDate.getMonth(), regularCost.getPayDay())
+                    : nextDate;
+        } else {
+            nextDate = LocalDate.now().plusDays(regularCost.getPeriod());
+        }
+        return nextDate;
+    }
+
+    private Cost costFromRegularCost(RegularCost regularCost) {
         CurrencyExchangeRate currencyExchangeRate =
                 currencyExchangeRateService.findByCurrencyAndDate(regularCost.getCurrency()
-                ,regularCost.getLastDate());
+                        ,regularCost.getLastDate());
         return Cost.builder()
                 .user(regularCost.getUser())
                 .amount(regularCost.getAmount())
@@ -47,15 +68,6 @@ public class RegularCostController {
                 .category(regularCost.getCategory())
                 .build();
     }
-
-
-    @DeleteMapping("/regular_costs/{id}")
-    public ResponseEntity<RegularCost> deleteRegularCost(@PathVariable int id,
-                                                         @AuthenticationPrincipal User user) {
-        regularCostService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-    }
-
 
     @Autowired
     public void setRegularCostService(RegularCostService regularCostService) {

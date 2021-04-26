@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS regular_costs
     name        VARCHAR(25),
     last_date   DATE,
     next_date   DATE,
+    pay_day     INTEGER,
     every_month BOOLEAN,
     period      INTEGER,
     amount      NUMERIC(10, 2),
