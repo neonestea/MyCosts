@@ -20,6 +20,20 @@ export default {
         data: [21000, 7000, 25000, 13000, 22000, 8000,21000, 7000, 25000, 13000, 22000, 8000,]
       }],
       options: {
+        title: {
+          text: "Your costs by the last year",
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize:  '14px',
+            fontWeight:  'bold',
+            fontFamily:  undefined,
+            color:  '#263238'
+          },
+        },
         dataLabels: {
           enabled: false,
         },

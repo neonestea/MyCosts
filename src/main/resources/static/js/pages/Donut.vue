@@ -6,7 +6,23 @@
 export default {
   data: function() {
     return {
+
       options: {
+        title: {
+          text: "Your costs (USD) by categories rate",
+          align: 'center',
+          margin: 10,
+          offsetX: 0,
+          offsetY: 0,
+          floating: false,
+          style: {
+            fontSize:  '14px',
+            fontWeight:  'bold',
+            fontFamily:  undefined,
+            color:  '#263238'
+          },
+        },
+
         labels: ['Food', 'Services', 'Other', 'Entertainment'],
       },
       series: [44, 55, 100, 21]
