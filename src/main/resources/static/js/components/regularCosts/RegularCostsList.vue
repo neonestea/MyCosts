@@ -1,6 +1,6 @@
 <template>
   <v-app>
-  <div>
+  <div style="background: #F4F5F5;">
     <regular-cost-form :regularCosts="regularCosts"
                :accounts="accounts"
                :categories="categories" />
