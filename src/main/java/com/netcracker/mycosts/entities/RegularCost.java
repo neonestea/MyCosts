@@ -32,6 +32,8 @@ public class RegularCost {
     @Enumerated(EnumType.STRING)
     private Currency currency;
 
+    private int payDay;
+
     private int period;
 
     private boolean everyMonth;
