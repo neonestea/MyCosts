@@ -14,8 +14,7 @@
       <v-stepper-content step="1">
         <small>Click the logIn button in the top right corner of the app.</small>
         <v-img
-            max-height="150"
-            max-width="250"
+            max-width="550"
             src="/images/step0.jpg"
         ></v-img>
         <v-btn
@@ -82,7 +81,7 @@
         <small>Check "Costs" and "Regular costs" tab to manage your costs.</small>
         <v-img
             max-height="150"
-            max-width="250"
+            max-width="450"
             src="/images/step3-1.jpg"
         ></v-img>
         <v-btn
