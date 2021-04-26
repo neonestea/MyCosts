@@ -42,7 +42,6 @@
             label="Account"
             v-model="account"
             name="account"
-            v-validate="'required'"
             item-text="name"
         ></v-select>
         <v-select
@@ -50,7 +49,6 @@
             :items="categories"
             label="Category"
             name="category"
-            v-validate="'required'"
             item-text="name"
         ></v-select>
       <v-btn type="button" value="Save" @click="save" style="height: 22px; margin-top: 20px;"
