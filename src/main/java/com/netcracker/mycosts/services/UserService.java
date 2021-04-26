@@ -2,11 +2,11 @@ package com.netcracker.mycosts.services;
 
 import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.entities.User;
+import com.netcracker.mycosts.entities.UserEmailView;
 import com.netcracker.mycosts.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -47,12 +47,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
     public void deleteById(String id) {
         userRepository.deleteById(id);
+    }
+    
+    public List<UserEmailView> getUsersEmails() {
+       return userRepository.findBy();
     }
 
     @Autowired

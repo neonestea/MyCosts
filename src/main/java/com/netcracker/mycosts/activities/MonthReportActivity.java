@@ -4,6 +4,15 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.netcracker.mycosts.entities.Currency;
+import com.netcracker.mycosts.entities.MonthCosts;
+import com.netcracker.mycosts.entities.User;
+import com.netcracker.mycosts.entities.UserEmailView;
+import com.netcracker.mycosts.services.MonthCostsService;
+import com.netcracker.mycosts.services.UserService;
+
+import java.util.Comparator;
+import java.util.List;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.CharEncoding;
 import org.apache.pdfbox.io.IOUtils;
@@ -20,6 +29,8 @@ import org.springframework.stereotype.Component;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
@@ -27,11 +38,23 @@ import java.util.stream.Stream;
 public class MonthReportActivity {
 
     private JavaMailSender emailSender;
+    private UserService userService;
+    private MonthCostsService monthCostsService;
 
     //TODO Cron - the last day of each month
     @SneakyThrows
-    //@Scheduled(fixedRate = 60000)
-    public InputStream createDocument() {
+    @Scheduled(fixedRate = 60000000)
+    public void first() {
+        List<String> usersEmails = userService.getUsersEmails().stream()
+                .map(userEmailView -> userEmailView.getEmail())
+                .collect(Collectors.toList());
+
+        usersEmails.parallelStream()
+                .forEach(this::sendEmail);
+    }
+
+    @SneakyThrows
+    private InputStream createDocument(List<MonthCosts> userMonthCosts) {
         Document document = new Document(PageSize.A4, 20, 20, 20, 20);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, outputStream);
@@ -44,30 +67,41 @@ public class MonthReportActivity {
         title.setSpacingAfter(20);
         title.setAlignment(1);
         document.add(title);
-        PdfPTable table = new PdfPTable(3);
+        PdfPTable table = new PdfPTable(4);
         addTableHeader(table);
-        addRow(table);
+        userMonthCosts.forEach(monthCosts ->  addRow(table, monthCosts));
         document.add(table);
         document.close();
 
         return new ByteArrayInputStream(outputStream.toByteArray());
-
     }
 
     @SneakyThrows
-    private void sendEmail(/*String userEmail*/){
-        InputStream is = createDocument();
+    private void sendEmail(String userEmail){
         String month = LocalDate.now().getMonth().toString();
         String year = String.valueOf(LocalDate.now().getYear());
+        User user = userService.getUserByEmail(userEmail);
+        List<MonthCosts> userMonthCosts = monthCostsService.findMonthCostsByUserAndStartDate(user, LocalDate.of(
+                LocalDate.now().getYear(), LocalDate.now().getMonth(), 1)
+        );
+        userMonthCosts.sort(Comparator.comparing(monthCosts -> monthCosts.getCategory().getName()));
+        Map<Currency, Double> totalCostsByCurrency = userMonthCosts.stream()
+                .collect(Collectors.groupingBy(monthCosts -> monthCosts.getAccount().getCurrency(),
+                        Collectors.summingDouble(monthCost -> monthCost.getAmount())));
+
+
+        InputStream is = createDocument(userMonthCosts);
         String filename = "Costs by " + month + " " + year + ".pdf";
 
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, CharEncoding.UTF_8);
 
-        helper.setTo("yankova.nastya@yandex.ru");
+        helper.setTo(userEmail);
         helper.setSubject("Costs by " + month + " " + year);
         helper.setText("Here is your costs file.");
         helper.addAttachment(filename, new ByteArrayResource(IOUtils.toByteArray(is)));
+
+
 
         emailSender.send(message);
     }
@@ -78,7 +112,7 @@ public class MonthReportActivity {
     }
 
     private void addTableHeader(PdfPTable table) {
-        Stream.of("Category", "Account", "Total amount")
+        Stream.of("Category", "Account", "Currency", "Total amount")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -90,9 +124,20 @@ public class MonthReportActivity {
                 });
     }
 
-    private void addRow(PdfPTable table) {
-        table.addCell("category data");
-        table.addCell("account data");
-        table.addCell("total amount data");
+    private void addRow(PdfPTable table, MonthCosts monthCosts) {
+        table.addCell(monthCosts.getCategory().getName());
+        table.addCell(monthCosts.getAccount().getName());
+        table.addCell(monthCosts.getAccount().getCurrency().name());
+        table.addCell(String.valueOf(monthCosts.getAmount()));
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setMonthCostsService(MonthCostsService monthCostsService) {
+        this.monthCostsService = monthCostsService;
     }
 }

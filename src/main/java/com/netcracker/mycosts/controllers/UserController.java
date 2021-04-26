@@ -20,11 +20,7 @@ public class UserController {
 
     private UserService userService;
 
-    //TODO O.Grabar endpoint for test reasons. Remove until final deployment
-    @GetMapping("/users")
-    public List<User> all() {
-        return userService.findAll();
-    }
+
 
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable String id) {

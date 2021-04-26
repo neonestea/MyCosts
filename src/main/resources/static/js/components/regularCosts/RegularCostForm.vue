@@ -122,8 +122,23 @@ export default {
       return this.everyMonthPicked;
     },
     save() {
-      var regularCost = {name: this.name, lastDate: this.firstDay, amount: this.amount, account: this.account, category: this.category,
-      everyMonth: this.everyMonthPicked};
+      var realAcc;
+      for (let i = 0; i < this.accounts.length; i++) {
+        if (this.accounts[i].name === this.account) {
+          realAcc = this.accounts[i];
+        }
+      }
+
+      var realCat;
+      for (let i = 0; i < this.categories.length; i++) {
+        if (this.categories[i].name === this.category) {
+          realCat = this.categories[i];
+        }
+      }
+
+      var regularCost = {name: this.name, lastDate: this.firstDay, amount: this.amount, account: realAcc, category: realCat,
+      everyMonth: this.everyMonthPicked, period: this.dayInterval};
+      console.log(regularCost)
       this.$resource('/regular_costs{/id}').save({}, regularCost).then(result =>
           result.json().then(data => {
             this.regularCosts.push(data);

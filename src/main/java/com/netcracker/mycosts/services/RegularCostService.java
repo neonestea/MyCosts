@@ -33,6 +33,8 @@ public class RegularCostService {
     public void save(RegularCost regularCost) {
         regularCost.setLastDate(LocalDate.now());
         if (regularCost.isEveryMonth()) {
+            //TODO improve business logic to fix bug with last day after February (O.G. know it)
+            int day;
             regularCost.setNextDate(LocalDate.now().plusMonths(1));
         } else {
             regularCost.setNextDate(LocalDate.now().plusDays(regularCost.getPeriod()));

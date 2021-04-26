@@ -40,4 +40,8 @@ public class MonthCostsService {
     public List<MonthCosts> findMonthCostsByUserAndCategory(User user, Category category) {
         return monthCostsRepository.findMonthCostsByUserAndCategory(user, category);
     }
+
+    public List<MonthCosts> findMonthCostsByUserAndStartDate(User user, LocalDate startDate) {
+        return monthCostsRepository.findMonthCostsByUserAndStartDate(user, startDate);
+    }
 }

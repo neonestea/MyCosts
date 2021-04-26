@@ -17,4 +17,6 @@ public interface MonthCostsRepository extends JpaRepository<MonthCosts, Integer>
     List<MonthCosts> findAllByUser(User user);
 
     List<MonthCosts> findMonthCostsByUserAndCategory(User user, Category category);
+
+    List<MonthCosts> findMonthCostsByUserAndStartDate(User user, LocalDate startDate);
 }
