@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <accounts-list :accounts="accounts" :currencies="currencies"/>
   </div>
 </template>

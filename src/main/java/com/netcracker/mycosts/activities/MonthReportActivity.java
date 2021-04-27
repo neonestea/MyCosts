@@ -42,7 +42,7 @@ public class MonthReportActivity {
     private MonthCostsService monthCostsService;
 
     //TODO Cron - the last day of each month
-    /*@SneakyThrows
+   /* @SneakyThrows
     @Scheduled(fixedRate = 60000000)
     public void first() {
         List<String> usersEmails = userService.getUsersEmails().stream()

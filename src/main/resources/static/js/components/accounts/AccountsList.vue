@@ -1,7 +1,7 @@
 <template>
-  <v-app>
+  <v-app style="background: rgb(244, 245, 245);">
     <div>
-      <data-app>
+      <data-app >
         <account-form :accounts="accounts"
                       :currencies="currencies"/>
       </data-app>

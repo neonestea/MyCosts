@@ -19,7 +19,7 @@
         <v-icon>exit_to_app</v-icon>
       </v-btn>
     </v-toolbar>
-    <div style="background: rgba(205, 214, 224, 0.4); margin-bottom: 20px;">
+    <div style="background: rgba(205, 214, 224, 0.4);">
       <v-btn
           color="white"
           text

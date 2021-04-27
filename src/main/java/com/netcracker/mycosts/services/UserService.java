@@ -3,6 +3,7 @@ package com.netcracker.mycosts.services;
 import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.entities.User;
 //import com.netcracker.mycosts.entities.UserEmailView;
+import com.netcracker.mycosts.entities.UserEmailView;
 import com.netcracker.mycosts.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,9 +52,9 @@ public class UserService {
         userRepository.deleteById(id);
     }
     
-    /*public List<UserEmailView> getUsersEmails() {
+    public List<UserEmailView> getUsersEmails() {
        return userRepository.findBy();
-    }*/
+    }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {

@@ -35,6 +35,7 @@ public class CostController {
         Account account = cost.getAccount();
         int accountId = account.getId();
         double amount = cost.getAmount();
+        double amountUSD = cost.getAmountUSD();
         Category category = cost.getCategory();
         double newAmount = account.getAmount() + amount;
         Account accountFromDB = accountService.getAccountById(accountId);
@@ -45,6 +46,7 @@ public class CostController {
         MonthCosts monthCost = monthCostsService.findMonthCostsByUserAndAccountAndCategoryAndStartDate(user, account, category,
                 startDate);
         monthCost.setAmount(monthCost.getAmount() - amount);
+        monthCost.setAmountUSD(monthCost.getAmountUSD() - amountUSD);
         monthCostsService.save(monthCost);
         accountService.save(accountFromDB);
         costService.deleteCostById(id);
