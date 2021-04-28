@@ -156,13 +156,24 @@ export default {
   created() {
     this.showDonut();
     this.initializeDonut();
-    //this.initializeBar();
+    this.initializeBar();
 
   },
   methods: {
-    /*initializeBar(){
-
-    },*/
+    initializeBar(){
+      this.$resource('/year-months').get().then(result =>
+          result.json().then(data => {
+            console.log("DATES");
+              console.log(data);
+          })
+      );
+      this.$resource('/year-stat').get().then(result =>
+          result.json().then(data => {
+            console.log("CATEGORIES AND AMOUNTS");
+            console.log(data);
+          })
+      );
+    },
     initializeDonut(){
       this.$resource('/last-month-stat').get().then(result =>
           result.json().then(data => {
@@ -178,6 +189,7 @@ export default {
       $("#monthChart").show();
       $("#yearChart").hide();
       $("#report").hide();
+
     },
     showBar(){
       $("#yearChart").show();

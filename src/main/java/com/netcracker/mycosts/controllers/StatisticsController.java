@@ -42,28 +42,30 @@ public class StatisticsController {
                 .sorted(Comparator.comparing(MonthCosts::getStartDate))
                 .collect(Collectors.toList());
         List<CategoryAmounts> categoryAmountsList = new ArrayList<>();
-        CategoryAmounts categoryAmounts = new CategoryAmounts();
+
         userCategories.forEach(category -> {
-            categoryAmounts.setCategory(category);
+
+            //categoryAmounts.setCategory(category);
             final List<Double> amountsByCategoryFromDate = getAmountsByCategoryFromDate(category, startDate, monthCostsList);
-            categoryAmounts.setAmounts(amountsByCategoryFromDate);
+            CategoryAmounts categoryAmounts = new CategoryAmounts(category, amountsByCategoryFromDate);
+            //categoryAmounts.setAmounts();
             categoryAmountsList.add(categoryAmounts);
         });
         return ResponseEntity.status(HttpStatus.OK).body(categoryAmountsList);
     }
 
-    @GetMapping("/year-month")
+    @GetMapping("/year-months")
     public ResponseEntity<List<LocalDate>> getMonthsOfLastYear() {
         List<LocalDate> dates = new ArrayList<>();
         LocalDate date = LocalDate.of(LocalDate.now().minusYears(1).getYear(),
                 LocalDate.now().getMonth(), 1);
 
-        while (date.compareTo(LocalDate.now()) <= 0) {
+        while (date.compareTo(LocalDate.now()) < 0) {
             dates.add(date);
             date = date.plusMonths(1);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(List.of(LocalDate.now()));
+        return ResponseEntity.status(HttpStatus.OK).body(dates);
 
     }
 
@@ -86,9 +88,9 @@ public class StatisticsController {
     private MonthCosts getMonthCostsByCategoryAndDate(Category category, LocalDate date,
                                                       List<MonthCosts> monthCostsList) {
         return monthCostsList.stream()
-                .filter(monthCosts -> monthCosts.getCategory().equals(category) && monthCosts.getStartDate().equals(date))
+                .filter(monthCosts -> monthCosts.getCategory().getName().equals(category.getName()) && monthCosts.getStartDate().equals(date))
                 .findFirst()
-                .orElse(null);
+                .get();
     }
 
     @Autowired
