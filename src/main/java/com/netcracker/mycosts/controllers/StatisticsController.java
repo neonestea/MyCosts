@@ -87,10 +87,13 @@ public class StatisticsController {
 
     private MonthCosts getMonthCostsByCategoryAndDate(Category category, LocalDate date,
                                                       List<MonthCosts> monthCostsList) {
-        return monthCostsList.stream()
-                .filter(monthCosts -> monthCosts.getCategory().getName().equals(category.getName()) && monthCosts.getStartDate().equals(date))
-                .findFirst()
-                .get();
+        for (MonthCosts monthCosts: monthCostsList) {
+            if (monthCosts.getStartDate().equals(date) && monthCosts.getCategory().equals(category)) {
+                System.out.println("BINGO");
+                return monthCosts;
+            }
+        }
+        return null;
     }
 
     @Autowired
