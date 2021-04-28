@@ -28,7 +28,6 @@ public class CostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cost);
     }
 
-    //TODO delete cost
     @DeleteMapping("/costs/{id}")
     public void delete(@PathVariable int id, @AuthenticationPrincipal User user) {
         Cost cost = costService.getCostById(id);
@@ -45,9 +44,13 @@ public class CostController {
 
         MonthCosts monthCost = monthCostsService.findMonthCostsByUserAndAccountAndCategoryAndStartDate(user, account, category,
                 startDate);
-        monthCost.setAmount(monthCost.getAmount() - amount);
-        monthCost.setAmountUSD(monthCost.getAmountUSD() - amountUSD);
-        monthCostsService.save(monthCost);
+        if (monthCost.getAmount() - amount > 0) {
+            monthCost.setAmount(monthCost.getAmount() - amount);
+            monthCost.setAmountUSD(monthCost.getAmountUSD() - amountUSD);
+            monthCostsService.save(monthCost);
+        } else {
+            monthCostsService.delete(monthCost);
+        }
         accountService.save(accountFromDB);
         costService.deleteCostById(id);
     }

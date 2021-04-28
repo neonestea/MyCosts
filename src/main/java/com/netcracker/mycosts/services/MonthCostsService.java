@@ -44,4 +44,8 @@ public class MonthCostsService {
     public List<MonthCosts> findMonthCostsByUserAndStartDate(User user, LocalDate startDate) {
         return monthCostsRepository.findMonthCostsByUserAndStartDate(user, startDate);
     }
+
+    public void delete(MonthCosts monthCost) {
+        monthCostsRepository.delete(monthCost);
+    }
 }

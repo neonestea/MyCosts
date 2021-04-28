@@ -27,9 +27,9 @@ public class RegularCostController {
     public ResponseEntity<RegularCost> addRegularCost(@RequestBody RegularCost regularCost,
                                                       @AuthenticationPrincipal User user) {
         regularCost.setUser(user);
-        regularCost.setPayDay(regularCost.getLastDate().getDayOfMonth());
+        regularCost.setPayDay(regularCost.getNextDate().getDayOfMonth());
         regularCost.setCurrency(regularCost.getAccount().getCurrency());
-        regularCost.setLastDate(LocalDate.now());
+        regularCost.setLastDate(regularCost.getNextDate());
         regularCost.setNextDate(getNextDate(regularCost));
         costService.save(costFromRegularCost(regularCost));
         regularCostService.save(regularCost);

@@ -28,7 +28,6 @@ public class RegularCostService {
     }
 
     public void save(RegularCost regularCost) {
-
         regularCostRepository.save(regularCost);
     }
 

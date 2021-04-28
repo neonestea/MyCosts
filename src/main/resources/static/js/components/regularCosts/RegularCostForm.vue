@@ -133,7 +133,7 @@ export default {
         }
       }
 
-      var regularCost = {name: this.name, lastDate: this.firstDay, amount: this.amount, account: realAcc, category: realCat,
+      var regularCost = {name: this.name, nextDate: this.firstDay, amount: this.amount, account: realAcc, category: realCat,
       everyMonth: this.everyMonthPicked, period: this.dayInterval};
       console.log(regularCost)
       this.$resource('/regular_costs{/id}').save({}, regularCost).then(result =>

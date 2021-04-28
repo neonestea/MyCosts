@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS costs
 (
     id          SERIAL PRIMARY KEY,
     date        DATE,
-    amount      NUMERIC(10, 2),
-    amount_usd  NUMERIC(10, 2),
+    amount      NUMERIC(12, 4),
+    amount_usd  NUMERIC(12, 4),
     category_id INTEGER REFERENCES categories (id),
     account_id  INTEGER REFERENCES accounts (id),
     user_id     VARCHAR(255) REFERENCES users (id)
@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS user_role
 CREATE TABLE IF NOT EXISTS month_costs
 (
     id          SERIAL PRIMARY KEY,
-    amount      NUMERIC(10, 2),
-    amount_usd  NUMERIC(10, 2),
+    amount      NUMERIC(12, 4),
+    amount_usd  NUMERIC(12, 4),
     start_date  DATE,
     category_id INTEGER REFERENCES categories (id),
     account_id  INTEGER REFERENCES accounts (id),
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS regular_costs
     pay_day     INTEGER,
     every_month BOOLEAN,
     period      INTEGER,
-    amount      NUMERIC(10, 2),
+    amount      NUMERIC(12, 4),
     currency    VARCHAR(10),
     category_id INTEGER REFERENCES categories (id),
     account_id  INTEGER REFERENCES accounts (id),

@@ -83,6 +83,7 @@ public class HomeController {
     @GetMapping("/regular")
     public String regularCosts(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
+        user = userService.getUserById(user.getId());
         if(user != null){
             data.put("regularCosts", regularCostService.getAll(user.getId()));
             data.put("profile", user);
