@@ -59,7 +59,7 @@
           v-model="everyMonthPicked"
           label="Every month"
       ></v-checkbox>
-      <v-text-field label="Day interval"
+      <v-text-field label="Interval"
                     id="daysInput"
                     hide-details="auto"
                     placeholder="1"

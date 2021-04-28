@@ -45,7 +45,7 @@
           class="my-2"
           href="/stat"
       >
-        Month statistics
+        Statistics
       </v-btn>
       <v-btn
           color="white"

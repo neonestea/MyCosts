@@ -1,13 +1,17 @@
 
 <template>
   <v-app style="background: #F4F5F5;">
-<v-tabs v-model="tab">
-    <v-tab @click="showDonut();">Month statistics</v-tab>
+<v-tabs style="max-height: 5px;">
+    <v-tab @click="showDonut();" >Month statistics</v-tab>
     <v-tab @click="showBar();">Year statistics</v-tab>
     <v-tab @click="showReport();">Reports</v-tab>
   </v-tabs>
-  <apexchart id="monthChart" style="margin: auto; " width="480" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
+  <apexchart id="monthChart" style="margin: auto; " width="500" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
   <apexchart id="yearChart" style="margin: auto; display: none;" width="700" type="bar" :options="optionsBar" :series="seriesBar"></apexchart>
+    <div id="report" style="margin: auto; display: none;">
+      <p>Здесь будет таблица и кнопка для отправки отчёта :)</p>
+      <p>Но пока их нет :(</p>
+    </div>
   </v-app>
 
 </template>
@@ -35,7 +39,7 @@ export default {
         title: {
           text: "Your costs (USD) by categories rate",
           align: 'center',
-          margin: 10,
+          margin: 20,
           offsetX: 0,
           offsetY: 0,
           floating: false,
@@ -61,6 +65,19 @@ export default {
         data: [21000, 7000, 25000, 13000, 22000, 8000,21000, 7000, 25000, 13000, 22000, 8000,]
       }],
       optionsBar: {
+
+        noData: {
+          text: "You don't have costs yet :(",
+          align: 'center',
+          verticalAlign: 'middle',
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+            color: undefined,
+            fontSize: '14px',
+            fontFamily: undefined
+          }
+        },
         title: {
           text: "Your costs by the last year",
           align: 'center',
@@ -86,7 +103,18 @@ export default {
             show: true
           },
           zoom: {
-            enabled: true
+            enabled: true,
+            type: 'x',
+            resetIcon: {
+              offsetX: -10,
+              offsetY: 0,
+              fillColor: '#fff',
+              strokeColor: '#37474F'
+            },
+            selection: {
+              background: '#90CAF9',
+              border: '#0D47A1'
+            }
           }
         },
         responsive: [{
@@ -138,27 +166,28 @@ export default {
     initializeDonut(){
       this.$resource('/last-month-stat').get().then(result =>
           result.json().then(data => {
-            this.options = {
-              labelsDonut: Object.keys(data),
+            this.optionsDonut = {
+              labels: Object.keys(data),
+
             };
             this.seriesDonut = Object.values(data);
           })
-      )
+      );
     },
     showDonut(){
       $("#monthChart").show();
       $("#yearChart").hide();
-      console.log("DONUT");
+      $("#report").hide();
     },
     showBar(){
-      $("#monthChart").hide();
       $("#yearChart").show();
-      console.log("BAR");
+      $("#monthChart").hide();
+      $("#report").hide();
     },
     showReport(){
+      $("#report").show();
       $("#yearChart").hide();
       $("#monthChart").hide();
-      console.log("REPORT");
     },
   }
 }

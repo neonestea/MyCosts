@@ -26,8 +26,8 @@ export default {
   props: ['category', 'categories'],
   data: function() {
     return {
-      name: this.category.name,
-      id: this.category.id
+      name: '',
+      id: ''
     }
   },
   methods: {

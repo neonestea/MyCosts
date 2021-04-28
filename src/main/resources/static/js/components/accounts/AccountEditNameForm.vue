@@ -49,8 +49,8 @@ export default {
   props: ['account', 'accounts'],
   data: function () {
     return {
-      name: this.account.name,
-      amount: this.account.amount.toString(),
+      name: '',
+      amount: '',
       currency: this.account.currency,
       id: this.account.id,
       rules: [
