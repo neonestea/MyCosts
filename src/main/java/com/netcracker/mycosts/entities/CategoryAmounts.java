@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryAmounts {
-    private Category category;
+    private String categoryName;
     private List<Double> amounts = new ArrayList<>();
 }

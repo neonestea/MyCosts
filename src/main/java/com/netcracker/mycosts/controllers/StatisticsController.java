@@ -36,18 +36,21 @@ public class StatisticsController {
         user = userService.getUserById(user.getId());
         Set<Category> userCategories = user.getCategories();
         LocalDate startDate = LocalDate.of(LocalDate.now().minusYears(1).getYear(),
-                LocalDate.now().getMonth(), 1);
-        List<MonthCosts> monthCostsList = monthCostsService.findMonthCostsByUserAndStartDate(user, startDate).stream()
-                .filter(monthCosts -> monthCosts.getAmountUSD() > 0)
+                LocalDate.now().plusMonths(1).getMonth(), 1);
+        System.out.println(startDate);
+        List<MonthCosts> monthCostsList = monthCostsService.findMonthCostsByUser(user).stream()
+                .filter(monthCosts -> monthCosts.getStartDate().compareTo(startDate) > 0)
                 .sorted(Comparator.comparing(MonthCosts::getStartDate))
                 .collect(Collectors.toList());
+       /* List<MonthCosts> monthCostsList = monthCostsService.findMonthCostsByUserAndStartDate(user, startDate);*//*.stream()
+                //.filter(monthCosts -> monthCosts.getAmountUSD() > 0)
+                .sorted(Comparator.comparing(MonthCosts::getStartDate))
+                .collect(Collectors.toList());*/
         List<CategoryAmounts> categoryAmountsList = new ArrayList<>();
-
         userCategories.forEach(category -> {
-
             //categoryAmounts.setCategory(category);
             final List<Double> amountsByCategoryFromDate = getAmountsByCategoryFromDate(category, startDate, monthCostsList);
-            CategoryAmounts categoryAmounts = new CategoryAmounts(category, amountsByCategoryFromDate);
+            CategoryAmounts categoryAmounts = new CategoryAmounts(category.getName(), amountsByCategoryFromDate);
             //categoryAmounts.setAmounts();
             categoryAmountsList.add(categoryAmounts);
         });
@@ -55,13 +58,15 @@ public class StatisticsController {
     }
 
     @GetMapping("/year-months")
-    public ResponseEntity<List<LocalDate>> getMonthsOfLastYear() {
-        List<LocalDate> dates = new ArrayList<>();
+    public ResponseEntity<List<String>> getMonthsOfLastYear() {
+        List<String> dates = new ArrayList<>();
         LocalDate date = LocalDate.of(LocalDate.now().minusYears(1).getYear(),
-                LocalDate.now().getMonth(), 1);
+                LocalDate.now().plusMonths(1).getMonth(), 1);
 
-        while (date.compareTo(LocalDate.now()) < 0) {
-            dates.add(date);
+        while (date.compareTo(LocalDate.now()) <= 0) {
+            String month = (date.getDayOfMonth() > 9) ? ("" + date.getMonthValue()) : ("0" + date.getMonthValue());
+            String dateString = month + "/01/" + date.getYear() + " GMT";
+            dates.add(dateString);
             date = date.plusMonths(1);
         }
 
@@ -87,9 +92,9 @@ public class StatisticsController {
 
     private MonthCosts getMonthCostsByCategoryAndDate(Category category, LocalDate date,
                                                       List<MonthCosts> monthCostsList) {
+
         for (MonthCosts monthCosts: monthCostsList) {
             if (monthCosts.getStartDate().equals(date) && monthCosts.getCategory().equals(category)) {
-                System.out.println("BINGO");
                 return monthCosts;
             }
         }

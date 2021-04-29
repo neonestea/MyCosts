@@ -1,13 +1,13 @@
 
 <template>
   <v-app style="background: #F4F5F5;">
-<v-tabs style="max-height: 5px;">
-    <v-tab @click="showDonut();" >Month statistics</v-tab>
-    <v-tab @click="showBar();">Year statistics</v-tab>
-    <v-tab @click="showReport();">Reports</v-tab>
-  </v-tabs>
-  <apexchart id="monthChart" style="margin: auto; " width="500" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
-  <apexchart id="yearChart" style="margin: auto; display: none;" width="700" type="bar" :options="optionsBar" :series="seriesBar"></apexchart>
+    <v-tabs style="max-height: 5px;">
+      <v-tab @click="showDonut();" >Month statistics</v-tab>
+      <v-tab @click="showBar();">Year statistics</v-tab>
+      <v-tab @click="showReport();">Reports</v-tab>
+    </v-tabs>
+    <apexchart id="monthChart" style="margin: auto; " width="500" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
+    <apexchart id="yearChart" style="margin: auto; display: none;" width="700" type="bar" :options="optionsBar" :series="seriesBar"></apexchart>
     <div id="report" style="margin: auto; display: none;">
       <p>Здесь будет таблица и кнопка для отправки отчёта :)</p>
       <p>Но пока их нет :(</p>
@@ -51,19 +51,7 @@ export default {
           },
         },
       },
-      seriesBar: [{
-        name: 'Food',
-        data: [44000, 55000, 41000, 67000, 22000, 43000,44000, 55000, 41000, 67000, 22000, 43000]
-      }, {
-        name: 'Services',
-        data: [13000, 23000, 20000, 8000, 13000, 27000, 13000, 23000, 20000, 8000, 13000, 27000,]
-      }, {
-        name: 'Other',
-        data: [11000, 17000, 15000, 15000, 21000, 14000,11000, 17000, 15000, 15000, 21000, 14000, ]
-      }, {
-        name: 'Entertainment',
-        data: [21000, 7000, 25000, 13000, 22000, 8000,21000, 7000, 25000, 13000, 22000, 8000,]
-      }],
+      seriesBar: [],
       optionsBar: {
 
         noData: {
@@ -79,9 +67,9 @@ export default {
           }
         },
         title: {
-          text: "Your costs by the last year",
+          text: "Your costs(USD) by the last year",
           align: 'center',
-          margin: 10,
+          margin: 20,
           offsetX: 0,
           offsetY: 0,
           floating: false,
@@ -138,10 +126,7 @@ export default {
           labels: {
             format: 'MM yyyy',
           },
-          categories: ['05/01/2020 GMT', '06/01/2020 GMT', '07/01/2020 GMT', '08/01/2020 GMT',
-            '09/01/2020 GMT', '10/01/2020 GMT', '11/01/2020 GMT', '12/01/2020 GMT',
-            '01/01/2021 GMT', '02/01/2021 GMT','03/01/2021 GMT','04/01/2021 GMT'
-          ],
+          categories: [],
         },
         legend: {
           position: 'right',
@@ -163,14 +148,20 @@ export default {
     initializeBar(){
       this.$resource('/year-months').get().then(result =>
           result.json().then(data => {
-            console.log("DATES");
-              console.log(data);
+            this.optionsBar = {
+              xaxis: {
+                categories: data,
+              }
+            };
           })
       );
       this.$resource('/year-stat').get().then(result =>
           result.json().then(data => {
-            console.log("CATEGORIES AND AMOUNTS");
-            console.log(data);
+            for(let i = 0; i < data.length; i++){
+              let name = Object.values(data[i])[0];
+              let amounts = Object.values(data[i])[1];
+              this.seriesBar.push({name: name, data: amounts});
+            }
           })
       );
     },
