@@ -74,21 +74,23 @@ public class StatisticsController {
         Set<Category> categories = user.getCategories();
         Map<String, Double> monthCostsMap = new HashMap<>();
         categories.forEach(category -> {
-            monthCostsMap.putAll(getMonthCostsAverageByCategory(monthCostsByUser, category));
+            Map<String, Double> monthCostsAverageByCategory = getMonthCostsAverageByCategory(monthCostsByUser, category);
+            monthCostsMap.putAll(monthCostsAverageByCategory);
         });
         return ResponseEntity.status(HttpStatus.OK).body(monthCostsMap);
     }
 
     private Map<String, Double> getMonthCostsAverageByCategory(List<MonthCosts> monthCostsByUser, Category category) {
-        LocalDate firstDate = monthCostsByUser.stream()
+        List<MonthCosts> monthCostsByCategory = monthCostsByUser.stream()
                 .filter(monthCosts -> monthCosts.getCategory().equals(category))
                 .sorted(Comparator.comparing(MonthCosts::getStartDate))
-                .collect(Collectors.toList())
-                .get(0)
-                .getStartDate();
-
-        int countOfMonths = LocalDate.now().minusMonths(1).getMonthValue()
-                - firstDate.getMonthValue();
+                .collect(Collectors.toList());
+        if(monthCostsByCategory.size() == 0){
+            return Collections.emptyMap();
+        }
+        LocalDate firstDate = monthCostsByCategory.get(0).getStartDate();
+        int countOfMonths = Math.abs(LocalDate.now().minusMonths(1).getMonthValue()
+                - firstDate.getMonthValue());
 
         Map<String, Double> monthCostsMap = monthCostsByUser.stream()
                 .filter(monthCosts -> monthCosts.getAmountUSD() > 0)
@@ -106,8 +108,9 @@ public class StatisticsController {
     public ResponseEntity<List<MonthCostsTableRecord>> getTableRecords(@AuthenticationPrincipal User user) {
         user = userService.getUserById(user.getId());
         LocalDate startDate = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
-        List<MonthCostsTableRecord> monthCostsTableRecordList = monthCostsService.findMonthCostsByUser(user).stream()
-                .filter(monthCosts -> monthCosts.getStartDate().compareTo(startDate) > 0)
+        List<MonthCosts> monthCostsByUser = monthCostsService.findMonthCostsByUser(user);
+        List<MonthCostsTableRecord> monthCostsTableRecordList = monthCostsByUser.stream()
+                .filter(monthCosts -> monthCosts.getStartDate().compareTo(startDate) >= 0)
                 .sorted(Comparator.comparing(MonthCosts::getStartDate))
                 .map(MonthCostsTableRecord::fromMonthCosts)
                 .collect(Collectors.toList());
