@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="background: #F4F5F5;">
     <v-stepper
         v-model="e6"
         vertical

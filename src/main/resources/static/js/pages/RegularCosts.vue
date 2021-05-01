@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="background: #F4F5F5;">
     <regular-costs-list :regularCosts="regularCosts"
                 :accounts="accounts"
                 :categories="categories"/>

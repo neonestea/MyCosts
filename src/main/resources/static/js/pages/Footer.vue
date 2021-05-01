@@ -1,17 +1,16 @@
 <template>
-  <v-footer padless style="background: rgba(205, 214, 224, 0.4);">
-    <v-btn class="mx-4" style="margin: auto;">
-      <v-icon size="24px" style="margin: 10px;">
+  <v-footer padless style="margin-top: 20px; display:flex; flex-direction: column; background: rgba(166, 174, 177, 0.4);">
+    <v-btn class="mx-4" style="margin: 5px auto;" icon href="mailto:mycostssender@gmail.com">
+      <v-icon size="24px" style="margin: 15px;">
         email
       </v-icon>
     </v-btn>
-    <v-divider></v-divider>
-    <v-col
-        class="text-center"
-        cols="12"
+    <div style="width: 100%; border-top: 1.3px solid rgba(0,0,0,.12); margin: 10px;"></div>
+    <div
+        style="margin: 5px auto;"
     >
       {{ new Date().getFullYear() }} — <strong>&copy;NoKek Limited</strong>
-    </v-col>
+    </div>
   </v-footer>
 </template>
 <script>

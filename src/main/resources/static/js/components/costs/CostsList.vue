@@ -26,6 +26,8 @@
       sort-by="date"
       multi-sort
       class="elevation-1"
+      :loading="loadTable"
+      loading-text="Loading... Please wait"
   >
     <template v-slot:item.actions="{ item }">
       <v-icon
@@ -47,6 +49,7 @@ export default {
   },
   data: function () {
     return {
+      loadTable: true,
       search: '',
       costs: frontendData.costs,
       accounts: frontendData.accounts,
@@ -62,7 +65,8 @@ export default {
     }
   },
   created () {
-    this.initialize()
+    this.initialize();
+    this.loadTable= false;
   },
   methods: {
     initialize(){
