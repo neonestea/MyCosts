@@ -1,6 +1,7 @@
 package com.netcracker.mycosts.controllers;
 
 
+import com.netcracker.mycosts.activities.MonthReportActivity;
 import com.netcracker.mycosts.entities.*;
 import com.netcracker.mycosts.services.MonthCostsService;
 import com.netcracker.mycosts.services.UserService;
@@ -20,6 +21,7 @@ public class StatisticsController {
 
     private MonthCostsService monthCostsService;
     private UserService userService;
+    private MonthReportActivity monthReportActivity;
 
     @GetMapping("/last-month-stat")
     public ResponseEntity<Map<String, Double>> getStatisticForLastMonth(@AuthenticationPrincipal User user) {
@@ -81,6 +83,11 @@ public class StatisticsController {
     }
 
     @GetMapping("/report-by-mail")
+    public ResponseEntity setReportToUser(@AuthenticationPrincipal User user) {
+        user = userService.getUserById(user.getId());
+        monthReportActivity.sendEmail(user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
 
     private Map<String, Double> getMonthCostsAverageByCategory(List<MonthCosts> monthCostsByUser, Category category) {
         List<MonthCosts> monthCostsByCategory = monthCostsByUser.stream()
@@ -153,5 +160,10 @@ public class StatisticsController {
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    @Autowired
+    public void setMonthReportActivity(MonthReportActivity monthReportActivity) {
+        this.monthReportActivity = monthReportActivity;
     }
 }

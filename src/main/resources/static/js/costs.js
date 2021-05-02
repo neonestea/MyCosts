@@ -10,12 +10,8 @@ import { Integrations } from "@sentry/tracing";
 
 Sentry.init({
     Vue,
-    dsn: "https://b15b7775280f493c961a41b059d41751@o605290.ingest.sentry.io/5744792",
+    dsn: "https://f2637d9fbb68418a9fd5a43b88b5438f@o605330.ingest.sentry.io/5744798",
     integrations: [new Integrations.BrowserTracing()],
-
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
     tracesSampleRate: 1.0,
 });
 
