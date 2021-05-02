@@ -41,6 +41,11 @@ public class CostsActivities {
         regularCostService.regularCostProcedure();
     }
 
+    @Scheduled(fixedRate = 30000000)
+    public void deleteCosts() {
+        costService.deleteCostsProcedure();
+    }
+
 
 
     @Autowired

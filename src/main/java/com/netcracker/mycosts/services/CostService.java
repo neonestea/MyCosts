@@ -38,6 +38,9 @@ public class CostService {
     public void setMonthCostsService(MonthCostsService monthCostsService) {
         this.monthCostsService = monthCostsService;
     }
+    public void deleteCostsProcedure() {
+        costRepository.deleteCostsProcedure();
+    }
 
     public List<Cost> getAll(String userId) {
         return costRepository.findCostByUserId(userId);
