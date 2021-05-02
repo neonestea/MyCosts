@@ -1,7 +1,9 @@
 
 <template>
   <v-app style="background: #F4F5F5;">
-    <v-tabs style="max-height: 5px;">
+    <div style="background: #FFF; ">
+    </div>
+    <v-tabs style="max-height: 5px; ">
       <v-tab @click="showDonut();" >Month statistics</v-tab>
       <v-tab @click="showBar();">Year statistics</v-tab>
       <v-tab @click="showReport();">Reports</v-tab>
@@ -10,9 +12,18 @@
     <apexchart id="monthChart" style="margin: auto; " width="500" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
     <apexchart id="yearChart" style="margin: auto; display: none;" width="700" type="bar" :options="optionsBar" :series="seriesBar"></apexchart>
     <data-app id="report" style="display: none; margin-top: 60px;">
-      <v-btn style="margin-bottom: 10px; margin-left: 10px;" title="Hint: your month report will be automatically sent in the end of the month. But, if you want you can press the button and receive it now."><v-icon
-
+      <v-btn style="margin-bottom: 10px; margin-left: 10px;"  @mouseover="showHint();"><v-icon
       >attach_email</v-icon>Send report</v-btn>
+      <div id="info_line" style="display: none; margin-top: 15px;">
+      <v-alert
+          border="top"
+          colored-border
+          type="info"
+          elevation="2"
+      >
+        We will send you month reports automatically. But if you want, we can send it just now.
+      </v-alert>
+      </div>
       <v-card>
         <v-card-title>
           Month costs
@@ -43,6 +54,7 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
@@ -203,12 +215,19 @@ export default {
     }
   },
   created() {
+    $("#StatisticsBtn").css({ "color": "white", "border-bottom": "2px solid white"})
     this.showDonut();
     this.initializeDonut();
     this.initializeAverageDonut();
     this.initializeTable();
   },
   methods: {
+    showHint(){
+      $("#info_line").show('slow');
+      setTimeout(function () {
+        $("#info_line").hide('slow');
+      }, 2000);
+    },
     initializeBar(){
       this.$resource('/year-months').get().then(result =>
           result.json().then(data => {

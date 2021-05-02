@@ -1,10 +1,13 @@
 <template>
-  <div>
+  <v-app style="background: #F4F5F5;">
+
     <categories-list :categories="categories" />
-  </div>
+
+  </v-app>
 </template>
 <script>
 import CategoriesList from "../components/categories/CategoriesList.vue";
+
 
 export default {
   components: {
@@ -16,6 +19,9 @@ export default {
       profile: frontendData.profile
     }
   },
+  created() {
+    $("#CategoriesBtn").css({ "color": "white", "border-bottom": "2px solid white"})
+  }
 }
 </script>
 <style>

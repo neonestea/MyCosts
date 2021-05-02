@@ -1,7 +1,8 @@
 <template>
-  <div >
+  <v-app style="background: #F4F5F5;">
     <accounts-list :accounts="accounts" :currencies="currencies"/>
-  </div>
+
+  </v-app>
 </template>
 <script>
 import AccountsList from "../components/accounts/AccountsList.vue";
@@ -16,6 +17,9 @@ export default {
       currencies: frontendData.currencies,
       profile: frontendData.profile
     }
+  },
+  created() {
+    $("#AccountsBtn").css({ "color": "white", "border-bottom": "2px solid white"})
   }
 }
 </script>

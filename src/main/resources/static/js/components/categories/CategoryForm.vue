@@ -26,7 +26,17 @@
              :disabled="isDisable(name)">Save</v-btn>
       </v-col>
     </v-row>
-    <p id="error_line" style="display: none; padding: 15px;">Category already exists!</p>
+<div id="error_line" style="display: none; margin-top: 15px;"><v-alert
+    border="top"
+    colored-border
+    type="error"
+    elevation="2"
+>
+  Category already exists.
+</v-alert>
+</div>
+
+<!--    <p id="error_line" style="display: none; padding: 15px;">Category already exists!</p>-->
   </div>
 </template>
 <script>
@@ -48,12 +58,11 @@ export default {
         if (result.status == '201') {
           result.json()
               .then(data => {
-                console.log(data)
-                console.log(data.id + " id")
                 this.categories.push(data);
                 this.name = ''
               })
         } else {
+
           $("#error_line").show('slow');
           setTimeout(function () {
             $("#error_line").hide('slow');

@@ -25,9 +25,6 @@
         <v-icon>delete</v-icon>
       </button>
     </div>
-
-
-
   </v-card>
     </div>
 </template>

@@ -5,6 +5,7 @@ import Footer from 'pages/Footer.vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import MainPage from 'pages/MainPage.vue'
+
 import * as Sentry from "@sentry/vue";
 import { Integrations } from "@sentry/tracing";
 

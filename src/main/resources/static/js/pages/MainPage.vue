@@ -115,12 +115,17 @@
 </template>
 
 <script>
+
+
 export default {
   data () {
     return {
       e6: 1,
     }
   },
+  created() {
+    $("#MainBtn").css({ "color": "white", "border-bottom": "2px solid white"})
+  }
 }
 </script>
 

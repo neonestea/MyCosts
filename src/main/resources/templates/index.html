@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="/images/favicon.ico"/>
     <meta name="keywords" content="Finances" />
     <meta name="description" content="Finances" />
+    <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
@@ -16,13 +17,14 @@
 </head>
 <body style=" min-height: 100%; display: flex;
 	flex-direction: column; background: #F4F5F5;">
+
 <header>
     <div id="head"></div>
 </header>
 <main>
     <div id="mainPage"></div>
 </main>
-<footer style="flex: 0 0 auto;">
+<footer>
     <div id="foot"></div>
 </footer>
 <script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>

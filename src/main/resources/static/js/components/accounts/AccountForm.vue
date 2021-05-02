@@ -32,8 +32,15 @@
              @click="save"
              :disabled="isDisable(name, currency)">Save</v-btn>
     </v-row>
-    <p id="error_line"
-       style="display: none; padding: 15px;">Account already exists!</p>
+    <div id="error_line" style="display: none; margin-top: 15px;"><v-alert
+        border="top"
+        colored-border
+        type="error"
+        elevation="2"
+    >
+      Account already exists.
+    </v-alert>
+    </div>
     <p id="rec_line"
        style="display: none; padding: 15px;">You have deleted this account. Try to recover it from the line above.</p>
     <div style="display: none; padding: 10px;"
