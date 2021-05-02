@@ -35,13 +35,11 @@ public class CostsActivities {
     private RegularCostService regularCostService;
     private CurrencyExchangeRateService currencyExchangeRateService;
 
-    @Scheduled(fixedRate = 30000000)
+    @Scheduled(cron = "0 0 1 * *")
     public void regularCosts() {
         currencyExchangeRateService.getAndSaveExchangeRates();
         regularCostService.regularCostProcedure();
     }
-
-
 
     @Autowired
     public void setCostService(CostService costService) {

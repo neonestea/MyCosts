@@ -16,13 +16,10 @@ import java.util.List;
 import lombok.SneakyThrows;
 import org.apache.commons.codec.CharEncoding;
 import org.apache.pdfbox.io.IOUtils;
-import org.flywaydb.core.internal.resource.filesystem.FileSystemResource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -34,23 +31,27 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-
 public class MonthReportActivity {
 
     private JavaMailSender emailSender;
     private UserService userService;
     private MonthCostsService monthCostsService;
 
-   @SneakyThrows
+    @SneakyThrows
     @Scheduled(fixedRate = 60000000)
-    public void first() {
-        List<String> usersEmails = userService.getUsersEmails().stream()
-                .map(userEmailView -> userEmailView.getEmail())
+    public void sendToAllUsers() {
+        List<String> usersEmails = userService.getUsersIds().stream()
+                .map(userEmailView -> userEmailView.getId())
                 .collect(Collectors.toList());
 
         usersEmails.parallelStream()
                 .forEach(this::sendEmail);
     }
+
+    public void sendToUser(User user) {
+        sendEmail(user.getId());
+    }
+
 
     @SneakyThrows
     private InputStream createDocument(List<MonthCosts> userMonthCosts) {
@@ -58,8 +59,8 @@ public class MonthReportActivity {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, outputStream);
 
-        String month = LocalDate.now().getMonth().toString();
-        String year = String.valueOf(LocalDate.now().getYear());
+        String month = LocalDate.now().minusMonths(1).getMonth().toString();
+        String year = String.valueOf(LocalDate.now().minusMonths(1).getYear());
         document.open();
         Font fontbold = FontFactory.getFont("Times-Roman", 24, Font.BOLD);
         Paragraph title = new Paragraph("Costs by " + month + " " + year, fontbold);
@@ -76,12 +77,12 @@ public class MonthReportActivity {
     }
 
     @SneakyThrows
-    private void sendEmail(String userEmail){
-        String month = LocalDate.now().getMonth().toString();
-        String year = String.valueOf(LocalDate.now().getYear());
-        User user = userService.getUserByEmail(userEmail);
+    public void sendEmail(String userId){
+        String month = LocalDate.now().minusMonths(1).getMonth().toString();
+        String year = String.valueOf(LocalDate.now().minusMonths(1).getYear());
+        User user = userService.getUserById(userId);
         List<MonthCosts> userMonthCosts = monthCostsService.findMonthCostsByUserAndStartDate(user, LocalDate.of(
-                LocalDate.now().getYear(), LocalDate.now().getMonth(), 1)
+                LocalDate.now().getYear(), LocalDate.now().minusMonths(1).getMonth(), 1)
         );
         userMonthCosts.sort(Comparator.comparing(monthCosts -> monthCosts.getCategory().getName()));
         Map<Currency, Double> totalCostsByCurrency = userMonthCosts.stream()
@@ -95,12 +96,10 @@ public class MonthReportActivity {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, CharEncoding.UTF_8);
 
-        helper.setTo(userEmail);
+        helper.setTo(user.getEmail());
         helper.setSubject("Costs by " + month + " " + year);
         helper.setText("Here is your costs file.");
         helper.addAttachment(filename, new ByteArrayResource(IOUtils.toByteArray(is)));
-
-
 
         emailSender.send(message);
     }
