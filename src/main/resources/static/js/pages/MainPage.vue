@@ -1,8 +1,52 @@
 <template>
   <v-app style="background: #F4F5F5;">
+    <v-tabs style="max-height: 50px; ">
+      <v-tab @click="showDescription();">About</v-tab>
+      <v-tab @click="showSteppers();" >Hints</v-tab>
+    </v-tabs>
+    <div id="about" style="margin-top: 50px;">
+    <v-expansion-panels
+        v-model="panel"
+        multiple
+    >
+      <v-expansion-panel>
+        <v-expansion-panel-header>Managing your finances</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          Our app helps you manage your outcomes easily.
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header>Categories</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          You can use default categories or create your own ones.
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
+        <v-expansion-panel-header>Accounts</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          You are able to manage different accounts with different currencies.
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header>Costs</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          Besides normal costs you can create regular costs to avoid adding them every time.
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header>Statistics</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          You can check your month, year and average statistics and ret monthly reports.
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </div>
     <v-stepper
         v-model="e6"
         vertical
+        id="stepper"
+        style="display: none;"
     >
       <v-stepper-step
           :complete="e6 > 1"
@@ -124,7 +168,17 @@ export default {
     }
   },
   created() {
-    $("#MainBtn").css({ "color": "white", "border-bottom": "2px solid white"})
+    $("#MainBtn").css({ "color": "white", "border-bottom": "2px solid white"});
+  },
+  methods: {
+    showSteppers(){
+      $("#stepper").show();
+      $("#about").hide();
+    },
+    showDescription(){
+      $("#stepper").hide();
+      $("#about").show();
+    }
   }
 }
 </script>

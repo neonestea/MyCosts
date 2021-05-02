@@ -85,7 +85,7 @@ public class StatisticsController {
     @GetMapping("/report-by-mail")
     public ResponseEntity setReportToUser(@AuthenticationPrincipal User user) {
         user = userService.getUserById(user.getId());
-        monthReportActivity.sendEmail(user.getId());
+        monthReportActivity.sendToUser(user);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 

@@ -38,7 +38,7 @@ public class MonthReportActivity {
     private MonthCostsService monthCostsService;
 
     @SneakyThrows
-    @Scheduled(fixedRate = 60000000)
+    @Scheduled(cron = "0 1 0 1 * *")
     public void sendToAllUsers() {
         List<String> usersEmails = userService.getUsersIds().stream()
                 .map(userEmailView -> userEmailView.getId())

@@ -41,19 +41,38 @@
       Account already exists.
     </v-alert>
     </div>
-    <p id="rec_line"
-       style="display: none; padding: 15px;">You have deleted this account. Try to recover it from the line above.</p>
-    <div style="display: none; padding: 10px;"
+    <div id="rec_line" style="display: none; margin-top: 15px;">
+      <v-alert
+        border="left"
+        colored-border
+        type="error"
+        elevation="2"
+    >
+      You have deleted this account. Try to recover it from the line above.
+    </v-alert>
+    </div>
+    <div style="display: none;"
          id="recover_block">
-      <p>You already had this account. Do you want to recover it?</p>
-      <button type="button"
+    <v-alert
+        border="left"
+        colored-border
+        type="warning"
+        elevation="2"
+
+
+    >
+      You already had this account. Do you want to recover it?
+      <v-btn type="button"
              value="Yes"
              @click="recover"
-              id="yes"><v-icon>thumb_up_alt</v-icon></button>
-      <button type="button"
+             icon
+             id="yes"><v-icon>thumb_up_alt</v-icon></v-btn>
+      <v-btn type="button"
              value="No"
              @click="notRecover"
-              id="no"><v-icon>thumb_down_alt</v-icon></button>
+             icon
+             id="no"><v-icon>thumb_down_alt</v-icon></v-btn>
+    </v-alert>
     </div>
   </div>
 
@@ -97,8 +116,7 @@ export default {
                 .then(data => {
                   this.accounts.push(data);
                   this.id = '';
-                  const recoveryLine = document.getElementById('recover_block');
-                  recoveryLine.style.display = "none";
+                  $("#recover_block").hide();
                   document.querySelectorAll('.button').forEach(elem => {
                     elem.disabled = false;
                   });
@@ -113,8 +131,7 @@ export default {
     },
     notRecover() {
       this.id = '';
-      const recoveryLine = document.getElementById('recover_block');
-      recoveryLine.style.display = "none";
+      $("#recover_block").css({"display" : "none"});
       document.querySelectorAll('.button').forEach(elem => {
         elem.disabled = false;
       });
@@ -146,8 +163,7 @@ export default {
                 });
                 const add = document.getElementById('addInput');
                 add.disabled = true;
-                const recLine = document.getElementById('recover_block');
-                recLine.style.display = "block";
+                $("#recover_block").show();
               })
         } else {
 

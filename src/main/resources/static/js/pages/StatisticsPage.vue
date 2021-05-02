@@ -1,8 +1,6 @@
 
 <template>
   <v-app style="background: #F4F5F5;">
-    <div style="background: #FFF; ">
-    </div>
     <v-tabs style="max-height: 5px; ">
       <v-tab @click="showDonut();" >Month statistics</v-tab>
       <v-tab @click="showBar();">Year statistics</v-tab>
@@ -12,7 +10,7 @@
     <apexchart id="monthChart" style="margin: auto; " width="500" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
     <apexchart id="yearChart" style="margin: auto; display: none;" width="700" type="bar" :options="optionsBar" :series="seriesBar"></apexchart>
     <data-app id="report" style="display: none; margin-top: 60px;">
-      <v-btn style="margin-bottom: 10px; margin-left: 10px;"  @mouseover="showHint();"><v-icon
+      <v-btn style="margin-bottom: 10px; margin-left: 10px;" @click="sendReportNow();" @mouseover="showHint();"><v-icon
       >attach_email</v-icon>Send report</v-btn>
       <div id="info_line" style="display: none; margin-top: 15px;">
       <v-alert
@@ -23,6 +21,16 @@
       >
         We will send you month reports automatically. But if you want, we can send it just now.
       </v-alert>
+      </div>
+      <div id="info_report_line" style="display: none; margin-top: 15px;">
+        <v-alert
+            border="top"
+            colored-border
+            type="info"
+            elevation="2"
+        >
+          We have sent you the report. Check your email.
+        </v-alert>
       </div>
       <v-card>
         <v-card-title>
@@ -47,8 +55,7 @@
         </v-data-table>
       </v-card>
     </data-app>
-      <apexchart id="averageChart" style="margin: auto; display: none;" width="500" type="donut" :options="optionsAverage" :series="seriesAverage"></apexchart>
-
+      <apexchart id="averageChart" style="margin: auto; display: none;" width="500" type="donut" :options="optionsDonut" :series="seriesAverage"></apexchart>
     </v-app>
 
 </template>
@@ -98,35 +105,6 @@ export default {
         },
       },
       seriesAverage: [],
-      optionsAverage: {
-        labels: [],
-        noData: {
-          text: "You don't have costs yet :(",
-          align: 'center',
-          verticalAlign: 'middle',
-          offsetX: 0,
-          offsetY: 0,
-          style: {
-            color: undefined,
-            fontSize: '14px',
-            fontFamily: undefined
-          }
-        },
-        title: {
-          text: "Your average costs (USD) by categories rate",
-          align: 'center',
-          margin: 20,
-          offsetX: 0,
-          offsetY: 0,
-          floating: false,
-          style: {
-            fontSize:  '14px',
-            fontWeight:  'bold',
-            fontFamily:  undefined,
-            color:  '#263238'
-          },
-        },
-      },
       seriesBar: [],
       optionsBar: {
 
@@ -222,6 +200,16 @@ export default {
     this.initializeTable();
   },
   methods: {
+    sendReportNow(){
+      this.$resource('/report-by-mail').get().then(result =>
+          result.json().then(data => {
+            $("#info_report_line").show('slow');
+            setTimeout(function () {
+              $("#info_report_line").hide('slow');
+            }, 2000);
+
+          }))
+    },
     showHint(){
       $("#info_line").show('slow');
       setTimeout(function () {
@@ -240,13 +228,16 @@ export default {
       );
       this.$resource('/year-stat').get().then(result =>
           result.json().then(data => {
+            let old = this.seriesBar.length;
             for(let i = 0; i < data.length; i++){
               let name = Object.values(data[i])[0];
               let amounts = Object.values(data[i])[1];
               this.seriesBar.push({name: name, data: amounts});
             }
+            this.seriesBar = this.seriesBar.slice(old);
           })
       );
+
     },
     initializeDonut(){
       this.$resource('/last-month-stat').get().then(result =>
