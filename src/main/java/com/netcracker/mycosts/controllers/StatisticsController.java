@@ -80,6 +80,8 @@ public class StatisticsController {
         return ResponseEntity.status(HttpStatus.OK).body(monthCostsMap);
     }
 
+    @GetMapping("/report-by-mail")
+
     private Map<String, Double> getMonthCostsAverageByCategory(List<MonthCosts> monthCostsByUser, Category category) {
         List<MonthCosts> monthCostsByCategory = monthCostsByUser.stream()
                 .filter(monthCosts -> monthCosts.getCategory().equals(category))
@@ -89,8 +91,8 @@ public class StatisticsController {
             return Collections.emptyMap();
         }
         LocalDate firstDate = monthCostsByCategory.get(0).getStartDate();
-        int countOfMonths = Math.abs(LocalDate.now().minusMonths(1).getMonthValue()
-                - firstDate.getMonthValue());
+        int countOfMonths = Math.abs(LocalDate.now().getMonthValue()
+                - firstDate.getMonthValue()) + 1;
 
         Map<String, Double> monthCostsMap = monthCostsByUser.stream()
                 .filter(monthCosts -> monthCosts.getAmountUSD() > 0)

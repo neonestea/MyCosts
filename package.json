@@ -9,6 +9,9 @@
     "start": "webpack serve"
   },
   "dependencies": {
+    "@sentry/browser": "^6.3.5",
+    "@sentry/tracing": "^6.3.5",
+    "@sentry/vue": "^6.3.5",
     "apexcharts": "^3.26.1",
     "vue": "^2.6.12",
     "vue-apexcharts": "^1.6.1",

@@ -40,16 +40,19 @@ public class CategoryController {
     @DeleteMapping("/category/{id}")
     public void delete(@PathVariable int id, @AuthenticationPrincipal User user) {
         System.out.println("ID was: " + id);
+        user = userService.getUserById(user.getId());
         Category category = categoryService.findCategoryById(id);
         userService.removeCategoryFromUser(user.getId(), category.getId());
+        final Category otherCategory = categoryService.findCategoryByName("Other");
+        List<Cost> costs = costService.findCostsByUserAndCategory(user, category);
+        List<MonthCosts> monthCosts = monthCostsService.findMonthCostsByUserAndCategory(user, category);
+        List<RegularCost> regularCosts = regularCostService.findRegularCostsByUserAndCategory(user, category);
+        costs.forEach(cost -> cost.setCategory(otherCategory));
+        costs.forEach(cost -> costService.save(cost));
+        monthCosts.forEach(cost -> monthCostsService.delete(cost));
+        regularCosts.forEach(cost -> cost.setCategory(otherCategory));
+        regularCosts.forEach(cost -> regularCostService.save(cost));
         if (shouldDeleteCategory(category)) {
-            final Category otherCategory = categoryService.findCategoryByName("Other");
-            List<Cost> costs = costService.findCostsByUserAndCategory(user, category);
-            List<MonthCosts> monthCosts = monthCostsService.findMonthCostsByUserAndCategory(user, category);
-            List<RegularCost> regularCosts = regularCostService.findRegularCostsByUserAndCategory(user, category);
-            costs.forEach(cost -> cost.setCategory(otherCategory));
-            monthCosts.forEach(cost -> cost.setCategory(otherCategory));
-            regularCosts.forEach(cost -> cost.setCategory(otherCategory));
             categoryService.deleteCategoryById(category.getId());
         }
     }

@@ -41,8 +41,7 @@ public class MonthReportActivity {
     private UserService userService;
     private MonthCostsService monthCostsService;
 
-    //TODO Cron - the last day of each month
-   /* @SneakyThrows
+   @SneakyThrows
     @Scheduled(fixedRate = 60000000)
     public void first() {
         List<String> usersEmails = userService.getUsersEmails().stream()
@@ -51,7 +50,7 @@ public class MonthReportActivity {
 
         usersEmails.parallelStream()
                 .forEach(this::sendEmail);
-    }*/
+    }
 
     @SneakyThrows
     private InputStream createDocument(List<MonthCosts> userMonthCosts) {

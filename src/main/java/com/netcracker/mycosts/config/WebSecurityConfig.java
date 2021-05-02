@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 return userService.create(user);
             }
             else {
-                return userService.create(user);
+                return userService.save(user);
             }
         };
     }
