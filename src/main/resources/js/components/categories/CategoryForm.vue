@@ -27,7 +27,7 @@
       </v-col>
     </v-row>
 <div id="error_line" style="display: none; margin-top: 15px;"><v-alert
-    border="left"
+    border="top"
     colored-border
     type="error"
     elevation="2"
