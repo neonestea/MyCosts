@@ -40,27 +40,27 @@ public class MonthReportActivity {
     @SneakyThrows
     @Scheduled(cron = "0 1 0 1 * *")
     public void sendToAllUsers() {
-        List<String> usersEmails = userService.getUsersIds().stream()
-                .map(userEmailView -> userEmailView.getId())
+        List<String> userIds = userService.getUsersIds().stream()
+                .map(userIdView -> userIdView.getId())
                 .collect(Collectors.toList());
 
-        usersEmails.parallelStream()
-                .forEach(this::sendEmail);
+        userIds.parallelStream()
+                .forEach(id -> sendEmail(id, LocalDate.now()));
     }
 
     public void sendToUser(User user) {
-        sendEmail(user.getId());
+        sendEmail(user.getId(), LocalDate.now().plusMonths(1));
     }
 
 
     @SneakyThrows
-    private InputStream createDocument(List<MonthCosts> userMonthCosts) {
+    private InputStream createDocument(List<MonthCosts> userMonthCosts, Map<Currency, Double> totalCostsByCurrency, LocalDate date) {
         Document document = new Document(PageSize.A4, 20, 20, 20, 20);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfWriter.getInstance(document, outputStream);
 
-        String month = LocalDate.now().minusMonths(1).getMonth().toString();
-        String year = String.valueOf(LocalDate.now().minusMonths(1).getYear());
+        String month = date.minusMonths(1).getMonth().toString();
+        String year = String.valueOf(date.minusMonths(1).getYear());
         document.open();
         Font fontbold = FontFactory.getFont("Times-Roman", 24, Font.BOLD);
         Paragraph title = new Paragraph("Costs by " + month + " " + year, fontbold);
@@ -70,19 +70,25 @@ public class MonthReportActivity {
         PdfPTable table = new PdfPTable(4);
         addTableHeader(table);
         userMonthCosts.forEach(monthCosts ->  addRow(table, monthCosts));
+        String totalCosts = "Total\n" + totalCostsByCurrency.keySet().stream()
+                .map(key -> key + ": " + totalCostsByCurrency.get(key) + "\n")
+                .collect(Collectors.joining());
+        Paragraph total = new Paragraph(totalCosts);
+        userMonthCosts.forEach(monthCosts ->  addRow(table, monthCosts));
         document.add(table);
+        document.add(total);
         document.close();
 
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
 
     @SneakyThrows
-    public void sendEmail(String userId){
-        String month = LocalDate.now().minusMonths(1).getMonth().toString();
-        String year = String.valueOf(LocalDate.now().minusMonths(1).getYear());
+    public void sendEmail(String userId, LocalDate date){
+        String month = date.minusMonths(1).getMonth().toString();
+        String year = String.valueOf(date.minusMonths(1).getYear());
         User user = userService.getUserById(userId);
         List<MonthCosts> userMonthCosts = monthCostsService.findMonthCostsByUserAndStartDate(user, LocalDate.of(
-                LocalDate.now().getYear(), LocalDate.now().minusMonths(1).getMonth(), 1)
+                date.getYear(), date.minusMonths(1).getMonth(), 1)
         );
         userMonthCosts.sort(Comparator.comparing(monthCosts -> monthCosts.getCategory().getName()));
         Map<Currency, Double> totalCostsByCurrency = userMonthCosts.stream()
@@ -90,7 +96,7 @@ public class MonthReportActivity {
                         Collectors.summingDouble(monthCost -> monthCost.getAmount())));
 
 
-        InputStream is = createDocument(userMonthCosts);
+        InputStream is = createDocument(userMonthCosts, totalCostsByCurrency, date);
         String filename = "Costs by " + month + " " + year + ".pdf";
 
         MimeMessage message = emailSender.createMimeMessage();

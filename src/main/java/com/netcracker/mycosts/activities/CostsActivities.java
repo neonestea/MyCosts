@@ -23,6 +23,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 @Component
@@ -37,7 +39,8 @@ public class CostsActivities {
 
     @Scheduled(cron = "0 1 0 1 * *")
     public void regularCosts() {
-        currencyExchangeRateService.getAndSaveExchangeRates();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() -> currencyExchangeRateService.getAndSaveExchangeRates());
         regularCostService.regularCostProcedure();
     }
 
