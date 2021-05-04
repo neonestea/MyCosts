@@ -8,9 +8,6 @@ plugins {
 
 version '1.0-SNAPSHOT'
 sourceCompatibility = '1.8'
-/*
-apply plugin: 'java'
-apply plugin: 'io.spring.dependency-management'*/
 
 
 task buildFront(type: YarnTask) {
@@ -23,6 +20,10 @@ processResources.dependsOn(buildFront)
 
 repositories {
     mavenCentral()
+}
+
+node {
+    download = true
 }
 
 dependencies {
