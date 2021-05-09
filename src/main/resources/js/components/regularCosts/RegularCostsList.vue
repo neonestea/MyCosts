@@ -95,7 +95,7 @@ export default {
       let per;
       this.regularCostsRow = this.regularCosts.map(function(item) {
         if(item.everyMonth == false){
-          per = item.period;
+          per = item.period + " day(s)";
         }
         else {
           per = 'monthly';

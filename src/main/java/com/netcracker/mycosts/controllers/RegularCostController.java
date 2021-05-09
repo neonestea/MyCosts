@@ -29,9 +29,11 @@ public class RegularCostController {
         regularCost.setUser(user);
         regularCost.setPayDay(regularCost.getNextDate().getDayOfMonth());
         regularCost.setCurrency(regularCost.getAccount().getCurrency());
-        regularCost.setLastDate(regularCost.getNextDate());
-        regularCost.setNextDate(getNextDate(regularCost));
-        costService.save(costFromRegularCost(regularCost));
+        if (regularCost.getNextDate().compareTo(LocalDate.now()) == 0) {
+            regularCost.setLastDate(regularCost.getNextDate());
+            regularCost.setNextDate(getNextDate(regularCost));
+            costService.save(costFromRegularCost(regularCost));
+        }
         regularCostService.save(regularCost);
         return ResponseEntity.status(HttpStatus.CREATED).body(regularCost);
     }

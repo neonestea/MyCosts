@@ -74,7 +74,7 @@ public class MonthReportActivity {
                 .map(key -> key + ": " + totalCostsByCurrency.get(key) + "\n")
                 .collect(Collectors.joining());
         Paragraph total = new Paragraph(totalCosts);
-        userMonthCosts.forEach(monthCosts ->  addRow(table, monthCosts));
+        //userMonthCosts.forEach(monthCosts ->  addRow(table, monthCosts));
         document.add(table);
         document.add(total);
         document.close();

@@ -5,7 +5,7 @@
       <v-tab @click="showDonut();" >Month statistics</v-tab>
       <v-tab @click="showBar();">Year statistics</v-tab>
       <v-tab @click="showReport();">Reports</v-tab>
-      <v-tab @click="showAverage();">Average</v-tab>
+<!--      <v-tab @click="showAverage();">Average</v-tab>-->
     </v-tabs>
     <apexchart id="monthChart" style="margin: auto; " width="500" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
     <apexchart id="yearChart" style="margin: auto; display: none;" width="700" type="bar" :options="optionsBar" :series="seriesBar"></apexchart>
@@ -55,7 +55,7 @@
         </v-data-table>
       </v-card>
     </data-app>
-      <apexchart id="averageChart" style="margin: auto; display: none;" width="500" type="donut" :options="optionsDonut" :series="seriesAverage"></apexchart>
+<!--      <apexchart id="averageChart" style="margin: auto; display: none;" width="500" type="donut" :options="optionsDonut" :series="seriesAverage"></apexchart>-->
     </v-app>
 
 </template>
@@ -196,7 +196,7 @@ export default {
     $("#StatisticsBtn").css({ "color": "white", "border-bottom": "2px solid white"})
     this.showDonut();
     this.initializeDonut();
-    this.initializeAverageDonut();
+    //this.initializeAverageDonut();
     this.initializeTable();
   },
   methods: {
@@ -253,7 +253,7 @@ export default {
       $("#monthChart").show();
       $("#yearChart").hide();
       $("#report").hide();
-      $("#averageChart").hide();
+      //$("#averageChart").hide();
 
     },
     showBar(){
@@ -261,24 +261,24 @@ export default {
       $("#yearChart").show();
       $("#monthChart").hide();
       $("#report").hide();
-      $("#averageChart").hide();
+      //$("#averageChart").hide();
     },
     showReport(){
 
       $("#report").show();
       $("#yearChart").hide();
       $("#monthChart").hide();
-      $("#averageChart").hide();
+      //$("#averageChart").hide();
 
 
     },
     showAverage(){
 
-      $("#averageChart").show();
+      //$("#averageChart").show();
       $("#yearChart").hide();
       $("#monthChart").hide();
       $("#report").hide();
-    },
+    }/*,
     initializeAverageDonut(){
       this.$resource('/averages').get().then(result =>
           result.json().then(data => {
@@ -290,7 +290,7 @@ export default {
             })
           })
       );
-    },
+    }*/,
     initializeTable(){
       this.$resource('/tables').get().then(result =>
           result.json().then(data => {

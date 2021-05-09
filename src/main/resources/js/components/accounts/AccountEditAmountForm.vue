@@ -55,6 +55,7 @@ export default {
       });
       const add = document.getElementById('addInput');
       add.disabled = false;
+      this.amount = ''
     },
     addAmount() {
       let newAmount = parseFloat(this.account.amount) + parseFloat(this.amount);
@@ -74,6 +75,7 @@ export default {
                     });
                     const add = document.getElementById('addInput');
                     add.disabled = false;
+                    this.amount = ''
                   })
             } else if (result.status == "201") {
               const form = document.getElementById('amount_form' + this.account.id);
@@ -89,6 +91,7 @@ export default {
               });
               const add = document.getElementById('addInput');
               add.disabled = false;
+              this.amount = ''
             } else {
               const form = document.getElementById('amount_form' + this.account.id);
               form.style.display = "none";
@@ -103,6 +106,7 @@ export default {
               });
               const add = document.getElementById('addInput');
               add.disabled = false;
+              this.amount = ''
             }
           })
     },

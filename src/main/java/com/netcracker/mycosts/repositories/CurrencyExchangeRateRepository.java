@@ -10,6 +10,5 @@ import java.time.LocalDate;
 
 public interface CurrencyExchangeRateRepository extends JpaRepository<CurrencyExchangeRate, Integer> {
 
-     //TODO почему distinct не работает?
-     List<CurrencyExchangeRate> findDistinctByCurrencyAndDate(Currency currency, LocalDate date);
+     List<CurrencyExchangeRate> findByCurrencyAndDate(Currency currency, LocalDate date);
 }
