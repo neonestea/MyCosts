@@ -41,7 +41,7 @@ repositories {
 }
 
 node {
-    workDir = file("${projectDir}/.gradle/nodejs")
+/*    workDir = file("${projectDir}/.gradle/nodejs")*/
     download = true
 }
 
