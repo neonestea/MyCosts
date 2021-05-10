@@ -8,7 +8,7 @@
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "heroku-postbuild": "webpack -p"
+    "heroku-postbuild": "webpack --mode production"
   },
   "dependencies": {
     "@sentry/browser": "^6.3.5",
