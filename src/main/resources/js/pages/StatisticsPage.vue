@@ -288,7 +288,7 @@ export default {
       $("#yearChart").show();
       $("#monthChart").hide();
       $("#report").hide();
-      $("reportTotal").hide();
+      $("#reportTotal").hide();
     },
     showReport(){
 
