@@ -11,8 +11,8 @@
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
     "heroku-prebuild": "npm cache clean --force",
-    "build": "webpack --config webpack.prod.js"
-
+    "build": "webpack --config webpack.prod.js",
+    "heroku-postbuild": "npm i webpack -g"
   },
 
   "dependencies": {
