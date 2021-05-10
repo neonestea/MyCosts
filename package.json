@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "heroku-prebuild": "npm install --dev",
+    "heroku-prebuild": "yarn install --production=false",
     "build": "webpack --config webpack.prod.js"
   },
 
