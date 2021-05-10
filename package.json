@@ -10,7 +10,8 @@
   },
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js & yarn install"
+    "heroku-prebuild": "npm install --dev",
+    "build": "webpack --config webpack.prod.js"
   },
 
   "dependencies": {
