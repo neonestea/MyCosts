@@ -10,8 +10,7 @@
   },
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "heroku-prebuild": "npm cache clean --force",
-    "heroku-postbuild": "npm install --dev",
+    "heroku-prebuild": "npm install --dev",
     "build": "webpack --config webpack.prod.js"
 
   },
