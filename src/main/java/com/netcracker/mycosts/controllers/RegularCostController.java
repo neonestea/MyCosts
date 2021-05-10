@@ -1,5 +1,6 @@
 package com.netcracker.mycosts.controllers;
 
+import com.netcracker.mycosts.dto.RegularCostDto;
 import com.netcracker.mycosts.entities.Cost;
 import com.netcracker.mycosts.entities.CurrencyExchangeRate;
 import com.netcracker.mycosts.entities.RegularCost;
@@ -24,8 +25,9 @@ public class RegularCostController {
     private CostService costService;
 
     @PostMapping("/regular_costs")
-    public ResponseEntity<RegularCost> addRegularCost(@RequestBody RegularCost regularCost,
-                                                      @AuthenticationPrincipal User user) {
+    public ResponseEntity<RegularCostDto> addRegularCost(@RequestBody RegularCostDto regularCostDto,
+                                                         @AuthenticationPrincipal User user) {
+        RegularCost regularCost = regularCostDto.convertToRegularCost();
         regularCost.setUser(user);
         regularCost.setPayDay(regularCost.getNextDate().getDayOfMonth());
         regularCost.setCurrency(regularCost.getAccount().getCurrency());
@@ -35,7 +37,7 @@ public class RegularCostController {
             costService.save(costFromRegularCost(regularCost));
         }
         regularCostService.save(regularCost);
-        return ResponseEntity.status(HttpStatus.CREATED).body(regularCost);
+        return ResponseEntity.status(HttpStatus.CREATED).body(RegularCostDto.convertFromRegularCost(regularCost));
     }
 
     @DeleteMapping("/regular_costs/{id}")

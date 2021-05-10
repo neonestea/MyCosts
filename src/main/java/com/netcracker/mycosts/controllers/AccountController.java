@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import com.netcracker.mycosts.dto.AccountDto;
 import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,13 @@ public class AccountController {
     private UserService userService;
 
     @PostMapping("/account")
-    public ResponseEntity<Account> create(@RequestBody Account account, @AuthenticationPrincipal User user) {
+    public ResponseEntity<AccountDto> create(@RequestBody @Valid AccountDto accountDto,
+                                             @AuthenticationPrincipal User user) {
+        Account account = accountDto.convertToAccount();
         List<Account> accountsFromDb = accountService.getAllUserAccounts(user.getId());
         for (Account acc : accountsFromDb) {
             if (acc.getActive() == false && acc.getName().equals(account.getName()) && acc.getCurrency() == account.getCurrency()) {
-                return ResponseEntity.status(HttpStatus.CREATED).body(acc);
+                return ResponseEntity.status(HttpStatus.CREATED).body(AccountDto.convertFromAccount(acc));
             } else if (acc.getActive() == true && acc.getName().equals(account.getName()) && acc.getCurrency() == account.getCurrency()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
             }
@@ -36,7 +39,7 @@ public class AccountController {
         account.setUser(user);
         account.setActive(true);
         account = accountService.save(account);
-        return ResponseEntity.status(HttpStatus.OK).body(account);
+        return ResponseEntity.status(HttpStatus.OK).body(AccountDto.convertFromAccount(account));
     }
 
     @DeleteMapping("/account/{id}")
