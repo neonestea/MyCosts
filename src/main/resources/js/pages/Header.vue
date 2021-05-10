@@ -108,7 +108,7 @@
     <v-sheet
         id="scrolling-techniques-3"
         class="overflow-y-auto"
-        max-height="600"
+
         style="background: #F4F5F5;"
     >
 
