@@ -10,7 +10,6 @@
     "build": "webpack --config webpack.prod.js",
     "postinstall": "npm prune --production"
   },
-
   "dependencies": {
     "@sentry/browser": "^6.3.5",
     "@sentry/tracing": "^6.3.5",

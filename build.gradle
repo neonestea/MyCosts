@@ -4,8 +4,8 @@ plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     //id "com.moowork.node" version "1.3.1"
-    //id "com.github.node-gradle.node" version "3.0.1"
-    id "com.moowork.node" version "1.2.0"
+    id "com.github.node-gradle.node" version "3.0.1"
+    //id "com.moowork.node" version "1.2.0"
 
 }
 
@@ -17,19 +17,24 @@ task buildFront(type: YarnTask) {
     args = ['build']
 }
 
-yarn_install.dependsOn(npm_update)
+/*yarn_install.dependsOn(npm_update)
 npm_update.dependsOn(yarn_cache_clean)
 buildFront.dependsOn(yarn_install)
-processResources.dependsOn(buildFront)
+processResources.dependsOn(buildFront)*/
 
-yarn_cache_clean {
+/*yarn_cache_clean {
     args = ['--force']
-}
+}*/
 
+/*
 npm_update {
     args = ['--production', '--loglevel', 'warn']
 }
+*/
 
+yarn_install.dependsOn(yarn_cache_clean)
+buildFront.dependsOn(yarn_install)
+processResources.dependsOn(buildFront)
 
 repositories {
     mavenCentral()
