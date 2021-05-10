@@ -1,1 +1,0 @@
-web: java -jar build/libs/mycosts-1.0-SNAPSHOT.jar
