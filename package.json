@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js & npm install"
+    "build": "webpack --config webpack.prod.js",
+    "heroku-postbuild": "webpack -p"
   },
   "dependencies": {
     "@sentry/browser": "^6.3.5",
