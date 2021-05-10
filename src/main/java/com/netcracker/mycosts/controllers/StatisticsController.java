@@ -70,13 +70,13 @@ public class StatisticsController {
 
     }
 
-    @GetMapping("/averages")
+    @GetMapping("/totals")
     public ResponseEntity<Map<String, Double>> getAverages(@AuthenticationPrincipal User user) {
         final List<MonthCosts> monthCostsByUser = monthCostsService.findMonthCostsByUser(user);
         Set<Category> categories = user.getCategories();
         Map<String, Double> monthCostsMap = new HashMap<>();
         categories.forEach(category -> {
-            Map<String, Double> monthCostsAverageByCategory = getMonthCostsAverageByCategory(monthCostsByUser, category);
+            Map<String, Double> monthCostsAverageByCategory = getMonthCostsTotalByCategory(monthCostsByUser, category);
             monthCostsMap.putAll(monthCostsAverageByCategory);
         });
         return ResponseEntity.status(HttpStatus.OK).body(monthCostsMap);
@@ -89,7 +89,7 @@ public class StatisticsController {
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
-    private Map<String, Double> getMonthCostsAverageByCategory(List<MonthCosts> monthCostsByUser, Category category) {
+    private Map<String, Double> getMonthCostsTotalByCategory(List<MonthCosts> monthCostsByUser, Category category) {
         List<MonthCosts> monthCostsByCategory = monthCostsByUser.stream()
                 .filter(monthCosts -> monthCosts.getCategory().equals(category))
                 .sorted(Comparator.comparing(MonthCosts::getStartDate))
@@ -97,17 +97,13 @@ public class StatisticsController {
         if(monthCostsByCategory.size() == 0){
             return Collections.emptyMap();
         }
-        LocalDate firstDate = monthCostsByCategory.get(0).getStartDate();
-        int countOfMonths = Math.abs(LocalDate.now().getMonthValue()
-                - firstDate.getMonthValue()) + 1;
-
         Map<String, Double> monthCostsMap = monthCostsByUser.stream()
                 .filter(monthCosts -> monthCosts.getAmountUSD() > 0)
                 .filter(monthCosts -> monthCosts.getCategory().equals(category))
                 .collect(Collectors.groupingBy(monthCosts -> monthCosts.getCategory().getName(),
                         Collectors.summingDouble(MonthCosts::getAmountUSD)));
 
-        monthCostsMap.put(category.getName(), monthCostsMap.get(category.getName()) / countOfMonths);
+        monthCostsMap.put(category.getName(), monthCostsMap.get(category.getName()));
 
         return monthCostsMap;
     }

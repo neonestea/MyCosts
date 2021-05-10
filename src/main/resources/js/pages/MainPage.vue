@@ -3,10 +3,23 @@
     <v-tabs style="max-height: 50px; ">
       <v-tab @click="showDescription();">About</v-tab>
       <v-tab @click="showSteppers();" >Hints</v-tab>
+      <v-tab v-if="profile" @click="showAgreement();">User agreement</v-tab>
     </v-tabs>
+    <div v-if="profile && !agreement">
+      <v-alert
+          v-model="alert"
+          border="left"
+          close-text="Close Alert"
+          color="red lighten-2"
+          dark
+          dismissible
+
+      >
+        To get access to the application please accept User Agreement.
+      </v-alert>
+    </div>
     <div id="about" style="margin-top: 50px;">
     <v-expansion-panels
-        v-model="panel"
         multiple
     >
       <v-expansion-panel>
@@ -155,6 +168,18 @@
         </v-btn>
       </v-stepper-content>
     </v-stepper>
+    <v-card class="text-center" style="width: 70%; margin: 10px auto; display: none;" id="agreement">
+      <v-card-title>MyCosts user agreement</v-card-title>
+      <v-card-text>Here are the points of user agreement.</v-card-text>
+      <v-btn
+          id="agreeBtn"
+          class="ma-2 text-center"
+          @click="agree"
+          v-if="!agreement"
+      >
+        Accept Terms
+      </v-btn>
+    </v-card>
   </v-app>
 </template>
 
@@ -165,19 +190,30 @@ export default {
   data () {
     return {
       e6: 1,
+      profile: frontendData.profile,
+      agreement: frontendData.profile.accepted,
     }
   },
-  created() {
-    $("#MainBtn").css({ "color": "white", "border-bottom": "2px solid white"});
-  },
   methods: {
+    agree(){
+      this.$resource('/accept').update().then(
+              $("#agreeBtn").hide()
+      );
+    },
     showSteppers(){
       $("#stepper").show();
       $("#about").hide();
+      $("#agreement").hide();
     },
     showDescription(){
       $("#stepper").hide();
+      $("#agreement").hide();
       $("#about").show();
+    },
+    showAgreement(){
+      $("#agreement").show();
+      $("#stepper").hide();
+      $("#about").hide();
     }
   }
 }

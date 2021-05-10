@@ -34,7 +34,7 @@ public class MonthCostsService {
     }
 
     public void save(MonthCosts monthCosts) {
-       monthCostsRepository.save(monthCosts);
+        monthCostsRepository.save(monthCosts);
     }
 
     public List<MonthCosts> findMonthCostsByUserAndCategory(User user, Category category) {

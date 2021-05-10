@@ -80,8 +80,7 @@ export default {
       });
       const add = document.getElementById('addInput');
       add.disabled = false;
-      this.name = ''
-      this.amount = ''
+      this.name = '';
     },
     editName: function () {
       var account = {name: this.name, amount: this.account.amount, currency: this.currency};
@@ -100,8 +99,7 @@ export default {
                     });
                     const add = document.getElementById('addInput');
                     add.disabled = false;
-                    this.name = ''
-                    this.amount = ''
+                    this.name = '';
                   })
             } else if (result.status == "201") {
               const form = document.getElementById('name_form' + this.account.id);
@@ -116,8 +114,7 @@ export default {
               });
               const add = document.getElementById('addInput');
               add.disabled = false;
-              this.name = ''
-              this.amount = ''
+              this.name = '';
             } else {
               const form = document.getElementById('name_form' + this.account.id);
               form.style.display = "none";
@@ -132,8 +129,7 @@ export default {
               });
               const add = document.getElementById('addInput');
               add.disabled = false;
-              this.name = ''
-              this.amount = ''
+              this.name = '';
             }
           })
     },
@@ -154,8 +150,7 @@ export default {
                     });
                     const add = document.getElementById('addInput');
                     add.disabled = false;
-                    this.name = ''
-                    this.amount = ''
+                    this.amount = '';
                   })
             } else if (result.status == "201") {
               const form = document.getElementById('name_form' + this.account.id);
@@ -170,8 +165,7 @@ export default {
               });
               const add = document.getElementById('addInput');
               add.disabled = false;
-              this.name = ''
-              this.amount = ''
+              this.amount = '';
             } else {
               const form = document.getElementById('name_form' + this.account.id);
               form.style.display = "none";
@@ -180,14 +174,13 @@ export default {
                 $("#error_line").hide('slow');
               }, 2000);
               //this.amount = this.account.amount;
-              this.name = this.account.name;
+
               document.querySelectorAll('.button').forEach(elem => {
                 elem.disabled = false;
               });
               const add = document.getElementById('addInput');
               add.disabled = false;
-              this.name = ''
-              this.amount = ''
+              this.amount = '';
             }
           })
     },

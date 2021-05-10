@@ -5,7 +5,7 @@
       <v-tab @click="showDonut();" >Month statistics</v-tab>
       <v-tab @click="showBar();">Year statistics</v-tab>
       <v-tab @click="showReport();">Reports</v-tab>
-<!--      <v-tab @click="showAverage();">Average</v-tab>-->
+      <v-tab @click="showTotal();">Total</v-tab>
     </v-tabs>
     <apexchart id="monthChart" style="margin: auto; " width="500" type="donut" :options="optionsDonut" :series="seriesDonut"></apexchart>
     <apexchart id="yearChart" style="margin: auto; display: none;" width="700" type="bar" :options="optionsBar" :series="seriesBar"></apexchart>
@@ -55,7 +55,30 @@
         </v-data-table>
       </v-card>
     </data-app>
-<!--      <apexchart id="averageChart" style="margin: auto; display: none;" width="500" type="donut" :options="optionsDonut" :series="seriesAverage"></apexchart>-->
+    <data-app id="reportTotal" style="display: none; margin-top: 60px;">
+      <v-card>
+        <v-card-title>
+          Total costs
+          <v-spacer></v-spacer>
+          <v-text-field
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details
+          ></v-text-field>
+        </v-card-title>
+        <v-data-table
+            :headers="headersTotal"
+            :items="totalRow"
+            :search="search"
+            sort-by="totalAmount"
+            multi-sort
+            class="elevation-1"
+        >
+        </v-data-table>
+      </v-card>
+    </data-app>
     </v-app>
 
 </template>
@@ -67,10 +90,15 @@ export default {
     return {
       search: '',
       monthCostsRow: [],
+      totalRow: [],
       headers: [
         { text: 'Category', value: 'category' },
         { text: 'Account', value: 'account' },
         { text: 'Currency', value: 'currency' },
+        { text: 'Amount', value: 'amount' },
+      ],
+      headersTotal: [
+        { text: 'Category', value: 'category' },
         { text: 'Amount', value: 'amount' },
       ],
       tab: null,
@@ -104,7 +132,6 @@ export default {
           },
         },
       },
-      seriesAverage: [],
       seriesBar: [],
       optionsBar: {
 
@@ -196,7 +223,7 @@ export default {
     $("#StatisticsBtn").css({ "color": "white", "border-bottom": "2px solid white"})
     this.showDonut();
     this.initializeDonut();
-    //this.initializeAverageDonut();
+    this.initializeTotal();
     this.initializeTable();
   },
   methods: {
@@ -253,7 +280,7 @@ export default {
       $("#monthChart").show();
       $("#yearChart").hide();
       $("#report").hide();
-      //$("#averageChart").hide();
+      $("#reportTotal").hide();
 
     },
     showBar(){
@@ -261,36 +288,39 @@ export default {
       $("#yearChart").show();
       $("#monthChart").hide();
       $("#report").hide();
-      //$("#averageChart").hide();
+      $("reportTotal").hide();
     },
     showReport(){
 
       $("#report").show();
       $("#yearChart").hide();
       $("#monthChart").hide();
-      //$("#averageChart").hide();
+      $("#reportTotal").hide();
 
 
     },
-    showAverage(){
+    showTotal(){
 
-      //$("#averageChart").show();
+      $("#reportTotal").show();
       $("#yearChart").hide();
       $("#monthChart").hide();
       $("#report").hide();
-    }/*,
-    initializeAverageDonut(){
-      this.$resource('/averages').get().then(result =>
+    },
+    initializeTotal(){
+      this.$resource('/totals').get().then(result =>
           result.json().then(data => {
-            result.json().then(data => {
-              this.optionsAverage = {
-                labels: Object.keys(data),
-              };
-              this.seriesAverage = Object.values(data);
-            })
+            const keys = Object.keys(data);
+            const values = Object.values(data);
+            for(let i = 0; i < values.length; i++){
+              let tot = {
+                category: keys[i],
+                amount: values[i]
+              }
+              this.totalRow.push(tot);
+            }
           })
       );
-    }*/,
+    },
     initializeTable(){
       this.$resource('/tables').get().then(result =>
           result.json().then(data => {

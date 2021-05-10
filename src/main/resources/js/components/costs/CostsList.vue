@@ -58,6 +58,7 @@ export default {
       headers: [
         { text: 'Date', value: 'date' },
         { text: 'Amount', value: 'amount' },
+        { text: 'Currency', value: 'currency' },
         { text: 'Account', value: 'account' },
         { text: 'Category', value: 'category' },
         { text: 'Actions', value: 'actions', sortable: false },
@@ -74,6 +75,7 @@ export default {
         return {
             date: item.date,
             amount: item.amount,
+            currency: item.account.currency,
             id: item.id,
             category: item.category.name,
             account: item.account.name

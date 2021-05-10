@@ -1,15 +1,14 @@
 package com.netcracker.mycosts.controllers;
 
+import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.netcracker.mycosts.entities.User;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 //import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.validation.Valid;
@@ -20,7 +19,12 @@ public class UserController {
 
     private UserService userService;
 
-
+    @PutMapping("/accept")
+    public void update(@AuthenticationPrincipal User user) {
+        User userFromDb = userService.getUserById(user.getId());
+        userFromDb.setAccepted(true);
+        userService.save(userFromDb);
+    }
 
     @GetMapping("/users/{id}")
     public User getUser(@PathVariable String id) {

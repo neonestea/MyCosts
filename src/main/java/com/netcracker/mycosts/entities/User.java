@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Setter
 @Builder
 @Table(name = "users")
-public class User/* implements Serializable */{
+public class User {
 
     @Id
     private String id;
@@ -33,6 +33,8 @@ public class User/* implements Serializable */{
     private String email;
 
     private boolean active;
+
+    private boolean accepted;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
