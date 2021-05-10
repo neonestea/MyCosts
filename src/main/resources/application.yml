@@ -36,7 +36,5 @@ security:
     resource:
       preferTokenInfo: true
       userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-server:
-  port: 9000
 
 
