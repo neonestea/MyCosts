@@ -14,6 +14,7 @@ module.exports = {
         path: path.resolve(__dirname, '/dist'),
         filename: '[name].js'
     },
+    //entry: path.join(__dirname, 'src', 'main', 'resources', 'js', 'main.js'),
     module: {
         rules: [
             {
