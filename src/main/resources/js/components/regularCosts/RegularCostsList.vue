@@ -56,6 +56,7 @@ export default {
         name: '',
         nextDate: '',
         amount: '',
+        currency: '',
         account: '',
         category: '',
         period: '',
@@ -65,6 +66,7 @@ export default {
         name: '',
         nextDate: '',
         amount: '',
+        currency: '',
         account: '',
         category: '',
         period: '',
@@ -80,6 +82,7 @@ export default {
         { text: 'Next Pay Date', value: 'nextPayDate' },
         { text: 'Period', value: 'period' },
         { text: 'Amount', value: 'amount' },
+        { text: 'Currency', value: 'currency' },
         { text: 'Account', value: 'account' },
         { text: 'Category', value: 'category' },
         { text: 'Actions', value: 'actions', sortable: false },
@@ -95,7 +98,7 @@ export default {
       let per;
       this.regularCostsRow = this.regularCosts.map(function(item) {
         if(item.everyMonth == false){
-          per = item.period;
+          per = item.period + ' day(s)';
         }
         else {
           per = 'monthly';
@@ -106,6 +109,7 @@ export default {
           nextPayDate: item.nextDate,
           period: per,
           amount: item.amount,
+          currency: item.account.currency,
           id: item.id,
           category: item.category.name,
           account: item.account.name
@@ -119,10 +123,6 @@ export default {
         }
       })
     },
-    edit(item){
-      console.log("KEK");
-    }
-
   }
 }
 </script>

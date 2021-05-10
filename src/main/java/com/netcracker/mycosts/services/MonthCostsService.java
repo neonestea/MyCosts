@@ -34,7 +34,6 @@ public class MonthCostsService {
     }
 
     public void save(MonthCosts monthCosts) {
-        System.out.println("BLET");
         monthCostsRepository.save(monthCosts);
     }
 

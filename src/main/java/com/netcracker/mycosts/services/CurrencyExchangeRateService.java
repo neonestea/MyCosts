@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -55,13 +56,15 @@ public class CurrencyExchangeRateService {
     }
 
     public CurrencyExchangeRate findByCurrencyAndDate(Currency currency, LocalDate date) {
-        CurrencyExchangeRate currencyExchangeRate = currencyExchangeRateRepository
-                .findDistinctByCurrencyAndDate(currency, date).get(0);
-        if (currencyExchangeRate == null) {
+        List<CurrencyExchangeRate> distinctByCurrencyAndDate = currencyExchangeRateRepository
+                .findByCurrencyAndDate(currency, date);
+
+        if (distinctByCurrencyAndDate.size() == 0) {
             getAndSaveExchangeRates();
-            currencyExchangeRate = currencyExchangeRateRepository
-                    .findDistinctByCurrencyAndDate(currency, date).get(0);
+            distinctByCurrencyAndDate = currencyExchangeRateRepository
+                    .findByCurrencyAndDate(currency, date);
         }
+        CurrencyExchangeRate currencyExchangeRate = distinctByCurrencyAndDate.get(0);
         return currencyExchangeRate;
     }
 }

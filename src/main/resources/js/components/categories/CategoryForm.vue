@@ -35,8 +35,15 @@
   Category already exists.
 </v-alert>
 </div>
-
-<!--    <p id="error_line" style="display: none; padding: 15px;">Category already exists!</p>-->
+    <div id="error_line2" style="display: none; margin-top: 15px;"><v-alert
+        border="top"
+        colored-border
+        type="error"
+        elevation="2"
+    >
+      Too many categories. You can add not more than 20 categories.
+    </v-alert>
+    </div>
   </div>
 </template>
 <script>
@@ -53,6 +60,14 @@ export default {
       return name.length == 0;
     },
     save() {
+      const catCount = this.categories.length;
+      if (catCount >= 20){
+        $("#error_line2").show('slow');
+        setTimeout(function () {
+          $("#error_line2").hide('slow');
+        }, 2000);
+        this.name = ''
+      }
       var category = {name: this.name};
       this.$resource('/category{/id}').save({}, category).then(result => {
         if (result.status == '201') {

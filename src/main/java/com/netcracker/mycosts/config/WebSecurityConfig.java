@@ -44,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 user.setEmail((String) map.get("email"));
                 user.setActive(true);
                 user.setRoles(Collections.singleton(Role.USER));
+                user.setAccepted(false);
                 return userService.create(user);
             }
             else {

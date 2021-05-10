@@ -12,6 +12,7 @@
         style=" background: #F4F5F5;"
 
     >
+      <h1 style="font-size: 50px;">MyCosts</h1>
       <template v-slot:img="{ props }">
         <v-img
             v-bind="props"
@@ -20,7 +21,7 @@
       </template>
 
 
-      <v-app-bar-title>MyCosts</v-app-bar-title>
+
 
       <v-spacer></v-spacer>
 
@@ -52,6 +53,7 @@
                       class="my-2"
                       href="/home"
                       id="CostsBtn"
+                      v-if="profile && agreement"
                   >
                     Costs
                   </v-btn>
@@ -62,6 +64,7 @@
                       class="my-2"
                       href="/stat"
                       id="StatisticsBtn"
+                      v-if="profile && agreement"
                   >
                     Statistics
                   </v-btn>
@@ -72,6 +75,7 @@
                       class="my-2"
                       href="/regular"
                       id="RegularCostsBtn"
+                      v-if="profile && agreement"
                   >
                     Regular Costs
                   </v-btn>
@@ -83,6 +87,7 @@
                       class="my-2"
                       href="/accounts"
                       id="AccountsBtn"
+                      v-if="profile && agreement"
                   >
                     Accounts
                   </v-btn>
@@ -93,6 +98,7 @@
                       class="my-2"
                       href="/categories"
                       id="CategoriesBtn"
+                      v-if="profile && agreement"
                   >
                     Categories
                   </v-btn>
@@ -113,8 +119,8 @@
 export default {
   data() {
     return {
-
-      profile: frontendData.profile
+      profile: frontendData.profile,
+      agreement: frontendData.profile.accepted,
     }
   },
 }

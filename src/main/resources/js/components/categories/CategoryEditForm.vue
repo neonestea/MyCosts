@@ -46,6 +46,7 @@ export default {
       });
       const add = document.getElementById('addInput');
       add.disabled = false;
+      this.name = '';
     },
     edit() {
       console.log(this.category.id + " id " + this.name )
@@ -64,6 +65,7 @@ export default {
                     });
                     const add = document.getElementById('addInput');
                     add.disabled = false;
+                    this.name = '';
                   })
             }
             else {
@@ -77,6 +79,7 @@ export default {
               });
               const add = document.getElementById('addInput');
               add.disabled = false;
+              this.name = '';
             }
           })
     },
