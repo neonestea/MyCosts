@@ -196,8 +196,10 @@ export default {
   },
   methods: {
     agree(){
-      this.$resource('/accept').update().then(
-              $("#agreeBtn").hide()
+      this.$resource('/accept').update().then(result => {
+            $("#agreeBtn").hide()
+            location.reload()
+          }
       );
     },
     showSteppers(){

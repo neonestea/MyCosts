@@ -30,6 +30,7 @@ public class HomeController {
     public String index(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
+            user = userService.getUserById(user.getId());
             data.put("profile", user);
         }
         else {
@@ -42,6 +43,7 @@ public class HomeController {
 
     @GetMapping("/stat")
     public String statistics(Model model, @AuthenticationPrincipal User user) {
+        user = userService.getUserById(user.getId());
         HashMap<Object, Object> data = new HashMap<>();
         if(user != null){
             data.put("profile", user);
@@ -83,8 +85,8 @@ public class HomeController {
     @GetMapping("/regular")
     public String regularCosts(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
-        user = userService.getUserById(user.getId());
         if(user != null){
+            user = userService.getUserById(user.getId());
             data.put("regularCosts", regularCostService.getAll(user.getId()));
             data.put("profile", user);
             Set<Account> accounts = new HashSet<>();
@@ -125,6 +127,7 @@ public class HomeController {
     @GetMapping("/accounts")
     public String accounts(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
+        user = userService.getUserById(user.getId());
         if(user != null){
             data.put("profile", user);
             List<Account> accountsFromDb = accountService.getAllUserAccounts(user.getId());
@@ -147,8 +150,6 @@ public class HomeController {
             return "redirect:/login";
         }
     }
-
-    //TODO add view with month costs
 
     @Autowired
     public void setCategoryService(CategoryService categoryService) {

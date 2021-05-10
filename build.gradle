@@ -27,15 +27,15 @@ processResources.dependsOn(buildFront)*/
 }*/
 
 /*
-npm_update {
+npwm_update {
     args = ['--production', '--loglevel', 'warn']
 }
 */
-
+/*
 yarn_install.dependsOn(yarn_cache_clean)
 buildFront.dependsOn(yarn_install)
 processResources.dependsOn(buildFront)
-
+*/
 repositories {
     mavenCentral()
 }
