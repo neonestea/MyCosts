@@ -1,0 +1,67 @@
+Arguments: 
+  C:\Users\yanko\IdeaProjects\MyCosts\.gradle\nodejs\node-v14.15.4-win-x64\node.exe C:\Users\yanko\IdeaProjects\MyCosts\.gradle\yarn\yarn-latest\node_modules\yarn\bin\yarn.js install
+
+PATH: 
+  C:\Users\yanko\IdeaProjects\MyCosts\.gradle\yarn\yarn-latest;C:\Users\yanko\IdeaProjects\MyCosts\.gradle\nodejs\node-v14.15.4-win-x64;C:\Users\yanko\IdeaProjects\MyCosts\.gradle\nodejs\node-v14.15.4-win-x64;C:\Program Files\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Java\jdk-11.0.10\bin;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Users\yanko\AppData\Local\Microsoft\WindowsApps;C:\Users\yanko\.dotnet\tools;C:\Program Files\JetBrains\IntelliJ IDEA 2020.3.3\bin;;C:\Users\yanko\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\yanko\AppData\Roaming\npm;C:\Users\yanko\AppData\Local\Yarn\bin;C:\Program Files\liquibase;C:\Program Files\Heroku\bin
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.15.4
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, copyfile 'C:\Users\yanko\AppData\Local\Yarn\Cache\v6\npm-@sentry-browser-6.3.6-bba07033efded6c844de88dcc47f99548a29afed-integrity\node_modules\@sentry\browser\esm\version.js' -> 'C:\Users\yanko\IdeaProjects\MyCosts\node_modules\@sentry\browser\esm\version.js'
+
+npm manifest: 
+  {
+    "name": "MyCosts",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/neonestea/MyCosts",
+    "author": "neo_nestea <yakova.nastya@yandex.ru>",
+    "license": "MIT",
+    "scripts": {
+      "start": "webpack serve --config webpack.dev.js",
+      "build": "webpack --config webpack.prod.js"
+    },
+    "dependencies": {
+      "@sentry/browser": "^6.3.5",
+      "@sentry/tracing": "^6.3.5",
+      "@sentry/vue": "^6.3.5",
+      "apexcharts": "^3.26.1",
+      "npm-install-missing": "^0.1.4",
+      "vue": "^2.6.12",
+      "vue-apexcharts": "^1.6.1",
+      "vue-resource": "^1.5.2",
+      "vuetify": "^2.4.9"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.13.15",
+      "@babel/preset-env": "^7.13.15",
+      "babel-loader": "^8.2.2",
+      "clean-webpack-plugin": "^4.0.0-alpha.0",
+      "css-loader": "^5.2.2",
+      "deepmerge": "^4.2.2",
+      "html-webpack-plugin": "^5.3.1",
+      "sass": "^1.32.11",
+      "sass-loader": "^11.0.1",
+      "serve": "^11.3.2",
+      "vue-loader": "^15.9.6",
+      "vue-style-loader": "^4.1.3",
+      "vue-template-compiler": "^2.6.12",
+      "webpack": "^5.33.2",
+      "webpack-cli": "^4.6.0",
+      "webpack-dev-server": "^3.11.2",
+      "webpack-merge": "^5.7.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

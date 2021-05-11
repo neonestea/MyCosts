@@ -296,8 +296,6 @@ export default {
       $("#yearChart").hide();
       $("#monthChart").hide();
       $("#reportTotal").hide();
-
-
     },
     showTotal(){
 

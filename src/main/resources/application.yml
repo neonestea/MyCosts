@@ -4,6 +4,11 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:admin}
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/mycosts_db}
     driver-class-name: org.postgresql.Driver
+  session:
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+      schema:classpath: session_tables.sql
 
   jpa:
     hibernate:
