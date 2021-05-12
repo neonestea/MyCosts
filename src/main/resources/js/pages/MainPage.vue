@@ -72,7 +72,7 @@
         <small>Click the logIn button in the top right corner of the app.</small>
         <v-img
             max-width="550"
-            src="/images/step0.jpg"
+
         ></v-img>
         <v-btn
             color="primary"
@@ -94,7 +94,7 @@
         <v-img
             max-height="150"
             max-width="250"
-            src="/images/step1.jpg"
+
         ></v-img>
         <v-btn
             color="primary"
@@ -118,7 +118,7 @@
         <v-img
             max-height="150"
             max-width="250"
-            src="/images/step2.jpg"
+
         ></v-img>
         <v-btn
             color="primary"
@@ -139,7 +139,7 @@
         <v-img
             max-height="150"
             max-width="450"
-            src="/images/step3-1.jpg"
+
         ></v-img>
         <v-btn
             color="primary"
@@ -160,7 +160,7 @@
         <v-img
             max-height="150"
             max-width="250"
-            src="/images/step3-2.jpg"
+
         ></v-img>
         <v-btn text
                @click="e6 = 1">
