@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @Setter
 @Builder
 @Table(name = "regular_costs")
-public class RegularCost {
+public class RegularCost implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

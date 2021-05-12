@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 @Setter
 @Builder
 @Table(name = "costs")
-public class Cost {
+public class Cost implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

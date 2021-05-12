@@ -3,11 +3,12 @@ package com.netcracker.mycosts.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-public class MonthCostsView {
+public class MonthCostsView implements Serializable {
     private LocalDate date;
     private double amountUSD;
     private Category category;

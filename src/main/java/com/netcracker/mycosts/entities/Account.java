@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -18,7 +19,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @Table(name = "accounts")
-public class Account {
+public class Account implements Serializable {
 
 
     @Id
