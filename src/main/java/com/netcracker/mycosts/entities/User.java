@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @Setter
 @Builder
 @Table(name = "users")
-public class User implements Serializable {
+public class User/* implements Serializable */{
 
     @Id
     private String id;
