@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     List<Account> findAccountByUserId(String userId);
+
+    Account findAccountByUserIdAndNameAndCurrency(String userId, String name, String currency);
 }

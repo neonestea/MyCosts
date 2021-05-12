@@ -32,4 +32,8 @@ public class AccountService {
     public Account getAccountById(int id) {
         return accountRepository.findById(id).get();
     }
+
+    public Account getAccountByUserAndAccountNameAndCurrencyName(String userId, String name, String currency) {
+        return accountRepository.findAccountByUserIdAndNameAndCurrency(userId, name, currency);
+    }
 }

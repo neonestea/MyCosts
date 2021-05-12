@@ -1,11 +1,8 @@
 package com.netcracker.mycosts.controllers;
 
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 import com.netcracker.mycosts.dto.AccountDto;
-import com.netcracker.mycosts.entities.Category;
 import com.netcracker.mycosts.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.netcracker.mycosts.services.AccountService;
@@ -81,6 +78,16 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.OK).body(accountService.save(accountFromDB));
         }
     }
+
+    @PutMapping("/account")
+    public ResponseEntity<Account> recover(@RequestBody Account account, @AuthenticationPrincipal User user) {
+        Account accountToRecover = accountService.getAccountByUserAndAccountNameAndCurrencyName(user.getId(),
+                account.getName(), account.getCurrency().name());
+        accountToRecover.setActive(true);
+        accountToRecover.setAmount(account.getAmount());
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.save(accountToRecover));
+    }
+
 
     @Autowired
     public void setAccountService(AccountService accountService) {
