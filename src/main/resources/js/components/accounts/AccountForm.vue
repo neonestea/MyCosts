@@ -91,8 +91,8 @@ export default {
       return name.length == 0 || currency.length == 0 || !res || this.amount.length == 0;
     },
     recover() {
-      this.$resource('/account{/id}').update({id: this.id}, null)
-          .then(result => {
+      var account = {name: this.name, amount: this.amount, currency: this.currency};
+      this.$resource('/account').update({}, account).then(result => {
             result.json()
                 .then(data => {
                   this.accounts.push(data);
@@ -137,6 +137,7 @@ export default {
                 this.name = ''
                 this.currency = ''
               })
+          location.reload()
         } else if (result.status == "201") {
           result.json()
               .then(data => {

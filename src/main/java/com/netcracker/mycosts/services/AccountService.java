@@ -1,6 +1,7 @@
 package com.netcracker.mycosts.services;
 
 import com.netcracker.mycosts.entities.Account;
+import com.netcracker.mycosts.entities.Currency;
 import com.netcracker.mycosts.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,6 @@ public class AccountService {
     }
 
     public Account getAccountByUserAndAccountNameAndCurrencyName(String userId, String name, String currency) {
-        return accountRepository.findAccountByUserIdAndNameAndCurrency(userId, name, currency);
+        return accountRepository.findAccountByUserIdAndNameAndCurrency(userId, name, Currency.valueOf(currency));
     }
 }

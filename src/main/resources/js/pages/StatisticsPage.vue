@@ -99,7 +99,7 @@ export default {
       ],
       headersTotal: [
         { text: 'Category', value: 'category' },
-        { text: 'Amount', value: 'amount' },
+        { text: 'Amount (USD)', value: 'amount' },
       ],
       tab: null,
       seriesDonut: [],
