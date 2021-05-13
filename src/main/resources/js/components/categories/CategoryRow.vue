@@ -6,24 +6,29 @@
                       :category="category" />
 
   <v-card style="margin: 20px; padding: 10px; display: flex; flex-direction: column; justify-content: center;">
-    <v-card-title>{{ category.name }}</v-card-title>
+    <v-card-title style="justify-content: center;">{{ category.name }}</v-card-title>
     <div style="display: flex; justify-content: space-evenly;">
-      <button :style="showButton()"
+      <v-btn :style="showButton()"
            class="button"
            :id="`edit`+category.id"
            type="button"
            value="Edit"
+             style="margin: 5px;"
            @click="askEdit">
+
         <v-icon>edit</v-icon>
-      </button>
-      <button :style="showButton()"
+        Edit
+      </v-btn>
+      <v-btn :style="showButton()"
            class="button"
            :id="`delete`+category.id"
            type="button"
            value="X"
+             style="margin: 5px;"
            @click="del" >
         <v-icon>delete</v-icon>
-      </button>
+        Delete
+      </v-btn>
     </div>
   </v-card>
     </div>

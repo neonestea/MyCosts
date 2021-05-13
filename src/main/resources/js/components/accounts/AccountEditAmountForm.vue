@@ -15,7 +15,7 @@
            type="button"
            value="Edit"
            @click="addAmount"
-            :disabled="isDisable()"><v-icon>edit</v-icon></button>
+            :disabled="isDisable()"><v-icon>done</v-icon></button>
       <button :id="`cancelBtn`+account.id"
               type="button"
               value="Cancel"

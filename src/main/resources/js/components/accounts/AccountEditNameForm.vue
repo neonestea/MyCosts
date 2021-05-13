@@ -14,7 +14,7 @@
               type="button"
               value="Edit"
               @click="editName"
-              :disabled="isDisableName()"><v-icon>edit</v-icon></button>
+              :disabled="isDisableName()"><v-icon>done</v-icon></button>
     </div>
     <div style="display: flex;">
       <v-text-field label="New amount"
@@ -31,7 +31,7 @@
               type="button"
               value="Edit"
               @click="editAmount"
-              :disabled="isDisableAmount()"><v-icon>edit</v-icon></button>
+              :disabled="isDisableAmount()"><v-icon>done</v-icon></button>
     </div>
 
     <div style="display: flex; justify-content: center; margin: 10px;">

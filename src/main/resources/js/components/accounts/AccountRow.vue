@@ -9,25 +9,26 @@
                               :accounts="accounts"
                               :account="account"/>
     <v-card style="margin: 20px; padding: 10px; display: flex; flex-direction: column;">
-      <v-card-title>{{ account.name }}</v-card-title>
+      <v-card-title style="justify-content: center;">{{ account.name }}</v-card-title>
       <v-card-subtitle>{{ account.currency }}</v-card-subtitle>
       <v-card-subtitle>{{ account.amount }}</v-card-subtitle>
-      <div style="display: flex; justify-content: space-evenly;">
-      <button class="button"
+      <v-btn class="button"
              :id="`editName`+account.id"
              type="button"
+             style="margin: 5px;"
              value="Edit"
-           @click="askEditName"><v-icon>edit</v-icon></button>
-      <button class="button"
+           @click="askEditName"><v-icon>edit</v-icon>Edit</v-btn>
+      <v-btn class="button"
              :id="`editAmount`+account.id"
              type="button"
              value="Check"
-           @click="askEditAmount"><v-icon>savings</v-icon></button>
-      <button class="button"
+             style="margin: 5px;"
+           @click="askEditAmount"><v-icon>savings</v-icon>Add money</v-btn>
+      <v-btn class="button"
              :id="`delete`+account.id"
              type="button" value="X"
-           @click="del"><v-icon>delete</v-icon></button>
-      </div>
+             style="margin: 5px;"
+           @click="del"><v-icon>delete</v-icon>Delete</v-btn>
     </v-card>
   </div>
 </template>

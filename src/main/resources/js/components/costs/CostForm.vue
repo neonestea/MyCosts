@@ -1,7 +1,24 @@
 <template>
   <div style="paddig: 10px; margin-bottom: 10px; margin-top:30px; margin-left: 10px; margin-right:10px;">
-    <v-row style="justify-content: center;
-    padding: 10px;">
+    <v-menu
+        v-model="menu"
+        :close-on-content-click="false"
+        :nudge-width="200"
+        offset-x
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+            color="indigo"
+            dark
+            v-bind="attrs"
+            v-on="on"
+        >
+          Add new
+        </v-btn>
+      </template>
+    <v-card style="padding: 15px; background: rgba(165, 168, 185); width: 300px;"
+            >
+      <v-card-title>Add new cost</v-card-title>
       <v-menu
           v-model="menu2"
           :close-on-content-click="false"
@@ -52,8 +69,12 @@
             item-text="name"
         ></v-select>
       <v-btn type="button" value="Save" @click="save" style="height: 22px; margin-top: 20px;"
+             outlined
+             rounded
+             text
                      :disabled="isDisable(amount, account, category)">Save</v-btn>
-    </v-row>
+    </v-card>
+    </v-menu>
   </div>
 </template>
 <script>
@@ -83,6 +104,7 @@ export default {
       account: '',
       category: '',
       amount: '',
+      menu: false,
       date: maxDate,
       max: maxDate,
       min: minDate,

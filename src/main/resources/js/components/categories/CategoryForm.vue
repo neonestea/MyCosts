@@ -1,31 +1,43 @@
 <template>
-  <div style="margin: 20px 10px; width: 250px;">
-    <v-row>
-    <v-col
-        class="d-flex"
-        cols="12"
-        sm="6"
+  <div style="margin: 20px 10px;  ">
+    <v-menu
+        v-model="menu"
+        :close-on-content-click="false"
+        :nudge-width="200"
+        offset-x
     >
-      <v-text-field label="Category name"
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+            color="indigo"
+            dark
+            v-bind="attrs"
+            v-on="on"
+        >
+          Add new
+        </v-btn>
+      </template>
+    <v-card style="padding: 15px; background: rgba(165, 168, 185); width: 300px;">
+      <v-card-title>Add new category</v-card-title>
+      <v-text-field
+          label="Category name"
                     hide-details="auto"
                     placeholder="Category name"
                     type="text"
                     maxlength="25"
-                    v-model="name"></v-text-field>
-    </v-col>
-      <v-col
-          class="d-flex"
-          cols="12"
-          sm="6"
-          style="align-items: baseline;"
-      >
+                    v-model="name"
+          required
+      ></v-text-field>
+
       <v-btn type="button"
              style="height: 22px; margin-top: 25px;"
+             outlined
+             rounded
+             text
              value="Save"
              @click="save"
              :disabled="isDisable(name)">Save</v-btn>
-      </v-col>
-    </v-row>
+    </v-card>
+    </v-menu>
 <div id="error_line" style="display: none; margin-top: 15px;"><v-alert
     border="top"
     colored-border
@@ -52,6 +64,7 @@ export default {
   data() {
     return {
       name: '',
+      menu: false,
       id: '',
     }
   },
@@ -74,7 +87,8 @@ export default {
           result.json()
               .then(data => {
                 this.categories.push(data);
-                this.name = ''
+                this.name = '';
+                this.menu = false;
               })
         } else {
 
@@ -83,6 +97,7 @@ export default {
             $("#error_line").hide('slow');
           }, 2000);
           this.name = ''
+          this.menu = false;
         }
 
       })

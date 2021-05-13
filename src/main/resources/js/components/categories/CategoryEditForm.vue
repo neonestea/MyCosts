@@ -13,7 +13,7 @@
           type="button"
           value="Edit"
           @click="edit"
-         :disabled="isDisable(name)"><v-icon>edit</v-icon></button>
+         :disabled="isDisable(name)"><v-icon>done</v-icon></button>
   <button :id="`cancelBtn`+category.id"
          type="button"
          value="Cancel"

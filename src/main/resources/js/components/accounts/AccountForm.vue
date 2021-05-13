@@ -1,6 +1,23 @@
 <template>
-  <div style="margin: 20px 10px;">
-    <v-row style="padding: 15px;">
+  <div style="margin: 20px 10px; ">
+    <v-menu
+        v-model="menu"
+        :close-on-content-click="false"
+        :nudge-width="200"
+        offset-x
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+            color="indigo"
+            dark
+            v-bind="attrs"
+            v-on="on"
+        >
+          Add new
+        </v-btn>
+      </template>
+    <v-card style="padding: 15px; background: rgba(165, 168, 185,1); width: 300px;">
+      <v-card-title>Add new account</v-card-title>
       <v-text-field id="addInput"
                     label="Account name"
                     hide-details="auto"
@@ -30,8 +47,12 @@
              style="height: 22px; margin-top: 20px;"
              value="Save"
              @click="save"
+             outlined
+             rounded
+             text
              :disabled="isDisable(name, currency)">Save</v-btn>
-    </v-row>
+    </v-card>
+    </v-menu>
     <div id="error_line" style="display: none; margin-top: 15px;"><v-alert
         border="top"
         colored-border
@@ -67,6 +88,7 @@ export default {
       amount: '',
       currency: '',
       id: '',
+      menu: false,
       currenciesValues:[],
       rules: [
         value => (((value.match(/^\d+(\.\d\d)?$/) || value.match(/^\d+(\.\d)?$/))&& value.indexOf(".") != '-1') || value.indexOf(".") == '-1' ) || 'Invalid input.',

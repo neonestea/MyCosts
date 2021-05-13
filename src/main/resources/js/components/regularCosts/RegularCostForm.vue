@@ -1,78 +1,100 @@
 <template>
-  <div style="paddig: 10px; margin-bottom: 10px;">
-    <v-row style="justify-content: center; padding: 15px;">
-      <v-text-field label="Cost name"
-                    hide-details="auto"
-                    placeholder="Cost name"
-                    type="text"
-                    maxlength="25"
-                    v-model="name"></v-text-field>
-      <v-menu
-          v-model="menu2"
-          :close-on-content-click="false"
-          :nudge-right="40"
-          transition="scale-transition"
-          offset-y
-          min-width="auto"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
+  <div style="padding: 10px; margin-bottom: 10px;">
+    <v-menu
+        v-model="menu"
+        :close-on-content-click="false"
+        :nudge-width="200"
+        offset-x
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+            color="indigo"
+            dark
+            v-bind="attrs"
+            v-on="on"
+        >
+          Add new
+        </v-btn>
+      </template>
+      <v-card style="padding: 15px; background: rgba(165, 168, 185); width: 300px;">
+        <v-card-title>Add new regular cost</v-card-title>
+        <v-text-field label="Cost name"
+                      hide-details="auto"
+                      placeholder="Cost name"
+                      type="text"
+                      maxlength="25"
+                      v-model="name"></v-text-field>
+        <v-menu
+            v-model="menu2"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+                v-model="firstDay"
+                label="First day"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
               v-model="firstDay"
-              label="First day"
-              readonly
-              v-bind="attrs"
-              v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-            v-model="firstDay"
-            :min="min"
-            @input="menu2 = false"
-        ></v-date-picker>
-      </v-menu>
-      <v-text-field label="Amount"
-                    :id="`amount`+account.id"
-                    hide-details="auto"
-                    placeholder="Amount"
-                    step="0.01"
-                    min="0"
-                    type="number"
-                    :rules="rules"
-                    v-model="amount">
-      </v-text-field>
-      <v-select
-          :items="accounts"
-          label="Account"
-          v-model="account"
-          name="account"
-          item-text="name"
-      ></v-select>
-      <v-select
-          v-model="category"
-          :items="categories"
-          label="Category"
-          name="category"
-          item-text="name"
-      ></v-select>
-      <v-checkbox
-          style="padding-right: 5px;"
-          v-model="everyMonthPicked"
-          label="Every month"
-      ></v-checkbox>
-      <v-text-field label="Interval"
-                    id="daysInput"
-                    hide-details="auto"
-                    placeholder="1"
-                    step="1"
-                    min="1"
-                    type="number"
-                    style="width: 50px;"
-                    :disabled="isDisableInterval()"
-                    v-model="dayInterval">
-      </v-text-field>
-      <v-btn type="button" value="Save" @click="save" style="height: 22px; margin-top: 20px;"
-             :disabled="isDisable()">Save</v-btn>
-    </v-row>
+              :min="min"
+              @input="menu2 = false"
+          ></v-date-picker>
+        </v-menu>
+        <v-text-field label="Amount"
+                      :id="`amount`+account.id"
+                      hide-details="auto"
+                      placeholder="Amount"
+                      step="0.01"
+                      min="0"
+                      type="number"
+                      :rules="rules"
+                      v-model="amount">
+        </v-text-field>
+        <v-select
+            :items="accounts"
+            label="Account"
+            v-model="account"
+            name="account"
+            item-text="name"
+        ></v-select>
+        <v-select
+            v-model="category"
+            :items="categories"
+            label="Category"
+            name="category"
+            item-text="name"
+        ></v-select>
+        <v-checkbox
+            style="padding-right: 5px;"
+            v-model="everyMonthPicked"
+            label="Every month"
+        ></v-checkbox>
+        <v-text-field label="Interval"
+
+                      id="daysInput"
+                      hide-details="auto"
+                      placeholder="1"
+                      step="1"
+                      min="1"
+                      type="number"
+                      :disabled="isDisableInterval()"
+                      v-model="dayInterval">
+        </v-text-field>
+        <v-btn type="button" value="Save" @click="save" style="height: 22px; margin-top: 20px;"
+               outlined
+               rounded
+               text
+               :disabled="isDisable()">Save</v-btn>
+      </v-card>
+    </v-menu>
+
   </div>
 </template>
 <script>
@@ -94,6 +116,7 @@ export default {
       id: '',
       name: '',
       account: '',
+      menu: false,
       category: '',
       amount: '',
       firstDay: minDate,
