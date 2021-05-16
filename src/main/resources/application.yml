@@ -20,10 +20,6 @@ spring:
     password: mycosts12345
     port: 465
     protocol: smtps
-
-mail:
-  debug: true
-
 security:
   oauth2:
     client:
