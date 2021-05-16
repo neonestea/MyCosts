@@ -19,7 +19,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @Table(name = "accounts")
-public class Account {
+public class Account implements Serializable {
 
 
     @Id

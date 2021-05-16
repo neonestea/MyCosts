@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Setter
 @Builder
 @Table(name = "costs")
-public class Cost {
+public class Cost implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

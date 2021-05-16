@@ -15,12 +15,14 @@ spring:
             entity_copy_observer: allow
 
   mail:
-    debug: true
     host: smtp.gmail.com
     username: mycostssender@gmail.com
     password: mycosts12345
     port: 465
     protocol: smtps
+
+mail:
+  debug: true
 
 security:
   oauth2:
