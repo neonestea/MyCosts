@@ -4,11 +4,6 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:admin}
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/mycosts_db}
     driver-class-name: org.postgresql.Driver
-  session:
-    jdbc:
-      initialize-schema: always
-      table-name: SPRING_SESSION
-
 
   jpa:
     hibernate:
@@ -20,14 +15,12 @@ spring:
             entity_copy_observer: allow
 
   mail:
+    debug: true
     host: smtp.gmail.com
     username: mycostssender@gmail.com
     password: mycosts12345
     port: 465
     protocol: smtps
-
-mail:
-  debug: true
 
 security:
   oauth2:

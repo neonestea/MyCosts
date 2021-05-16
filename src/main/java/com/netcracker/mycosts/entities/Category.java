@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @Builder
 @Table(name = "categories")
-public class Category implements Serializable {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

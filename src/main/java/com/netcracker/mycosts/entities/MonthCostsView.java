@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-public class MonthCostsView implements Serializable {
+public class MonthCostsView {
     private LocalDate date;
     private double amountUSD;
     private Category category;
