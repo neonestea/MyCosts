@@ -72,6 +72,7 @@ public class StatisticsController {
 
     @GetMapping("/totals")
     public ResponseEntity<Map<String, Double>> getAverages(@AuthenticationPrincipal User user) {
+        user = userService.getUserById(user.getId());
         final List<MonthCosts> monthCostsByUser = monthCostsService.findMonthCostsByUser(user);
         Set<Category> categories = user.getCategories();
         Map<String, Double> monthCostsMap = new HashMap<>();
