@@ -2,7 +2,7 @@
   <v-app style="background: #F4F5F5;">
     <v-tabs style="max-height: 50px; ">
       <v-tab @click="showDescription();">About</v-tab>
-      <v-tab @click="showSteppers();" >Hints</v-tab>
+      <v-tab v-if="profile" @click="showSteppers();">Hints</v-tab>
       <v-tab v-if="profile" @click="showAgreement();">User agreement</v-tab>
     </v-tabs>
     <div v-if="profile && !agreement">
