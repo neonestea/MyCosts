@@ -25,6 +25,7 @@ public class StatisticsController {
 
     @GetMapping("/last-month-stat")
     public ResponseEntity<Map<String, Double>> getStatisticForLastMonth(@AuthenticationPrincipal User user) {
+        user = userService.getUserById(user.getId());
         LocalDate startDate = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1);
         Map<String, Double> monthCostsMap = monthCostsService.findMonthCostsByUserAndStartDate(user, startDate).stream()
                 .filter(monthCosts -> monthCosts.getAmountUSD() > 0)
@@ -55,6 +56,7 @@ public class StatisticsController {
 
     @GetMapping("/year-months")
     public ResponseEntity<List<String>> getMonthsOfLastYear() {
+
         List<String> dates = new ArrayList<>();
         LocalDate date = LocalDate.of(LocalDate.now().minusYears(1).getYear(),
                 LocalDate.now().plusMonths(1).getMonth(), 1);
@@ -72,6 +74,7 @@ public class StatisticsController {
 
     @GetMapping("/totals")
     public ResponseEntity<Map<String, Double>> getAverages(@AuthenticationPrincipal User user) {
+        user = userService.getUserById(user.getId());
         user = userService.getUserById(user.getId());
         //
         final List<MonthCosts> monthCostsByUser = monthCostsService.findMonthCostsByUser(user);

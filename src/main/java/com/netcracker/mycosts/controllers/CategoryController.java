@@ -67,6 +67,7 @@ public class CategoryController {
             category.setNameHash(newCategoryName.hashCode());
             category = categoryService.save(category);
         } else {
+            String oldCategoryName = category.getName();
             user.removeCategory(category);
             category = Category.builder()
                     .isDefault(false)
@@ -76,9 +77,21 @@ public class CategoryController {
             user.addCategory(category);
             category = categoryService.save(category);
             Category finalCategory = category;
-            costService.findCostsByUser(user).forEach(cost -> cost.setCategory(finalCategory));
-            regularCostService.findRegularCostsByUser(user).forEach(cost -> cost.setCategory(finalCategory));
-            monthCostsService.findMonthCostsByUser(user).forEach(cost -> cost.setCategory(finalCategory));
+            costService.findCostsByUser(user).stream()
+                    .filter(cost -> cost.getCategory().getName().equals(oldCategoryName))
+                    .forEach(cost -> cost.setCategory(finalCategory));
+            regularCostService.findRegularCostsByUser(user).stream()
+                    .filter(cost -> cost.getCategory().getName().equals(oldCategoryName))
+                    .forEach(cost -> {
+                        cost.setCategory(finalCategory);
+                        regularCostService.save(cost);
+                    });
+            monthCostsService.findMonthCostsByUser(user).stream()
+                    .filter(cost -> cost.getCategory().getName().equals(oldCategoryName))
+                    .forEach(cost -> {
+                        cost.setCategory(finalCategory);
+                        monthCostsService.save(cost);
+                    });
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(category);
     }
